@@ -40,15 +40,18 @@ signal session_deletion_complete(p_code, p_message)
 
 """
 static func get_upload_data_for_packed_scene(p_packed_scene: PackedScene) -> Dictionary:
-	if VSKExporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
-		var file: File = File.new()
-		if file.open("user://temp/autogen.scn", File.READ) == OK:
-			var buffer = file.get_buffer(file.get_len())
-			file.close()
-			
-			return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
-	
-	printerr("Failed to get upload data!")
+	if VSKExporter.create_temp_folder():
+		if VSKExporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
+			var file: File = File.new()
+			if file.open("user://temp/autogen.scn", File.READ) == OK:
+				var buffer = file.get_buffer(file.get_len())
+				file.close()
+				
+				return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
+		
+		printerr("Failed to get upload data!")
+	else:
+		printerr("Could not create temp directory")
 	
 	return {}
 
