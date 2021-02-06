@@ -40,7 +40,7 @@ signal session_deletion_complete(p_code, p_message)
 
 """
 static func get_upload_data_for_packed_scene(p_packed_scene: PackedScene) -> Dictionary:
-	if VSKExporter.create_temp_folder():
+	if VSKExporter.create_temp_folder() != OK:
 		if VSKExporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
 			var file: File = File.new()
 			if file.open("user://temp/autogen.scn", File.READ) == OK:
