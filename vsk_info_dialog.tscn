@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/vsk_editor/vsk_info_dialog.gd" type="Script" id=1]
+
+[node name="InfoDialog" type="AcceptDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -28.0
+margin_top = -33.0
+margin_right = 28.0
+margin_bottom = 33.0
+popup_exclusive = true
+window_title = "Info"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoLabel" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -41.0
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

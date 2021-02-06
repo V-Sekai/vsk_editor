@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/vsk_editor/vsk_profile_editor_control.gd" type="Script" id=1]
+[ext_resource path="res://addons/vsk_editor/vsk_user_content_grid.tscn" type="PackedScene" id=2]
+
+[node name="ProfileEditorControl" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+profile_container = NodePath("TabContainer/Profile/VBoxContainer")
+tab_container = NodePath("TabContainer")
+profile_tab = NodePath("TabContainer/Profile")
+avatars_tab = NodePath("TabContainer/Avatars")
+maps_tab = NodePath("TabContainer/Maps")
+avatars_grid = NodePath("TabContainer/Avatars/AvatarGrid")
+maps_grid = NodePath("TabContainer/Maps/MapGrid")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Profile" type="Control" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Profile"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_right = -32.0
+margin_bottom = -32.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Avatars" type="Control" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="AvatarGrid" parent="TabContainer/Avatars" instance=ExtResource( 2 )]
+
+[node name="Maps" type="Control" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+
+[node name="MapGrid" parent="TabContainer/Maps" instance=ExtResource( 2 )]
+
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_changed"]

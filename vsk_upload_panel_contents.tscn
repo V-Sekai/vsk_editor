@@ -1,0 +1,171 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/vsk_editor/vsk_upload_panel_contents.gd" type="Script" id=1]
+[ext_resource path="res://addons/textureRectUrl/node_textureRectUrl.gd" type="Script" id=2]
+
+[node name="UploadPanelContents" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+name_line_edit_path = NodePath("MarginContainer/Content/Editable/TextFields/NameContainer/NameEditField")
+description_text_edit_path = NodePath("MarginContainer/Content/Editable/TextFields/DescriptionContainer/DescriptionEditField")
+saved_preview_texture_rect_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin/SavedPreviewTextureRect")
+camera_preview_texture_rect_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin/CameraPreviewTextureRect")
+update_preview_checkbox_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer/UpdatePreviewCheckbox")
+submit_button_path = NodePath("MarginContainer/Content/SubmitButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Content" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 590.0
+
+[node name="Editable" type="HBoxContainer" parent="MarginContainer/Content"]
+margin_right = 1004.0
+margin_bottom = 551.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
+margin_right = 500.0
+margin_bottom = 551.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
+margin_right = 500.0
+margin_bottom = 46.0
+
+[node name="NameLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
+margin_right = 500.0
+margin_bottom = 17.0
+text = "Name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameEditField" type="LineEdit" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
+margin_top = 21.0
+margin_right = 500.0
+margin_bottom = 46.0
+editable = false
+
+[node name="DescriptionContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
+margin_top = 50.0
+margin_right = 500.0
+margin_bottom = 551.0
+size_flags_vertical = 3
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
+margin_right = 500.0
+margin_bottom = 17.0
+text = "Description:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DescriptionEditField" type="TextEdit" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
+margin_top = 21.0
+margin_right = 500.0
+margin_bottom = 501.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+readonly = true
+
+[node name="SupplementaryFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
+margin_left = 504.0
+margin_right = 1004.0
+margin_bottom = 551.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PreviewPanel" type="Panel" parent="MarginContainer/Content/Editable/SupplementaryFields"]
+margin_right = 500.0
+margin_bottom = 273.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CameraPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
+visible = false
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 490.0
+margin_bottom = 263.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SavedPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
+visible = false
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 490.0
+margin_bottom = 263.0
+expand = true
+stretch_mode = 6
+script = ExtResource( 2 )
+
+[node name="FlagsContainer" type="GridContainer" parent="MarginContainer/Content/Editable/SupplementaryFields"]
+margin_top = 277.0
+margin_right = 500.0
+margin_bottom = 551.0
+size_flags_vertical = 3
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpdatePreviewCheckbox" type="CheckBox" parent="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer"]
+margin_right = 250.0
+margin_bottom = 25.0
+size_flags_horizontal = 3
+disabled = true
+pressed = true
+text = "Update Preview"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubmitButton" type="Button" parent="MarginContainer/Content"]
+margin_top = 555.0
+margin_right = 1004.0
+margin_bottom = 580.0
+disabled = true
+text = "Submit"
+
+[connection signal="text_changed" from="MarginContainer/Content/Editable/TextFields/NameContainer/NameEditField" to="." method="_on_NameEditField_text_changed"]
+[connection signal="toggled" from="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer/UpdatePreviewCheckbox" to="." method="_on_UpdatePreviewCheckbox_toggled"]
+[connection signal="pressed" from="MarginContainer/Content/SubmitButton" to="." method="_on_SubmitButton_pressed"]

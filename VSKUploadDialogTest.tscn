@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/vsk_editor/vsk_upload_dialog_test.gd" type="Script" id=1]
+
+[node name="VSKButtonDialogTest" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 451.0
+margin_top = 273.0
+margin_right = 573.0
+margin_bottom = 327.0
+
+[node name="ShowDialogButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_right = 122.0
+margin_bottom = 25.0
+text = "Show Dialog"
+
+[node name="TestUploadButton" type="Button" parent="CenterContainer/VBoxContainer"]
+margin_top = 29.0
+margin_right = 122.0
+margin_bottom = 54.0
+text = "Test Upload"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/ShowDialogButton" to="." method="_on_ShowDialogButton_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/TestUploadButton" to="." method="_on_TestUploadButton_pressed"]

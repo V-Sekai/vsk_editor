@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/textureRectUrl/node_textureRectUrl.gd" type="Script" id=1]
+[ext_resource path="res://addons/vsk_editor/vsk_user_content_grid_item.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot_uro/uro_logo_64.png" type="Texture" id=3]
+
+[node name="VSKUserContentItem" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -594.0
+margin_bottom = -400.0
+rect_min_size = Vector2( 200, 200 )
+clip_text = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+name_label_path = NodePath("VBoxContainer/HBoxContainer/Label")
+texture_rect_url_path = NodePath("VBoxContainer/Control/Control2/TextureRectUrl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 430.0
+margin_bottom = 17.0
+mouse_filter = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_right = 430.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/Label"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+margin_top = 17.0
+margin_right = 430.0
+margin_bottom = 200.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Control2" type="Control" parent="VBoxContainer/Control"]
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.99
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRectUrl" type="TextureRect" parent="VBoxContainer/Control/Control2"]
+anchor_left = 0.01
+anchor_top = 0.01
+anchor_right = 0.99
+anchor_bottom = 0.99
+mouse_filter = 2
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+everCache = true
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
