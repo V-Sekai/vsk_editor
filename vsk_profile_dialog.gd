@@ -1,6 +1,8 @@
 extends WindowDialog
 tool
 
+const WINDOW_SIZE = Vector2(650, 800)
+
 var control: Control = null
 
 var vsk_login_control_script_const = preload("vsk_login_editor_control.gd")
@@ -61,4 +63,4 @@ func _ready() -> void:
 
 func _init() -> void:
 	set_title("Sign in")
-	set_size(Vector2(600, 800))
+	set_size(WINDOW_SIZE)

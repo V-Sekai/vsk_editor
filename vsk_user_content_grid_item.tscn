@@ -10,6 +10,7 @@ anchor_bottom = 1.0
 margin_right = -594.0
 margin_bottom = -400.0
 rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
 clip_text = true
 script = ExtResource( 2 )
 __meta__ = {
