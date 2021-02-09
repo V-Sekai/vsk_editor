@@ -46,7 +46,8 @@ func _submit_button_pressed() -> void:
 
 	_session_request_submitted()
 	VSKEditor.sign_in(username_or_email, password)
-
+		
+	
 func _init() -> void:
 	vbox_container = VBoxContainer.new()
 	vbox_container.alignment = VBoxContainer.ALIGN_BEGIN

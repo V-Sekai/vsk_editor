@@ -3,6 +3,7 @@ tool
 
 const uro_logo_const = preload("uro_logo.png")
 var editor_interface: EditorInterface = null
+var undo_redo: UndoRedo = null
 var button: Button = null
 
 
@@ -26,6 +27,7 @@ func get_name() -> String:
 
 func _enter_tree() -> void:
 	editor_interface = get_editor_interface()
+	undo_redo = get_undo_redo()
 
 	add_autoload_singleton("VSKEditor", "res://addons/vsk_editor/vsk_editor.gd")
 
@@ -39,7 +41,7 @@ func _enter_tree() -> void:
 
 	add_control_to_container(CONTAINER_TOOLBAR, button)
 
-	VSKEditor.setup_user_interfaces(editor_interface.get_editor_viewport(), button, editor_interface)
+	VSKEditor.setup_editor(editor_interface.get_editor_viewport(), button, editor_interface, undo_redo)
 
 
 func _exit_tree() -> void:

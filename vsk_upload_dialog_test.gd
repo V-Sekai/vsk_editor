@@ -1,5 +1,7 @@
 extends Control
 
+const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
+
 func export_data() -> Dictionary:
 	return {}
 
@@ -8,7 +10,7 @@ func _on_ShowDialogButton_pressed():
 	func_ref.set_instance(self)
 	func_ref.set_function("export_data")
 	
-	VSKEditor.show_upload_panel(func_ref, VSKEditor.UserContentType.Avatar)
+	VSKEditor.show_upload_panel(func_ref, vsk_types_const.UserContentType.Avatar)
 
 func _ready():
 	VSKEditor.setup_user_interfaces(self, null, null)

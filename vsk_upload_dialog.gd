@@ -41,7 +41,7 @@ func _clear_children() -> void:
 		control.get_parent().remove_child(control)
 	control = null
 
-func _instance_upload_panel_child_control() -> void:
+func _instance_upload_panel_child_control() -> void:	
 	set_title(TITLE_STRING)
 	
 	_clear_children()
@@ -60,7 +60,7 @@ func _instance_upload_panel_child_control() -> void:
 		user_content_node = export_data.get("node")
 		
 		if user_content_node:
-			current_database_id = user_content_node.database_id
+			current_database_id = VSKEditor.user_content_get_uro_id(user_content_node)
 		else:
 			current_database_id = ""
 			

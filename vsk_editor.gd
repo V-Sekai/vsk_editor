@@ -13,11 +13,9 @@ var vsk_info_dialog: Control = null
 const vsk_profile_dialog_const = preload("vsk_profile_dialog.gd")
 var vsk_profile_dialog: vsk_profile_dialog_const = null
 
-enum UserContentType {
-	Avatar,
-	Map
-}
+const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
 
+var undo_redo: UndoRedo = null
 var editor_interface: EditorInterface = null
 
 var session_request_pending: bool = true
@@ -37,8 +35,63 @@ signal session_deletion_complete(p_code, p_message)
 
 
 """
+Uro Pipeline
+"""
+
+const vsk_pipeline_uro_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
+
+static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_node: Node, p_id: String, p_update_id: bool) -> String:
+	for pipeline_path in p_node.get("pipeline_paths"):
+		var pipeline = p_node.get_node_or_null(pipeline_path)
+		if pipeline is vsk_pipeline_uro_const:
+			if p_update_id and pipeline.database_id != p_id:
+				p_undo_redo.create_action("Add database id")
+				p_undo_redo.add_do_property(pipeline, "database_id", p_id)
+				p_undo_redo.add_undo_property(pipeline, "database_id", pipeline.database_id)
+				p_undo_redo.commit_action()
+				
+				return p_id
+			else:
+				return pipeline.database_id
+				
+	var uro_pipeline: vsk_pipeline_uro_const = vsk_pipeline_uro_const.new(p_id)
+	uro_pipeline.set_name("UroPipeline")
+				
+	p_undo_redo.create_action("Create Uro Pipeline")
+	p_undo_redo.add_do_method(p_node, "add_child", uro_pipeline)
+	p_undo_redo.add_do_method(uro_pipeline, "set_owner", p_edited_scene);
+	p_undo_redo.add_do_method(p_node, "add_pipeline", uro_pipeline)
+	
+	p_undo_redo.add_undo_method(p_node, "remove_pipeline", uro_pipeline)
+	p_undo_redo.add_undo_method(p_node, "remove_child", uro_pipeline)
+	
+	p_undo_redo.commit_action()
+	
+	return p_id
+
+func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
+	if undo_redo:
+		_update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_id, true)
+	
+	var inspector: EditorInspector = editor_interface.get_inspector()
+	inspector.refresh()
+	
+func user_content_get_uro_id(p_node: Node) -> String:
+	var id: String = ""
+	if undo_redo:
+		id = _update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_node.database_id, false)
+	
+	print("user_content_get_uro_id: %s" % id)
+	
+	var inspector: EditorInspector = editor_interface.get_inspector()
+	inspector.refresh()
+	
+	return id
+	
+"""
 
 """
+
 static func get_upload_data_for_packed_scene(p_packed_scene: PackedScene) -> Dictionary:
 	if VSKExporter.create_temp_folder() == OK:
 		if VSKExporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
@@ -155,7 +208,7 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 	var user_content: Dictionary = {}
 	
 	match p_user_content_type:
-		UserContentType.Avatar:
+		vsk_types_const.UserContentType.Avatar:
 			if p_database_id != "":
 				var result = yield(
 					GodotUro.godot_uro_api.dashboard_get_avatar_async(p_database_id),
@@ -169,14 +222,14 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 				else:
 					_user_content_get_failed(result["code"])
 					return
-		UserContentType.Map:
+		vsk_types_const.UserContentType.Map:
 			if p_database_id != "":
 				var result = yield(
 					GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id),
 					"completed"
 				)
 				if result["code"] == HTTPClient.RESPONSE_OK:
-					var output: Dictionary = result["data"]
+					var output: Dictionary = result["output"]
 					var data: Dictionary = output["data"]
 					if data.has("map"):
 						user_content = data["map"]
@@ -223,8 +276,8 @@ func _setup_profile_panel(p_root: Control) -> void:
 	p_root.add_child(vsk_profile_dialog)
 
 
-func setup_user_interfaces(p_root: Control, p_uro_button: Button, p_editor_interface: EditorInterface) -> void:
-	print("VSKEditor::setup_user_interfaces")
+func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: EditorInterface, p_undo_redo: UndoRedo) -> void:
+	print("VSKEditor::setup_editor")
 	
 	if p_uro_button:
 		uro_button = p_uro_button
@@ -236,6 +289,7 @@ func setup_user_interfaces(p_root: Control, p_uro_button: Button, p_editor_inter
 	_setup_info_panel(p_root)
 	
 	editor_interface = p_editor_interface
+	undo_redo = p_undo_redo
 
 """
 Teardown user interfaces
@@ -327,7 +381,7 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 	var root: Node = export_data["root"]
 	var node: Node = export_data["node"]
 	
-	var database_id: String = node.get("database_id")
+	var database_id: String = user_content_get_uro_id(node)
 	
 	if GodotUro.godot_uro_api:
 		var name: String = p_upload_data.get("name", "")
@@ -340,27 +394,29 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 		
 		if !upload_dictionary.empty():
 			if database_id == "":
-				if type == VSKEditor.UserContentType.Avatar:
-					result = yield(
-						GodotUro.godot_uro_api.dashboard_create_avatar_async(
-						upload_dictionary), "completed"
-					)
-				elif type == VSKEditor.UserContentType.Map:
-					result = yield(
-						GodotUro.godot_uro_api.dashboard_create_map_async(
-						upload_dictionary), "completed"
-					)
+				match type:
+					vsk_types_const.UserContentType.Avatar:
+						result = yield(
+							GodotUro.godot_uro_api.dashboard_create_avatar_async(
+							upload_dictionary), "completed"
+						)
+					vsk_types_const.UserContentType.Map:
+						result = yield(
+							GodotUro.godot_uro_api.dashboard_create_map_async(
+							upload_dictionary), "completed"
+						)
 			else:
-				if type == VSKEditor.UserContentType.Avatar:
-					result = yield(
-						GodotUro.godot_uro_api.dashboard_update_avatar_async(database_id,
-						upload_dictionary), "completed"
-					)
-				elif type == VSKEditor.UserContentType.Map:
-					result = yield(
-						GodotUro.godot_uro_api.dashboard_update_map_async(database_id,
-						upload_dictionary), "completed"
-					)
+				match type:
+					vsk_types_const.UserContentType.Avatar:
+						result = yield(
+							GodotUro.godot_uro_api.dashboard_update_avatar_async(database_id,
+							upload_dictionary), "completed"
+						)
+					vsk_types_const.UserContentType.Map:
+						result = yield(
+							GodotUro.godot_uro_api.dashboard_update_map_async(database_id,
+							upload_dictionary), "completed"
+						)
 			
 			var code: int = result["code"]
 			print("User content upload response code: %s" % str(code))
@@ -372,7 +428,7 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 				
 				p_callbacks["packed_scene_uploaded"].call_func(database_id)
 				
-				emit_signal("user_content_new_id", node, database_id)
+				user_content_new_uro_id(node, database_id)
 			else:
 				p_callbacks["packed_scene_upload_failed"].call_func("Upload failed with error code: %s" % str(code))
 		else:
