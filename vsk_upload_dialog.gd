@@ -4,6 +4,7 @@ tool
 signal submit_button_pressed(p_submission_data)
 signal requesting_user_content(user_content_type, p_database_id, p_callback)
 
+const LOGIN_REQUIRED_STRING = "Please log in to upload content"
 const TITLE_STRING = "Upload"
 const WINDOW_RESOLUTION = Vector2(1280, 720)
 
@@ -36,12 +37,13 @@ func set_reference_viewport(p_reference_viewport: Viewport) -> void:
 
 
 func _clear_children() -> void:
+	print(control)
 	if control:
 		control.queue_free()
 		control.get_parent().remove_child(control)
 	control = null
 
-func _instance_upload_panel_child_control() -> void:	
+func _instance_upload_panel_child_control() -> void:
 	set_title(TITLE_STRING)
 	
 	_clear_children()
@@ -69,6 +71,22 @@ func _instance_upload_panel_child_control() -> void:
 
 		control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
 
+func _instance_login_required_child_control() -> void:
+	set_title(TITLE_STRING)
+	
+	_clear_children()
+	
+	if !control:
+		var info_label: Label = Label.new()
+		info_label.set_text(LOGIN_REQUIRED_STRING)
+		info_label.set_align(Label.ALIGN_CENTER)
+		info_label.set_valign(Label.VALIGN_CENTER)
+		
+		control = info_label
+		add_child(info_label)
+		
+		control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
+
 func _received_user_content_data(p_database_id: String, p_user_content_type: int, p_user_content_data: Dictionary) -> void:
 	if p_database_id == current_database_id:
 		control.update_user_content_data(p_user_content_data, p_database_id != "")
@@ -86,10 +104,10 @@ func _request_user_content(p_user_content_type: int, p_database_id: String) -> v
 	)
 
 func _instance_child_control() -> void:
-	if VSKAccountManager.signed_in:		
+	if VSKAccountManager.signed_in:
 		_instance_upload_panel_child_control()
 	else:
-		_clear_children()
+		_instance_login_required_child_control()
 
 func _about_to_show() -> void:
 	_state_changed()

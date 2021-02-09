@@ -13,7 +13,7 @@ func _on_ShowDialogButton_pressed():
 	VSKEditor.show_upload_panel(func_ref, vsk_types_const.UserContentType.Avatar)
 
 func _ready():
-	VSKEditor.setup_user_interfaces(self, null, null)
+	VSKEditor.setup_editor(self, null, null, null)
 	
 static func generate_test_image() -> Dictionary:
 	var new_image: Image = Image.new()

@@ -13,7 +13,7 @@ __meta__ = {
 name_line_edit_path = NodePath("MarginContainer/Content/Editable/TextFields/NameContainer/NameEditField")
 description_text_edit_path = NodePath("MarginContainer/Content/Editable/TextFields/DescriptionContainer/DescriptionEditField")
 saved_preview_texture_rect_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin/SavedPreviewTextureRect")
-camera_preview_texture_rect_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin/CameraPreviewTextureRect")
+new_preview_texture_rect_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin/NewPreviewTextureRect")
 update_preview_checkbox_path = NodePath("MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer/UpdatePreviewCheckbox")
 submit_button_path = NodePath("MarginContainer/Content/SubmitButton")
 
@@ -114,7 +114,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CameraPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
+[node name="NewPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
 margin_left = 10.0
 margin_top = 10.0
