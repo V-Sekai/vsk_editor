@@ -22,7 +22,7 @@ var info_label: Label = null
 var sign_out_button: Button = null
 
 func _session_deletion_complete(p_code: int, p_message: String) -> void:
-	if p_code == HTTPClient.RESPONSE_OK:
+	if p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
 		emit_signal("session_deletion_successful")
 		
 	sign_out_button.disabled = false
@@ -75,7 +75,7 @@ func _reload_avatars() -> void:
 	get_node(avatars_grid).clear_all()
 	
 	var async_result = yield(GodotUro.godot_uro_api.dashboard_get_avatars_async(), "completed")
-	if async_result["code"] == HTTPClient.RESPONSE_OK:
+	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		var avatar_list = async_result["output"]["data"]["avatars"]
 		avatar_dictionary = {}
 		
@@ -91,14 +91,15 @@ func _reload_avatars() -> void:
 			
 			get_node(avatars_grid).add_item(id, avatar["name"], GodotUro.get_base_url() + avatar["user_content_preview"])
 	else:
-		printerr("Dashboard avatars returned with error code %s" % async_result["code"])
+		printerr("Dashboard avatars returned with error %s" %
+		GodotUro.godot_uro_helper_const.get_full_requester_error_string(async_result))
 	
 
 func _reload_maps() -> void:
 	get_node(maps_grid).clear_all()
 	
 	var async_result = yield(GodotUro.godot_uro_api.dashboard_get_maps_async(), "completed")
-	if async_result["code"] == HTTPClient.RESPONSE_OK:
+	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		var map_list = async_result["output"]["data"]["maps"]
 		map_dictionary = {}
 		
@@ -114,7 +115,9 @@ func _reload_maps() -> void:
 			
 			get_node(maps_grid).add_item(id, map_dictionary[id]["name"], map_dictionary[id]["user_content_preview_url"])
 	else:
-		printerr("Dashboard maps returned with error code %s" % async_result["code"])
+		printerr("Dashboard maps returned with error %s" %
+		GodotUro.godot_uro_helper_const.get_full_requester_error_string(
+			async_result))
 
 func _on_tab_changed(tab):
 	var tab_child: Control = get_node(tab_container).get_child(tab)

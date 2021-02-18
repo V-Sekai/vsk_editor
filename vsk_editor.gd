@@ -197,11 +197,15 @@ func _cancel_button_pressed() -> void:
 	emit_signal("user_content_submission_cancelled")
 	
 	
-func _user_content_get_failed(p_error_code: int) -> void:
+func _user_content_get_failed(p_result: Dictionary) -> void:
 	vsk_upload_dialog.hide()
 	vsk_progress_dialog.hide()
 	
-	vsk_info_dialog.set_info_text("Failed with error code: %s" % str(p_error_code))
+	vsk_info_dialog.set_info_text("Failed with error: %s" % 
+		GodotUro.godot_uro_helper_const.get_full_requester_error_string(
+			p_result
+		)
+	)
 	vsk_info_dialog.popup_centered()
 	
 func _requesting_user_content(p_user_content_type: int, p_database_id: String, p_callback: FuncRef) -> void:
@@ -214,13 +218,13 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					GodotUro.godot_uro_api.dashboard_get_avatar_async(p_database_id),
 					"completed"
 				)
-				if result["code"] == HTTPClient.RESPONSE_OK:
+				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]
 					var data: Dictionary = output["data"]
 					if data.has("avatar"):
 						user_content = data["avatar"]
 				else:
-					_user_content_get_failed(result["code"])
+					_user_content_get_failed(result)
 					return
 		vsk_types_const.UserContentType.Map:
 			if p_database_id != "":
@@ -228,13 +232,13 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id),
 					"completed"
 				)
-				if result["code"] == HTTPClient.RESPONSE_OK:
+				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]
 					var data: Dictionary = output["data"]
 					if data.has("map"):
 						user_content = data["map"]
 				else:
-					_user_content_get_failed(result["code"])
+					_user_content_get_failed(result)
 					return
 				
 	p_callback.call_func(p_database_id, p_user_content_type, user_content)
@@ -418,10 +422,8 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 							upload_dictionary), "completed"
 						)
 			
-			var code: int = result["code"]
-			print("User content upload response code: %s" % str(code))
 			
-			if code == HTTPClient.RESPONSE_OK:
+			if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 				var output: Dictionary = result["output"]
 				var data: Dictionary = output["data"]
 				database_id = data["id"]
@@ -430,7 +432,10 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 				
 				user_content_new_uro_id(node, database_id)
 			else:
-				p_callbacks["packed_scene_upload_failed"].call_func("Upload failed with error code: %s" % str(code))
+				p_callbacks["packed_scene_upload_failed"].call_func("Upload failed with error: %s"
+				% GodotUro.godot_uro_helper_const.get_full_requester_error_string(
+					result
+				))
 		else:
 			p_callbacks["packed_scene_upload_failed"].call_func("Could not process upload data!")
 	else:
@@ -467,7 +472,7 @@ func _session_renew_started() -> void:
 func _session_request_complete(p_code: int, p_message: String) -> void:
 	print("VSKEditor::_session_request_complete")
 	
-	if p_code == HTTPClient.RESPONSE_OK:
+	if p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
 		display_name = VSKAccountManager.account_display_name
 		print("Logged into V-Sekai as %s" % display_name)
 	else:
@@ -499,6 +504,3 @@ func _exit_tree():
 	VSKAccountManager.disconnect("session_renew_started", self, "_session_renew_started")
 	VSKAccountManager.disconnect("session_request_complete", self, "_session_request_complete")
 	VSKAccountManager.disconnect("session_deletion_complete", self, "_session_deletion_complete")
-	
-func _ready():
-	pass

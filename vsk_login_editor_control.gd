@@ -34,7 +34,7 @@ func _session_request_complete(p_result: int, p_message: String) -> void:
 
 	result_label.set_text(p_message)
 
-	if p_result == HTTPClient.RESPONSE_OK:
+	if p_result == GodotUro.godot_uro_helper_const.RequesterCode.OK:
 		emit_signal("session_request_successful")
 	else:
 		password_lineedit.text = ""
