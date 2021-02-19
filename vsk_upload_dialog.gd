@@ -15,7 +15,6 @@ var user_content_type: int = -1
 var current_database_id: String = ""
 
 var control: Control = null
-var reference_viewport: Viewport = null
 
 var upload_data: Dictionary = {}
 
@@ -30,10 +29,6 @@ func set_export_data_callback(p_callback: FuncRef) -> void:
 
 func set_user_content_type(p_user_content_type: int) -> void:
 	user_content_type = p_user_content_type
-
-
-func set_reference_viewport(p_reference_viewport: Viewport) -> void:
-	reference_viewport = p_reference_viewport
 
 
 func _clear_children() -> void:
@@ -52,7 +47,6 @@ func _instance_upload_panel_child_control() -> void:
 		control = upload_panel_content_const.instance()
 		control.set_export_data_callback(export_data_callback)
 		control.set_user_content_type(user_content_type)
-		control.set_reference_viewport(reference_viewport)
 		add_child(control)
 		
 		control.connect("submit_button_pressed", self, "_submit_pressed")

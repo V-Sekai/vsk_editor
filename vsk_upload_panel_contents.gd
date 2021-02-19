@@ -13,7 +13,6 @@ export(NodePath) var update_preview_checkbox_path: NodePath = NodePath()
 
 export(NodePath) var submit_button_path: NodePath = NodePath()
 
-var reference_viewport: Viewport = null
 var viewport: Viewport = null
 var new_preview_texture: Texture = null
 
@@ -92,10 +91,6 @@ func set_user_content_type(p_user_content_type: int) -> void:
 	user_content_type = p_user_content_type
 	
 
-func set_reference_viewport(p_reference_viewport: Viewport) -> void:
-	reference_viewport = p_reference_viewport
-
-
 func _get_submission_data() -> Dictionary:
 	var name_line_edit: LineEdit = get_node(name_line_edit_path)
 	var description_text_edit: TextEdit = get_node(description_text_edit_path)
@@ -140,26 +135,25 @@ func _on_NameEditField_text_changed(new_text):
 	_update_submit_button()
 
 
-static func _update_viewport_from_current(p_viewport: Viewport, p_reference_viewport: Viewport) -> Viewport:
+static func _update_viewport_from_project_settings(p_viewport: Viewport) -> Viewport:
 	var new_viewport = p_viewport
 	
-	if p_reference_viewport:
-		new_viewport.shadow_atlas_size = p_reference_viewport.shadow_atlas_size
-		new_viewport.shadow_atlas_quad_0 = p_reference_viewport.shadow_atlas_quad_0
-		new_viewport.shadow_atlas_quad_1 = p_reference_viewport.shadow_atlas_quad_1
-		new_viewport.shadow_atlas_quad_2 = p_reference_viewport.shadow_atlas_quad_2
-		new_viewport.shadow_atlas_quad_3 = p_reference_viewport.shadow_atlas_quad_3
-		
-		new_viewport.msaa = p_reference_viewport.msaa
-		new_viewport.fxaa = p_reference_viewport.fxaa
-		new_viewport.debanding = p_reference_viewport.debanding
-		new_viewport.hdr = p_reference_viewport.hdr
+	new_viewport.shadow_atlas_size = ProjectSettings.get_setting("rendering/quality/shadow_atlas/size")
+	new_viewport.shadow_atlas_quad_0 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_0_subdiv")
+	new_viewport.shadow_atlas_quad_1 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_1_subdiv")
+	new_viewport.shadow_atlas_quad_2 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_2_subdiv")
+	new_viewport.shadow_atlas_quad_3 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_3_subdiv")
+	
+	new_viewport.msaa = ProjectSettings.get_setting("rendering/quality/filters/msaa")
+	new_viewport.fxaa = ProjectSettings.get_setting("rendering/quality/filters/use_fxaa")
+	new_viewport.debanding = ProjectSettings.get_setting("rendering/quality/filters/use_debanding")
+	new_viewport.hdr = ProjectSettings.get_setting("rendering/quality/depth/hdr")
 	
 	return new_viewport
 
 func _ready() -> void:
 	add_child(viewport)
-	viewport = _update_viewport_from_current(viewport, reference_viewport)
+	viewport = _update_viewport_from_project_settings(viewport)
 	
 	
 func _init():

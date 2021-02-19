@@ -123,11 +123,6 @@ func show_profile_panel() -> void:
 
 func show_upload_panel(p_callback: FuncRef, p_user_content: int) -> void:
 	if vsk_upload_dialog:
-		if editor_interface:
-			vsk_upload_dialog.set_reference_viewport(editor_interface.get_edited_scene_root().get_viewport())
-		else:
-			vsk_upload_dialog.set_reference_viewport(null)
-			
 		vsk_upload_dialog.set_export_data_callback(p_callback)
 		vsk_upload_dialog.set_user_content_type(p_user_content)
 		vsk_upload_dialog.popup_centered()
