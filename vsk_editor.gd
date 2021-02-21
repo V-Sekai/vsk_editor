@@ -25,9 +25,7 @@ var uro_button: Button = null
 
 signal user_content_submission_requested(p_upload_data, p_callbacks)
 signal user_content_submission_cancelled()
-signal user_content_new_id(p_node, p_id)
 
-signal sign_in_submission_sent()
 signal sign_in_submission_complete(p_result)
 
 signal session_request_complete(p_code, p_message)
@@ -70,8 +68,11 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_
 	return p_id
 
 func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
+	var id: String = ""
 	if undo_redo:
-		_update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_id, true)
+		id = _update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_id, true)
+	
+	print("user_content_new_uro_id: %s" % id)
 	
 	var inspector: EditorInspector = editor_interface.get_inspector()
 	inspector.refresh()
@@ -236,7 +237,7 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					_user_content_get_failed(result)
 					return
 				
-	p_callback.call_func(p_database_id, p_user_content_type, user_content)
+	p_callback.call_func(p_database_id, user_content)
 
 
 """
@@ -249,7 +250,8 @@ func _setup_progress_panel(p_root: Control) -> void:
 	vsk_progress_dialog = vsk_progress_dialog_const.instance()
 	p_root.add_child(vsk_progress_dialog)
 	
-	vsk_progress_dialog.connect("cancel_button_pressed", self, "_cancel_button_pressed")
+	if vsk_progress_dialog.connect("cancel_button_pressed", self, "_cancel_button_pressed") != OK:
+		printerr("Could not connect signal 'cancel_button_pressed'")
 
 
 func _setup_info_panel(p_root: Control) -> void:
@@ -264,8 +266,10 @@ func _setup_upload_panel(p_root: Control) -> void:
 	vsk_upload_dialog = vsk_upload_dialog_const.new()
 	p_root.add_child(vsk_upload_dialog)
 	
-	vsk_upload_dialog.connect("submit_button_pressed", self, "_submit_button_pressed")
-	vsk_upload_dialog.connect("requesting_user_content", self, "_requesting_user_content")
+	if vsk_upload_dialog.connect("submit_button_pressed", self, "_submit_button_pressed") != OK:
+		printerr("Could not connect signal 'submit_button_pressed'")
+	if vsk_upload_dialog.connect("requesting_user_content", self, "_requesting_user_content") != OK:
+		printerr("Could not connect signal 'requesting_user_content'")
 
 
 func _setup_profile_panel(p_root: Control) -> void:
@@ -335,7 +339,7 @@ func teardown_editor_user_interfaces():
 Submission callbacks
 """
 
-func _packed_scene_created_callback(p_packed_scene: PackedScene) -> void:
+func _packed_scene_created_callback() -> void:
 	print("VSKEditor::_packed_scene_created_callback")
 	
 	vsk_progress_dialog.set_progress_label_text("Scene packaging complete!")
@@ -377,7 +381,6 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 	var export_data_callback = p_upload_data["export_data_callback"]
 	var export_data: Dictionary = export_data_callback.call_func()
 
-	var root: Node = export_data["root"]
 	var node: Node = export_data["node"]
 	
 	var database_id: String = user_content_get_uro_id(node)
@@ -489,13 +492,10 @@ func _session_deletion_complete(p_code: int, p_message: String) -> void:
 Tree functions
 """
 
-func _enter_tree():
-	VSKAccountManager.connect("session_renew_started", self, "_session_renew_started")
-	VSKAccountManager.connect("session_request_complete", self, "_session_request_complete")
-	VSKAccountManager.connect("session_deletion_complete", self, "_session_deletion_complete")
-
-
-func _exit_tree():
-	VSKAccountManager.disconnect("session_renew_started", self, "_session_renew_started")
-	VSKAccountManager.disconnect("session_request_complete", self, "_session_request_complete")
-	VSKAccountManager.disconnect("session_deletion_complete", self, "_session_deletion_complete")
+func _ready():
+	if VSKAccountManager.connect("session_renew_started", self, "_session_renew_started") != OK:
+		printerr("Could not connect signal 'session_renew_started'")
+	if VSKAccountManager.connect("session_request_complete", self, "_session_request_complete") != OK:
+		printerr("Could not connect signal 'session_request_complete'")
+	if VSKAccountManager.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+		printerr("Could not connect signal 'session_deletion_complete'")

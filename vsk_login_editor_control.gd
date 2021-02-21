@@ -83,7 +83,8 @@ func _init() -> void:
 
 	submit_button = Button.new()
 	submit_button.set_text("Submit")
-	submit_button.connect("pressed", self, "_submit_button_pressed")
+	if submit_button.connect("pressed", self, "_submit_button_pressed") != OK:
+		printerr("Could not connected signal 'pressed'")
 
 	vbox_container.add_child(submit_button)
 
@@ -98,4 +99,5 @@ func _init() -> void:
 	vbox_container.margin_bottom = -MARGIN_SIZE
 	vbox_container.margin_right = -MARGIN_SIZE
 
-	VSKEditor.connect("session_request_complete", self, "_session_request_complete")
+	if VSKEditor.connect("session_request_complete", self, "_session_request_complete") != OK:
+		printerr("Could not connection signal 'session_request_complete'")

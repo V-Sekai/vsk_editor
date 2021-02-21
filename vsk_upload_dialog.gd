@@ -49,21 +49,22 @@ func _instance_upload_panel_child_control() -> void:
 		control.set_user_content_type(user_content_type)
 		add_child(control)
 		
-		control.connect("submit_button_pressed", self, "_submit_pressed")
-		
-		var user_content_node: Node = null
-		var export_data: Dictionary = export_data_callback.call_func()
-		user_content_node = export_data.get("node")
-		
-		if user_content_node:
-			current_database_id = VSKEditor.user_content_get_uro_id(user_content_node)
-		else:
-			current_database_id = ""
+		if control.connect("submit_button_pressed", self, "_submit_pressed") == OK:
+			var user_content_node: Node = null
+			var export_data: Dictionary = export_data_callback.call_func()
+			user_content_node = export_data.get("node")
 			
-		
-		_request_user_content(user_content_type, current_database_id)
+			if user_content_node:
+				current_database_id = VSKEditor.user_content_get_uro_id(user_content_node)
+			else:
+				current_database_id = ""
+				
+			
+			_request_user_content(user_content_type, current_database_id)
 
-		control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
+			control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
+		else:
+			printerr("Could ")
 
 func _instance_login_required_child_control() -> void:
 	set_title(TITLE_STRING)
@@ -81,7 +82,7 @@ func _instance_login_required_child_control() -> void:
 		
 		control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
 
-func _received_user_content_data(p_database_id: String, p_user_content_type: int, p_user_content_data: Dictionary) -> void:
+func _received_user_content_data(p_database_id: String, p_user_content_data: Dictionary) -> void:
 	if p_database_id == current_database_id:
 		control.update_user_content_data(p_user_content_data, p_database_id != "")
 

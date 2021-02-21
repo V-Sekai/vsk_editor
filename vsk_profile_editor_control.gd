@@ -21,7 +21,7 @@ var vbox_container: VBoxContainer = null
 var info_label: Label = null
 var sign_out_button: Button = null
 
-func _session_deletion_complete(p_code: int, p_message: String) -> void:
+func _session_deletion_complete(p_code: int, _message: String) -> void:
 	if p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
 		emit_signal("session_deletion_successful")
 		
@@ -40,7 +40,8 @@ func _ready():
 
 	sign_out_button = Button.new()
 	sign_out_button.set_text("Log out")
-	sign_out_button.connect("pressed", self, "_sign_out_button_pressed")
+	if sign_out_button.connect("pressed", self, "_sign_out_button_pressed") != OK:
+		printerr("Could not connect signal 'pressed'")
 	
 	vbox_container.add_child(info_label)
 	vbox_container.add_child(sign_out_button)
@@ -51,22 +52,28 @@ func _ready():
 	vbox_container.margin_bottom = -MARGIN_SIZE
 	vbox_container.margin_right = -MARGIN_SIZE
 
-	VSKEditor.connect("session_deletion_complete", self, "_session_deletion_complete")
+	if VSKEditor.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+		printerr("Could not connect signal 'session_deletion_complete'")
 
-	get_node(avatars_grid).connect("vsk_content_button_pressed", self, "_avatar_selected")
-	get_node(maps_grid).connect("vsk_content_button_pressed", self, "_map_selected")
+	var avatars_grid_node: Control = get_node_or_null(avatars_grid)
+	if avatars_grid_node:
+		if avatars_grid_node.connect("vsk_content_button_pressed", self, "_avatar_selected") != OK:
+			printerr("Could not connect signal 'vsk_content_button_pressed'")
+	
+	var maps_grid_node: Control = get_node_or_null(maps_grid)
+	if maps_grid_node:
+		if maps_grid_node.connect("vsk_content_button_pressed", self, "_map_selected") != OK:
+			printerr("Could not connect signal 'vsk_content_button_pressed'")
 
 
 func _avatar_selected(p_id: String) -> void:
 	if avatar_dictionary.has(p_id):
-		var avatar = avatar_dictionary[p_id]
 		OS.set_clipboard(p_id)
 	else:
 		printerr("Could not select avatar %s" % p_id)
 	
 func _map_selected(p_id: String) -> void:
 	if map_dictionary.has(p_id):
-		var map = map_dictionary[p_id]
 		OS.set_clipboard(p_id)
 	else:
 		printerr("Could not select map %s" % p_id)

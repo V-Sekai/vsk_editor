@@ -24,7 +24,10 @@ func _instance_login_child_control() -> void:
 	
 	if !control:
 		control = vsk_login_control_script_const.new()
-		control.connect("session_request_successful", self, "_state_changed")
+		if control.connect("session_request_successful", self, "_state_changed") != OK:
+			printerr("Could not connect 'session_request_successful'")
+		
+		
 		
 		add_child(control)
 
@@ -38,7 +41,8 @@ func _instance_profile_child_control() -> void:
 	
 	if !control:
 		control = vsk_profile_control_const.instance()
-		control.connect("session_deletion_successful", self, "_state_changed")
+		if control.connect("session_deletion_successful", self, "_state_changed") != OK:
+			printerr("Could not connect 'session_deletion_successful'")
 		
 		add_child(control)
 
