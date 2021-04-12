@@ -15,6 +15,9 @@ var vsk_profile_dialog: vsk_profile_dialog_const = null
 
 const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
 
+var vsk_account_manager: Node = null
+var vsk_exporter: Node = null
+
 var undo_redo: UndoRedo = null
 var editor_interface: EditorInterface = null
 
@@ -93,19 +96,22 @@ func user_content_get_uro_id(p_node: Node) -> String:
 
 """
 
-static func get_upload_data_for_packed_scene(p_packed_scene: PackedScene) -> Dictionary:
-	if VSKExporter.create_temp_folder() == OK:
-		if VSKExporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
-			var file: File = File.new()
-			if file.open("user://temp/autogen.scn", File.READ) == OK:
-				var buffer = file.get_buffer(file.get_len())
-				file.close()
-				
-				return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
-		
-		printerr("Failed to get upload data!")
+static func get_upload_data_for_packed_scene(p_vsk_exporter: Node, p_packed_scene: PackedScene) -> Dictionary:
+	if p_vsk_exporter:
+		if p_vsk_exporter.create_temp_folder() == OK:
+			if p_vsk_exporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
+				var file: File = File.new()
+				if file.open("user://temp/autogen.scn", File.READ) == OK:
+					var buffer = file.get_buffer(file.get_len())
+					file.close()
+					
+					return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
+			
+			printerr("Failed to get upload data!")
+		else:
+			printerr("Could not create temp directory")
 	else:
-		printerr("Could not create temp directory")
+		printerr("Could not load VSKExporter")
 	
 	return {}
 
@@ -138,14 +144,16 @@ func set_session_request_pending(p_is_pending: bool) -> void:
 
 func sign_out() -> void:
 	print("VSKEditor::sign_out")
+	assert(vsk_account_manager)
 	
-	VSKAccountManager.sign_out()
+	vsk_account_manager.sign_out()
 
 
 func sign_in(username_or_email: String, password: String) -> void:
 	print("VSKEditor::sign_in")
+	assert(vsk_account_manager)
 	
-	VSKAccountManager.sign_in(username_or_email, password)
+	vsk_account_manager.sign_in(username_or_email, password)
 	emit_signal("sign_in_submission_complete", OK)
 
 
@@ -263,7 +271,7 @@ func _setup_info_panel(p_root: Control) -> void:
 func _setup_upload_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_upload_panel")
 	
-	vsk_upload_dialog = vsk_upload_dialog_const.new()
+	vsk_upload_dialog = vsk_upload_dialog_const.new(self)
 	p_root.add_child(vsk_upload_dialog)
 	
 	if vsk_upload_dialog.connect("submit_button_pressed", self, "_submit_button_pressed") != OK:
@@ -275,7 +283,7 @@ func _setup_upload_panel(p_root: Control) -> void:
 func _setup_profile_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_profile_panel")
 	
-	vsk_profile_dialog = vsk_profile_dialog_const.new()
+	vsk_profile_dialog = vsk_profile_dialog_const.new(self)
 	p_root.add_child(vsk_profile_dialog)
 
 
@@ -360,7 +368,7 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 	
 	var dictionary: Dictionary = {"name":p_name, "description":p_description}
 	if p_packed_scene:
-		var user_content_data: Dictionary = get_upload_data_for_packed_scene(p_packed_scene)
+		var user_content_data: Dictionary = get_upload_data_for_packed_scene(vsk_exporter, p_packed_scene)
 		if !user_content_data.empty():
 			dictionary["user_content_data"] = user_content_data
 		else:
@@ -470,8 +478,8 @@ func _session_renew_started() -> void:
 func _session_request_complete(p_code: int, p_message: String) -> void:
 	print("VSKEditor::_session_request_complete")
 	
-	if p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
-		display_name = VSKAccountManager.account_display_name
+	if vsk_account_manager and p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
+		display_name = vsk_account_manager.account_display_name
 		print("Logged into V-Sekai as %s" % display_name)
 	else:
 		display_name = ""
@@ -489,13 +497,70 @@ func _session_deletion_complete(p_code: int, p_message: String) -> void:
 	emit_signal("session_deletion_complete", p_code, p_message)
 	
 """
+Linking
+"""
+	
+func _link_vsk_account_manager(p_node: Node) -> void:
+	print("_link_vsk_account_manager")
+	vsk_account_manager = p_node
+	
+	if vsk_account_manager:
+		if vsk_account_manager.connect("session_renew_started", self, "_session_renew_started") != OK:
+			printerr("Could not connect signal 'session_renew_started'")
+		if vsk_account_manager.connect("session_request_complete", self, "_session_request_complete") != OK:
+			printerr("Could not connect signal 'session_request_complete'")
+		if vsk_account_manager.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+			printerr("Could not connect signal 'session_deletion_complete'")
+			
+		vsk_account_manager.call_deferred("start_session")
+	
+func _unlink_vsk_account_manager() -> void:
+	print("_unlink_vsk_account_manager")
+	
+	vsk_account_manager.disconnect("session_renew_started", self, "_session_renew_started")
+	vsk_account_manager.disconnect("session_request_complete", self, "_session_request_complete")
+	vsk_account_manager.disconnect("session_deletion_complete", self, "_session_deletion_complete")
+		
+	vsk_account_manager = null
+	
+	if uro_button:
+		uro_button.set_disabled(true)
+	
+func _link_vsk_exporter(p_node: Node) -> void:
+	print("_link_vsk_exporter")
+	vsk_exporter = p_node
+	
+func _unlink_vsk_exporter() -> void:
+	print("_unlink_vsk_exporter")
+	
+	vsk_exporter = null
+	
+func _node_added(p_node: Node) -> void:
+	var parent_node: Node = p_node.get_parent()
+	if parent_node:
+		if !parent_node.get_parent():
+			match p_node.get_name():
+				"VSKAccountManager":
+					_link_vsk_account_manager(p_node)
+				"VSKExporter":
+					_link_vsk_exporter(p_node)
+			
+func _node_removed(p_node: Node) -> void:
+	match p_node:
+		vsk_account_manager:
+			_unlink_vsk_account_manager()
+		vsk_exporter:
+			_unlink_vsk_exporter()
+	
+	
+"""
 Tree functions
 """
 
 func _ready():
-	if VSKAccountManager.connect("session_renew_started", self, "_session_renew_started") != OK:
-		printerr("Could not connect signal 'session_renew_started'")
-	if VSKAccountManager.connect("session_request_complete", self, "_session_request_complete") != OK:
-		printerr("Could not connect signal 'session_request_complete'")
-	if VSKAccountManager.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
-		printerr("Could not connect signal 'session_deletion_complete'")
+	if Engine.is_editor_hint():
+		assert(get_tree().connect("node_added", self, "_node_added") == OK)
+		assert(get_tree().connect("node_removed", self, "_node_removed") == OK)
+		
+		_link_vsk_account_manager(get_node_or_null("/root/VSKAccountManager"))
+		_link_vsk_exporter(get_node_or_null("/root/VSKExporter"))

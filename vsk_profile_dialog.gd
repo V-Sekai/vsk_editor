@@ -1,6 +1,8 @@
 extends WindowDialog
 tool
 
+var vsk_editor: Node = null
+
 const WINDOW_SIZE = Vector2(650, 800)
 
 var control: Control = null
@@ -23,7 +25,7 @@ func _instance_login_child_control() -> void:
 		_clear_children()
 	
 	if !control:
-		control = vsk_login_control_script_const.new()
+		control = vsk_login_control_script_const.new(vsk_editor)
 		if control.connect("session_request_successful", self, "_state_changed") != OK:
 			printerr("Could not connect 'session_request_successful'")
 		
@@ -41,6 +43,7 @@ func _instance_profile_child_control() -> void:
 	
 	if !control:
 		control = vsk_profile_control_const.instance()
+		control.set_vsk_editor(vsk_editor)
 		if control.connect("session_deletion_successful", self, "_state_changed") != OK:
 			printerr("Could not connect 'session_deletion_successful'")
 		
@@ -65,6 +68,8 @@ func _ready() -> void:
 		printerr("Could not connect to about_to_show")
 
 
-func _init() -> void:
+func _init(p_vsk_editor: Node) -> void:
+	vsk_editor = p_vsk_editor
+	
 	set_title("Sign in")
 	set_size(WINDOW_SIZE)

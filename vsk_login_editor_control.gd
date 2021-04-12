@@ -3,6 +3,8 @@ tool
 
 signal session_request_successful()
 
+var vsk_editor: Node = null
+
 const MARGIN_SIZE = 32
 
 var vbox_container: VBoxContainer = null
@@ -45,10 +47,12 @@ func _submit_button_pressed() -> void:
 	var password: String = password_lineedit.text
 
 	_session_request_submitted()
-	VSKEditor.sign_in(username_or_email, password)
+	vsk_editor.sign_in(username_or_email, password)
 		
 	
-func _init() -> void:
+func _init(p_vsk_editor: Node) -> void:
+	vsk_editor = p_vsk_editor
+	
 	vbox_container = VBoxContainer.new()
 	vbox_container.alignment = VBoxContainer.ALIGN_BEGIN
 
@@ -99,5 +103,6 @@ func _init() -> void:
 	vbox_container.margin_bottom = -MARGIN_SIZE
 	vbox_container.margin_right = -MARGIN_SIZE
 
-	if VSKEditor.connect("session_request_complete", self, "_session_request_complete") != OK:
+	assert(vsk_editor)
+	if vsk_editor.connect("session_request_complete", self, "_session_request_complete") != OK:
 		printerr("Could not connection signal 'session_request_complete'")

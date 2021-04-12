@@ -10,6 +10,8 @@ const WINDOW_RESOLUTION = Vector2(1280, 720)
 
 const upload_panel_content_const = preload("vsk_upload_panel_contents.tscn")
 
+var vsk_editor: Node = null
+
 var export_data_callback: FuncRef = null
 var user_content_type: int = -1
 var current_database_id: String = ""
@@ -55,7 +57,7 @@ func _instance_upload_panel_child_control() -> void:
 			user_content_node = export_data.get("node")
 			
 			if user_content_node:
-				current_database_id = VSKEditor.user_content_get_uro_id(user_content_node)
+				current_database_id = vsk_editor.user_content_get_uro_id(user_content_node)
 			else:
 				current_database_id = ""
 				
@@ -115,7 +117,9 @@ func _ready() -> void:
 		printerr("Could not connect to about_to_show")
 
 
-func _init() -> void:
+func _init(p_vsk_editor: Node) -> void:
+	vsk_editor = p_vsk_editor
+	
 	set_title(TITLE_STRING)
 	set_size(WINDOW_RESOLUTION)
 	

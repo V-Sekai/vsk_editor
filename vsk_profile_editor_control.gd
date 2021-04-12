@@ -1,6 +1,8 @@
 extends Control
 tool
 
+var vsk_editor: Node = null
+
 const MARGIN_SIZE = 32
 
 export(NodePath) var profile_container: NodePath = NodePath()
@@ -29,7 +31,7 @@ func _session_deletion_complete(p_code: int, _message: String) -> void:
 
 func _sign_out_button_pressed() -> void:
 	sign_out_button.disabled = true
-	VSKEditor.sign_out()
+	vsk_editor.sign_out()
 	
 func _ready():
 	vbox_container = get_node(profile_container)
@@ -52,7 +54,8 @@ func _ready():
 	vbox_container.margin_bottom = -MARGIN_SIZE
 	vbox_container.margin_right = -MARGIN_SIZE
 
-	if VSKEditor.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+	assert(vsk_editor)
+	if vsk_editor.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
 		printerr("Could not connect signal 'session_deletion_complete'")
 
 	var avatars_grid_node: Control = get_node_or_null(avatars_grid)
@@ -134,3 +137,6 @@ func _on_tab_changed(tab):
 		_reload_avatars()
 	elif tab_child == get_node(maps_tab):
 		_reload_maps()
+
+func set_vsk_editor(p_vsk_editor: Node) -> void:
+	vsk_editor = p_vsk_editor

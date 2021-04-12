@@ -8,7 +8,11 @@ var button: Button = null
 
 
 func _show_profile_panel() -> void:
-	VSKEditor.show_profile_panel()
+	var vsk_editor: Node = get_node_or_null("/root/VSKEditor")
+	if vsk_editor:
+		vsk_editor.show_profile_panel()
+	else:
+		printerr("Could not load VSKEditor!")
 
 
 func _init() -> void:
@@ -40,9 +44,8 @@ func _enter_tree() -> void:
 	button.connect("pressed", self, "_show_profile_panel")
 
 	add_control_to_container(CONTAINER_TOOLBAR, button)
-
+	
 	VSKEditor.setup_editor(editor_interface.get_editor_viewport(), button, editor_interface, undo_redo)
-
 
 func _exit_tree() -> void:
 	VSKEditor.teardown_editor_user_interfaces()
