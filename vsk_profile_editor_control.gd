@@ -123,7 +123,7 @@ func _reload_maps() -> void:
 				"user_content_data_url":GodotUro.get_base_url() + map["user_content_data"]
 			}
 			
-			get_node(maps_grid).add_item(id, map_dictionary[id]["name"], map_dictionary[id]["user_content_preview_url"])
+			get_node(maps_grid).add_item(id, map["name"], GodotUro.get_base_url() + map["user_content_preview"])
 	else:
 		printerr("Dashboard maps returned with error %s" %
 		GodotUro.godot_uro_helper_const.get_full_requester_error_string(
