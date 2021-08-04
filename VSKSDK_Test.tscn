@@ -20,15 +20,15 @@ __meta__ = {
 [node name="ButtonContainer" type="CenterContainer" parent="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 2.0
+offset_right = 2.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="Panel/ButtonContainer"]
-margin_left = 492.0
-margin_top = 287.0
-margin_right = 534.0
-margin_bottom = 312.0
+offset_left = 492.0
+offset_top = 287.0
+offset_right = 534.0
+offset_bottom = 312.0
 disabled = true
 text = "Uro"

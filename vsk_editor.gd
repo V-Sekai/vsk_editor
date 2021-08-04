@@ -1,17 +1,19 @@
+@tool
 extends Node
-tool
 
 const vsk_upload_dialog_const = preload("vsk_upload_dialog.gd")
-var vsk_upload_dialog: vsk_upload_dialog_const = null
+var vsk_upload_dialog: Node = null
 
-const vsk_progress_dialog_const = preload("vsk_progress_dialog.tscn")
-var vsk_progress_dialog: Control = null
+# const vsk_progress_dialog_const = preload("vsk_progress_dialog.tscn")
+var vsk_progress_dialog_const = load("res://addons/vsk_editor/vsk_progress_dialog.tscn")
+var vsk_progress_dialog: Window = null
 
-const vsk_info_dialog_const = preload("vsk_info_dialog.tscn")
-var vsk_info_dialog: Control = null
+# const vsk_info_dialog_const = preload("vsk_info_dialog.tscn")
+var vsk_info_dialog_const = load("res://addons/vsk_editor/vsk_info_dialog.tscn")
+var vsk_info_dialog: AcceptDialog = null
 
 const vsk_profile_dialog_const = preload("vsk_profile_dialog.gd")
-var vsk_profile_dialog: vsk_profile_dialog_const = null
+var vsk_profile_dialog: Node = null
 
 const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
 
@@ -35,9 +37,9 @@ signal session_request_complete(p_code, p_message)
 signal session_deletion_complete(p_code, p_message)
 
 
-"""
-Uro Pipeline
-"""
+## 
+## Uro Pipeline
+## 
 
 const vsk_pipeline_uro_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
 
@@ -55,7 +57,7 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_
 			else:
 				return pipeline.database_id
 				
-	var uro_pipeline: vsk_pipeline_uro_const = vsk_pipeline_uro_const.new(p_id)
+	var uro_pipeline = vsk_pipeline_uro_const.new(p_id)
 	uro_pipeline.set_name("UroPipeline")
 				
 	p_undo_redo.create_action("Create Uro Pipeline")
@@ -92,9 +94,9 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	
 	return id
 	
-"""
-
-"""
+## 
+## 
+## 
 
 static func get_upload_data_for_packed_scene(p_vsk_exporter: Node, p_packed_scene: PackedScene) -> Dictionary:
 	if p_vsk_exporter:
@@ -119,27 +121,34 @@ static func get_upload_data_for_packed_scene(p_vsk_exporter: Node, p_packed_scen
 static func get_raw_png_from_image(p_image: Image) -> Dictionary:
 	return  {"filename":"autogen.png", "content_type":"image/png", "data":p_image.save_png_to_buffer()}
 
-"""
-
-"""
+## 
+## 
+## 
 
 func show_profile_panel() -> void:
 	if vsk_profile_dialog:
-		vsk_profile_dialog.popup_centered()
+		vsk_profile_dialog.set("visible", true)
+		print("popping up " + str(vsk_profile_dialog))
+		vsk_profile_dialog.popup_centered_ratio()
+		print("did pop up " + str(vsk_profile_dialog))
+		var p: Popup = vsk_profile_dialog
+		p.visible = true
+	else:
+		push_error("Profile dialog is null!")
 
 
-func show_upload_panel(p_callback: FuncRef, p_user_content: int) -> void:
+func show_upload_panel(p_callback: Callable, p_user_content: int) -> void:
 	if vsk_upload_dialog:
 		vsk_upload_dialog.set_export_data_callback(p_callback)
 		vsk_upload_dialog.set_user_content_type(p_user_content)
-		vsk_upload_dialog.popup_centered()
+		vsk_upload_dialog.popup_centered_ratio()
 
 
 func set_session_request_pending(p_is_pending: bool) -> void:
 	print("VSKEditor::set_session_request_pending")
 	session_request_pending = p_is_pending
 	if uro_button:
-		uro_button.set_disabled(session_request_pending)
+		uro_button.set_disabled(false) # session_request_pending)
 
 
 func sign_out() -> void:
@@ -153,7 +162,7 @@ func sign_in(username_or_email: String, password: String) -> void:
 	print("VSKEditor::sign_in")
 	assert(vsk_account_manager)
 	
-	vsk_account_manager.sign_in(username_or_email, password)
+	await vsk_account_manager.sign_in(username_or_email, password)
 	emit_signal("sign_in_submission_complete", OK)
 
 
@@ -161,29 +170,19 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 	print("VSKEditor::_submit_button_pressed")
 	
 	if vsk_progress_dialog:
-		vsk_progress_dialog.popup_centered()
+		vsk_progress_dialog.popup_centered_ratio()
 		vsk_progress_dialog.set_progress_label_text("")
 		vsk_progress_dialog.set_progress_bar_value(0.0)
 		
-		var packed_scene_created_callback: FuncRef = FuncRef.new()
-		packed_scene_created_callback.set_instance(self)
-		packed_scene_created_callback.set_function("_packed_scene_created_callback")
+		var packed_scene_created_callback: Callable = self._packed_scene_created_callback
 		
-		var packed_scene_creation_failed_callback: FuncRef = FuncRef.new()
-		packed_scene_creation_failed_callback.set_instance(self)
-		packed_scene_creation_failed_callback.set_function("_packed_scene_creation_failed_callback")
+		var packed_scene_creation_failed_callback: Callable = self._packed_scene_creation_failed_callback
 		
-		var packed_scene_pre_uploading_callback: FuncRef = FuncRef.new()
-		packed_scene_pre_uploading_callback.set_instance(self)
-		packed_scene_pre_uploading_callback.set_function("_packed_scene_pre_uploading_callback")
+		var packed_scene_pre_uploading_callback: Callable = self._packed_scene_pre_uploading_callback
 		
-		var packed_scene_uploaded_callback: FuncRef = FuncRef.new()
-		packed_scene_uploaded_callback.set_instance(self)
-		packed_scene_uploaded_callback.set_function("_packed_scene_uploaded_callback")
+		var packed_scene_uploaded_callback: Callable = self._packed_scene_uploaded_callback
 
-		var packed_scene_upload_failed_callback: FuncRef = FuncRef.new()
-		packed_scene_upload_failed_callback.set_instance(self)
-		packed_scene_upload_failed_callback.set_function("_packed_scene_upload_failed_callback")
+		var packed_scene_upload_failed_callback: Callable = self._packed_scene_upload_failed_callback
 
 		emit_signal("user_content_submission_requested", p_upload_data, 
 		{
@@ -210,18 +209,15 @@ func _user_content_get_failed(p_result: Dictionary) -> void:
 			p_result
 		)
 	)
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
 	
-func _requesting_user_content(p_user_content_type: int, p_database_id: String, p_callback: FuncRef) -> void:
+func _requesting_user_content(p_user_content_type: int, p_database_id: String, p_callback: Callable) -> void:
 	var user_content: Dictionary = {}
 	
 	match p_user_content_type:
 		vsk_types_const.UserContentType.Avatar:
 			if p_database_id != "":
-				var result = yield(
-					GodotUro.godot_uro_api.dashboard_get_avatar_async(p_database_id),
-					"completed"
-				)
+				var result = await GodotUro.godot_uro_api.dashboard_get_avatar_async(p_database_id)
 				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]
 					var data: Dictionary = output["data"]
@@ -232,10 +228,7 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					return
 		vsk_types_const.UserContentType.Map:
 			if p_database_id != "":
-				var result = yield(
-					GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id),
-					"completed"
-				)
+				var result = await GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id)
 				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]
 					var data: Dictionary = output["data"]
@@ -245,55 +238,56 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					_user_content_get_failed(result)
 					return
 				
-	p_callback.call_func(p_database_id, user_content)
+	p_callback.call(p_database_id, user_content)
 
 
-"""
-Setup user interfaces
-"""
+## 
+## Setup user interfaces
+## 
 
-func _setup_progress_panel(p_root: Control) -> void:
+func _setup_progress_panel(p_root: Viewport) -> void:
 	print("VSKEditor::_setup_progress_panel")
 	
-	vsk_progress_dialog = vsk_progress_dialog_const.instance()
-	p_root.add_child(vsk_progress_dialog)
+	vsk_progress_dialog = vsk_progress_dialog_const.instantiate() as Window
+	p_root.call_deferred("add_child", vsk_progress_dialog)
 	
-	if vsk_progress_dialog.connect("cancel_button_pressed", self, "_cancel_button_pressed") != OK:
+	if vsk_progress_dialog.connect("cancel_button_pressed", self._cancel_button_pressed) != OK:
 		printerr("Could not connect signal 'cancel_button_pressed'")
 
 
-func _setup_info_panel(p_root: Control) -> void:
+func _setup_info_panel(p_root: Viewport) -> void:
 	print("VSKEditor::_setup_info_panel")
 	
-	vsk_info_dialog = vsk_info_dialog_const.instance()
-	p_root.add_child(vsk_info_dialog)
+	vsk_info_dialog = vsk_info_dialog_const.instantiate() as AcceptDialog
+	p_root.call_deferred("add_child", vsk_info_dialog)
 
-func _setup_upload_panel(p_root: Control) -> void:
+func _setup_upload_panel(p_root: Viewport) -> void:
 	print("VSKEditor::_setup_upload_panel")
 	
 	vsk_upload_dialog = vsk_upload_dialog_const.new(self)
-	p_root.add_child(vsk_upload_dialog)
+	p_root.call_deferred("add_child", vsk_upload_dialog)
 	
-	if vsk_upload_dialog.connect("submit_button_pressed", self, "_submit_button_pressed") != OK:
+	if vsk_upload_dialog.connect("submit_button_pressed", self._submit_button_pressed) != OK:
 		printerr("Could not connect signal 'submit_button_pressed'")
-	if vsk_upload_dialog.connect("requesting_user_content", self, "_requesting_user_content") != OK:
+	if vsk_upload_dialog.connect("requesting_user_content", self._requesting_user_content) != OK:
 		printerr("Could not connect signal 'requesting_user_content'")
 
 
-func _setup_profile_panel(p_root: Control) -> void:
+func _setup_profile_panel(p_root: Viewport) -> void:
 	print("VSKEditor::_setup_profile_panel")
 	
 	vsk_profile_dialog = vsk_profile_dialog_const.new(self)
-	p_root.add_child(vsk_profile_dialog)
+	p_root.call_deferred("add_child", vsk_profile_dialog)
 
 
-func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: EditorInterface, p_undo_redo: UndoRedo) -> void:
+func setup_editor(p_root: Viewport, p_uro_button: Button, p_editor_interface: EditorInterface, p_undo_redo: UndoRedo) -> void:
 	print("VSKEditor::setup_editor")
 	
 	if p_uro_button:
 		uro_button = p_uro_button
-		uro_button.set_disabled(session_request_pending)
-	
+		uro_button.set_disabled(false) # session_request_pending)
+		uro_button.connect("pressed", self.show_profile_panel)
+
 	_setup_profile_panel(p_root)
 	_setup_upload_panel(p_root)
 	_setup_progress_panel(p_root)
@@ -302,9 +296,9 @@ func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: Edi
 	editor_interface = p_editor_interface
 	undo_redo = p_undo_redo
 
-"""
-Teardown user interfaces
-"""
+## 
+## Teardown user interfaces
+## 
 
 func _teardown_progress_panel() -> void:
 	print("VSKEditor::_teardown_progress_panel")
@@ -341,17 +335,19 @@ func teardown_editor_user_interfaces():
 	_teardown_upload_panel()
 	_teardown_progress_panel()
 	_teardown_info_panel()
-		
-		
-"""
-Submission callbacks
-"""
+	uro_button.get_parent().remove_child(uro_button)
+	uro_button.queue_free()
+
+## 
+## Submission callbacks
+## 
 
 func _packed_scene_created_callback() -> void:
 	print("VSKEditor::_packed_scene_created_callback")
 	
-	vsk_progress_dialog.set_progress_label_text("Scene packaging complete!")
-	vsk_progress_dialog.set_progress_bar_value(50.0)
+	vsk_progress_dialog.title = "Scene packaging complete!"
+	vsk_progress_dialog.call_deferred("set_progress_label_text", "Scene packaging complete!")
+	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
 
 
 func _packed_scene_creation_failed_created_callback(p_error_message: String) -> void:
@@ -361,7 +357,7 @@ func _packed_scene_creation_failed_created_callback(p_error_message: String) -> 
 	vsk_progress_dialog.hide()
 	
 	vsk_info_dialog.set_info_text(p_error_message)
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
 	
 func _create_upload_dictionary(p_name: String, p_description: String,\
 	p_packed_scene: PackedScene, p_image: Image) -> Dictionary:
@@ -369,7 +365,7 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 	var dictionary: Dictionary = {"name":p_name, "description":p_description}
 	if p_packed_scene:
 		var user_content_data: Dictionary = get_upload_data_for_packed_scene(vsk_exporter, p_packed_scene)
-		if !user_content_data.empty():
+		if !user_content_data.is_empty():
 			dictionary["user_content_data"] = user_content_data
 		else:
 			return {}
@@ -382,12 +378,13 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_data: Dictionary, p_callbacks: Dictionary) -> void:
 	print("VSKEditor::_packed_scene_pre_uploading_callback")
 	
-	vsk_progress_dialog.set_progress_label_text("Scene uploading...")
-	vsk_progress_dialog.set_progress_bar_value(50.0)
+	vsk_progress_dialog.title = "Scene uploading..."
+	vsk_progress_dialog.call_deferred("set_progress_label_text", "Scene uploading...")
+	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
 	
 	###
 	var export_data_callback = p_upload_data["export_data_callback"]
-	var export_data: Dictionary = export_data_callback.call_func()
+	var export_data: Dictionary = export_data_callback.call()
 
 	var node: Node = export_data["node"]
 	
@@ -402,31 +399,23 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 		var type: int = p_upload_data["user_content_type"]
 		var upload_dictionary: Dictionary = _create_upload_dictionary(name, description, p_packed_scene, preview_image)
 		
-		if !upload_dictionary.empty():
+		if !upload_dictionary.is_empty():
 			if database_id == "":
 				match type:
 					vsk_types_const.UserContentType.Avatar:
-						result = yield(
-							GodotUro.godot_uro_api.dashboard_create_avatar_async(
-							upload_dictionary), "completed"
-						)
+						result = await GodotUro.godot_uro_api.dashboard_create_avatar_async(
+							upload_dictionary)
 					vsk_types_const.UserContentType.Map:
-						result = yield(
-							GodotUro.godot_uro_api.dashboard_create_map_async(
-							upload_dictionary), "completed"
-						)
+						result = await GodotUro.godot_uro_api.dashboard_create_map_async(
+							upload_dictionary)
 			else:
 				match type:
 					vsk_types_const.UserContentType.Avatar:
-						result = yield(
-							GodotUro.godot_uro_api.dashboard_update_avatar_async(database_id,
-							upload_dictionary), "completed"
-						)
+						result = await GodotUro.godot_uro_api.dashboard_update_avatar_async(database_id,
+							upload_dictionary)
 					vsk_types_const.UserContentType.Map:
-						result = yield(
-							GodotUro.godot_uro_api.dashboard_update_map_async(database_id,
-							upload_dictionary), "completed"
-						)
+						result = await GodotUro.godot_uro_api.dashboard_update_map_async(database_id,
+							upload_dictionary)
 			
 			
 			if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
@@ -434,18 +423,18 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 				var data: Dictionary = output["data"]
 				database_id = data["id"]
 				
-				p_callbacks["packed_scene_uploaded"].call_func(database_id)
+				p_callbacks["packed_scene_uploaded"].call(database_id)
 				
 				user_content_new_uro_id(node, database_id)
 			else:
-				p_callbacks["packed_scene_upload_failed"].call_func("Upload failed with error: %s"
+				p_callbacks["packed_scene_upload_failed"].call("Upload failed with error: %s"
 				% GodotUro.godot_uro_helper_const.get_full_requester_error_string(
 					result
 				))
 		else:
-			p_callbacks["packed_scene_upload_failed"].call_func("Could not process upload data!")
+			p_callbacks["packed_scene_upload_failed"].call("Could not process upload data!")
 	else:
-		p_callbacks["packed_scene_upload_failed"].call_func("Could not load Godot Uro API")
+		p_callbacks["packed_scene_upload_failed"].call("Could not load Godot Uro API")
 
 
 func _packed_scene_uploaded_callback(p_database_id: String) -> void:
@@ -455,7 +444,7 @@ func _packed_scene_uploaded_callback(p_database_id: String) -> void:
 	vsk_upload_dialog.hide()
 	
 	vsk_info_dialog.set_info_text("Uploaded successfully!")
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
 
 
 func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
@@ -465,11 +454,11 @@ func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
 	vsk_upload_dialog.hide()
 	
 	vsk_info_dialog.set_info_text(p_error_message)
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
 		
-"""
-Session callbacks
-"""
+## 
+## Session callbacks
+## 
 		
 func _session_renew_started() -> void:
 	print("VSKEditor::_session_renew_started")
@@ -496,20 +485,20 @@ func _session_deletion_complete(p_code: int, p_message: String) -> void:
 	
 	emit_signal("session_deletion_complete", p_code, p_message)
 	
-"""
-Linking
-"""
+## 
+## Linking
+## 
 	
 func _link_vsk_account_manager(p_node: Node) -> void:
 	print("_link_vsk_account_manager")
 	vsk_account_manager = p_node
 	
 	if vsk_account_manager:
-		if vsk_account_manager.connect("session_renew_started", self, "_session_renew_started") != OK:
+		if vsk_account_manager.connect("session_renew_started", Callable(self, "_session_renew_started")) != OK:
 			printerr("Could not connect signal 'session_renew_started'")
-		if vsk_account_manager.connect("session_request_complete", self, "_session_request_complete") != OK:
+		if vsk_account_manager.connect("session_request_complete", Callable(self, "_session_request_complete")) != OK:
 			printerr("Could not connect signal 'session_request_complete'")
-		if vsk_account_manager.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+		if vsk_account_manager.connect("session_deletion_complete", Callable(self, "_session_deletion_complete")) != OK:
 			printerr("Could not connect signal 'session_deletion_complete'")
 			
 		vsk_account_manager.call_deferred("start_session")
@@ -517,14 +506,14 @@ func _link_vsk_account_manager(p_node: Node) -> void:
 func _unlink_vsk_account_manager() -> void:
 	print("_unlink_vsk_account_manager")
 	
-	vsk_account_manager.disconnect("session_renew_started", self, "_session_renew_started")
-	vsk_account_manager.disconnect("session_request_complete", self, "_session_request_complete")
-	vsk_account_manager.disconnect("session_deletion_complete", self, "_session_deletion_complete")
+	vsk_account_manager.disconnect("session_renew_started", Callable(self, "_session_renew_started"))
+	vsk_account_manager.disconnect("session_request_complete", Callable(self, "_session_request_complete"))
+	vsk_account_manager.disconnect("session_deletion_complete", Callable(self, "_session_deletion_complete"))
 		
 	vsk_account_manager = null
 	
 	if uro_button:
-		uro_button.set_disabled(true)
+		uro_button.set_disabled(false) # true)
 	
 func _link_vsk_exporter(p_node: Node) -> void:
 	print("_link_vsk_exporter")
@@ -546,21 +535,20 @@ func _node_added(p_node: Node) -> void:
 					_link_vsk_exporter(p_node)
 			
 func _node_removed(p_node: Node) -> void:
-	match p_node:
-		vsk_account_manager:
-			_unlink_vsk_account_manager()
-		vsk_exporter:
+	if p_node == vsk_account_manager:
+		_unlink_vsk_account_manager()
+	if p_node == vsk_exporter:
 			_unlink_vsk_exporter()
 	
 	
-"""
-Tree functions
-"""
+## 
+## Tree functions
+## 
 
 func _ready():
 	if Engine.is_editor_hint():
-		assert(get_tree().connect("node_added", self, "_node_added") == OK)
-		assert(get_tree().connect("node_removed", self, "_node_removed") == OK)
+		assert(get_tree().connect("node_added", self._node_added) == OK)
+		assert(get_tree().connect("node_removed", self._node_removed) == OK)
 		
 		_link_vsk_account_manager(get_node_or_null("/root/VSKAccountManager"))
 		_link_vsk_exporter(get_node_or_null("/root/VSKExporter"))

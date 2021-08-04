@@ -1,10 +1,10 @@
-tool
-extends PopupDialog
+@tool
+extends Popup
 
 
 signal cancel_button_pressed()
 
-export(NodePath) var progress_dialog_body: NodePath = NodePath()
+@export var progress_dialog_body: NodePath # (NodePath) = NodePath()
 
 func set_progress_bar_value(p_value: float) -> void:
 	get_node(progress_dialog_body).set_progress_bar_value(p_value)

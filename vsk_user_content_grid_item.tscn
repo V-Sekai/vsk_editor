@@ -7,8 +7,8 @@
 [node name="VSKUserContentItem" type="Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1012.0
-margin_bottom = -400.0
+offset_right = -1012.0
+offset_bottom = -400.0
 rect_min_size = Vector2( 0, 200 )
 size_flags_horizontal = 3
 clip_text = true
@@ -30,15 +30,15 @@ __meta__ = {
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 12.0
-margin_bottom = 17.0
+offset_right = 12.0
+offset_bottom = 17.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_right = 12.0
-margin_bottom = 17.0
+offset_right = 12.0
+offset_bottom = 17.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 align = 1
@@ -57,9 +57,9 @@ __meta__ = {
 }
 
 [node name="Control" type="Control" parent="VBoxContainer"]
-margin_top = 17.0
-margin_right = 12.0
-margin_bottom = 200.0
+offset_top = 17.0
+offset_right = 12.0
+offset_bottom = 200.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

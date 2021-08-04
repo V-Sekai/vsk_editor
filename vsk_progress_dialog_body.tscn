@@ -1,17 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource path="res://addons/vsk_editor/vsk_progress_dialog_body.gd" type="Script" id=1]
+[ext_resource path="res://addons/vsk_editor/vsk_progress_dialog_body.gd" type="Script" id="1"]
 
 [node name="ProgressDialogBody" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -904.0
-margin_bottom = -513.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-script = ExtResource( 1 )
+custom_constants/offset_right = 10
+custom_constants/offset_top = 10
+custom_constants/offset_left = 10
+custom_constants/offset_bottom = 10
+script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -20,47 +18,55 @@ progress_bar_nodepath = NodePath("MainVBox/ProgressBar")
 cancel_button_nodepath = NodePath("MainVBox/FooterHBox/FooterVBox/CancelButton")
 
 [node name="MainVBox" type="VBoxContainer" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 110.0
-margin_bottom = 77.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 1590.0
+offset_bottom = 890.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ProgressLabel" type="Label" parent="MainVBox"]
-margin_right = 100.0
-margin_bottom = 17.0
+offset_right = 1580.0
+offset_bottom = 26.0
 text = "Progress: "
+structured_text_bidi_override_options = []
+script = null
 
 [node name="ProgressBar" type="ProgressBar" parent="MainVBox"]
-margin_top = 21.0
-margin_right = 100.0
-margin_bottom = 38.0
+offset_top = 30.0
+offset_right = 1580.0
+offset_bottom = 53.0
+script = null
 
 [node name="FooterHBox" type="HBoxContainer" parent="MainVBox"]
-margin_top = 42.0
-margin_right = 100.0
-margin_bottom = 67.0
+offset_top = 57.0
+offset_right = 1580.0
+offset_bottom = 880.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
+script = null
 
 [node name="FooterVBox" type="VBoxContainer" parent="MainVBox/FooterHBox"]
-margin_left = 14.0
-margin_right = 86.0
-margin_bottom = 25.0
+offset_left = 759.0
+offset_right = 821.0
+offset_bottom = 823.0
 alignment = 1
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CancelButton" type="Button" parent="MainVBox/FooterHBox/FooterVBox"]
-margin_right = 72.0
-margin_bottom = 25.0
+offset_top = 397.0
+offset_right = 62.0
+offset_bottom = 426.0
 text = "Cancel"
+script = null
 
 [connection signal="pressed" from="MainVBox/FooterHBox/FooterVBox/CancelButton" to="." method="_on_CancelButton_pressed"]

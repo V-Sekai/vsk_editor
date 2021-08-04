@@ -28,19 +28,19 @@ __meta__ = {
 [node name="Profile" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = -5.0
+offset_bottom = -5.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Profile"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 32.0
-margin_right = -32.0
-margin_bottom = -32.0
+offset_left = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -51,20 +51,20 @@ __meta__ = {
 [node name="Avatars" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = -5.0
+offset_bottom = -5.0
 
 [node name="AvatarGrid" parent="TabContainer/Avatars" instance=ExtResource( 2 )]
 
 [node name="Maps" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 32.0
-margin_right = -5.0
-margin_bottom = -5.0
+offset_left = 5.0
+offset_top = 32.0
+offset_right = -5.0
+offset_bottom = -5.0
 
 [node name="MapGrid" parent="TabContainer/Maps" instance=ExtResource( 2 )]
 

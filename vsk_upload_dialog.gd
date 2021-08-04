@@ -1,5 +1,5 @@
-extends WindowDialog
-tool
+@tool
+extends Popup
 
 signal submit_button_pressed(p_submission_data)
 signal requesting_user_content(user_content_type, p_database_id, p_callback)
@@ -12,7 +12,7 @@ const upload_panel_content_const = preload("vsk_upload_panel_contents.tscn")
 
 var vsk_editor: Node = null
 
-var export_data_callback: FuncRef = null
+var export_data_callback: Callable = Callable()
 var user_content_type: int = -1
 var current_database_id: String = ""
 
@@ -25,7 +25,7 @@ func _submit_pressed(p_submission_data: Dictionary) -> void:
 	emit_signal("submit_button_pressed", p_submission_data)
 
 
-func set_export_data_callback(p_callback: FuncRef) -> void:
+func set_export_data_callback(p_callback: Callable) -> void:
 	export_data_callback = p_callback
 
 
@@ -46,14 +46,14 @@ func _instance_upload_panel_child_control() -> void:
 	_clear_children()
 	
 	if !control:
-		control = upload_panel_content_const.instance()
+		control = upload_panel_content_const.instantiate()
 		control.set_export_data_callback(export_data_callback)
 		control.set_user_content_type(user_content_type)
 		add_child(control)
 		
-		if control.connect("submit_button_pressed", self, "_submit_pressed") == OK:
+		if control.connect("submit_button_pressed", Callable(self, "_submit_pressed")) == OK:
 			var user_content_node: Node = null
-			var export_data: Dictionary = export_data_callback.call_func()
+			var export_data: Dictionary = export_data_callback.call()
 			user_content_node = export_data.get("node")
 			
 			if user_content_node:
@@ -64,7 +64,7 @@ func _instance_upload_panel_child_control() -> void:
 			
 			_request_user_content(user_content_type, current_database_id)
 
-			control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
+			control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 		else:
 			printerr("Could ")
 
@@ -82,16 +82,14 @@ func _instance_login_required_child_control() -> void:
 		control = info_label
 		add_child(info_label)
 		
-		control.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE)
+		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 
 func _received_user_content_data(p_database_id: String, p_user_content_data: Dictionary) -> void:
 	if p_database_id == current_database_id:
 		control.update_user_content_data(p_user_content_data, p_database_id != "")
 
 func _request_user_content(p_user_content_type: int, p_database_id: String) -> void:
-	var callback: FuncRef = FuncRef.new()
-	callback.set_instance(self)
-	callback.set_function("_received_user_content_data")
+	var callback: Callable = self._received_user_content_data
 	
 	emit_signal(
 		"requesting_user_content",\
@@ -106,18 +104,18 @@ func _instance_child_control() -> void:
 	else:
 		_instance_login_required_child_control()
 
-func _about_to_show() -> void:
+func _about_to_popup() -> void:
 	_state_changed()
 
 func _state_changed() -> void:
 	_instance_child_control()
 
 func _ready() -> void:
-	if connect("about_to_show", self, "_about_to_show") != OK:
-		printerr("Could not connect to about_to_show")
+	if connect("about_to_popup", self._about_to_popup) != OK:
+		printerr("Could not connect to about_to_popup")
 
 
-func _init(p_vsk_editor: Node) -> void:
+func _init(p_vsk_editor: Node):
 	vsk_editor = p_vsk_editor
 	
 	set_title(TITLE_STRING)

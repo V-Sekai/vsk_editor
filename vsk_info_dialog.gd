@@ -1,4 +1,4 @@
-tool
+@tool
 extends AcceptDialog
 
 func set_info_text(p_text: String) -> void:

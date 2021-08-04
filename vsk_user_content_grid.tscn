@@ -22,7 +22,7 @@ __meta__ = {
 }
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
-margin_right = 1024.0
+offset_right = 1024.0
 mouse_filter = 2
 size_flags_horizontal = 3
 columns = 3

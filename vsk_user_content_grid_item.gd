@@ -1,10 +1,10 @@
-tool
+@tool
 extends Control
 
 signal vsk_content_button_pressed(id)
 
-export(NodePath) var name_label_path: NodePath = NodePath()
-export(NodePath) var texture_rect_url_path: NodePath = NodePath()
+@export var name_label_path: NodePath # (NodePath) = NodePath()
+@export var texture_rect_url_path: NodePath # (NodePath) = NodePath()
 
 var id: String = ""
 var vsk_name: String = ""

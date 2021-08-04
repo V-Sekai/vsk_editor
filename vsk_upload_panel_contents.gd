@@ -1,22 +1,22 @@
-tool
+@tool
 extends Control
 
 const VIEWPORT_SIZE = Vector2(1280, 720)
 
 signal submit_button_pressed(p_submission_data)
 
-export(NodePath) var name_line_edit_path: NodePath = NodePath()
-export(NodePath) var description_text_edit_path: NodePath = NodePath()
-export(NodePath) var saved_preview_texture_rect_path: NodePath = NodePath()
-export(NodePath) var new_preview_texture_rect_path: NodePath = NodePath()
-export(NodePath) var update_preview_checkbox_path: NodePath = NodePath()
+@export var name_line_edit_path: NodePath # (NodePath) = NodePath()
+@export var description_text_edit_path: NodePath # (NodePath) = NodePath()
+@export var saved_preview_texture_rect_path: NodePath # (NodePath) = NodePath()
+@export var new_preview_texture_rect_path: NodePath # (NodePath) = NodePath()
+@export var update_preview_checkbox_path: NodePath # (NodePath) = NodePath()
 
-export(NodePath) var submit_button_path: NodePath = NodePath()
+@export var submit_button_path: NodePath # (NodePath) = NodePath()
 
-var viewport: Viewport = null
-var new_preview_texture: Texture = null
+var viewport: SubViewport = null
+var new_preview_texture: Texture2D = null
 
-var export_data_callback: FuncRef = null
+var export_data_callback: Callable = null
 var user_content_type: int = -1
 var user_content_data: Dictionary = {}
 
@@ -61,27 +61,27 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 	_update_preview(get_node(update_preview_checkbox_path).pressed)
 
 
-func set_export_data_callback(p_callback: FuncRef) -> void:
+func set_export_data_callback(p_callback: Callable) -> void:
 	export_data_callback = p_callback
-	var export_data: Dictionary = export_data_callback.call_func()
+	var export_data: Dictionary = export_data_callback.call()
 	
 	var node: Node = export_data.get("node")
 	
 	new_preview_texture = null
 	
 	if node:
-		if node.get("vskeditor_preview_type")  == "Camera":
+		if node.get("vskeditor_preview_type")  == "Camera3D":
 			var camera_preview_path = node.get("vskeditor_preview_camera_path")
 			if camera_preview_path is NodePath:
-				var camera: Camera = node.get_node_or_null(camera_preview_path)
+				var camera: Camera3D = node.get_node_or_null(camera_preview_path)
 				if camera:
-					VisualServer.viewport_attach_camera(viewport.get_viewport_rid(), camera.get_camera_rid())
+					RenderingServer.viewport_attach_camera(viewport.get_viewport_rid(), camera.get_camera_rid())
 					new_preview_texture = viewport.get_texture()
 					if new_preview_texture:
 						get_node(new_preview_texture_rect_path).set_texture(new_preview_texture)
 		else:
 			var vskeditor_preview_texture = node.get("vskeditor_preview_texture")
-			if vskeditor_preview_texture is Texture:
+			if vskeditor_preview_texture is Texture2D:
 				new_preview_texture = vskeditor_preview_texture
 				if new_preview_texture:
 					get_node(new_preview_texture_rect_path).set_texture(new_preview_texture)
@@ -135,7 +135,7 @@ func _on_NameEditField_text_changed(_new_text):
 	_update_submit_button()
 
 
-static func _update_viewport_from_project_settings(p_viewport: Viewport) -> Viewport:
+static func _update_viewport_from_project_settings(p_viewport: SubViewport) -> SubViewport:
 	var new_viewport = p_viewport
 	
 	new_viewport.shadow_atlas_size = ProjectSettings.get_setting("rendering/quality/shadow_atlas/size")
@@ -157,6 +157,6 @@ func _ready() -> void:
 	
 	
 func _init():
-	viewport = Viewport.new()
+	viewport = SubViewport.new()
 	viewport.set_size(VIEWPORT_SIZE)
 	viewport.set_vflip(true)

@@ -1,11 +1,11 @@
-tool
+@tool
 extends Control
 
 signal cancel_button_pressed()
 
-export(NodePath) var progress_label_nodepath: NodePath = NodePath()
-export(NodePath) var progress_bar_nodepath: NodePath = NodePath()
-export(NodePath) var cancel_button_nodepath: NodePath = NodePath()
+@export var progress_label_nodepath: NodePath # (NodePath) = NodePath()
+@export var progress_bar_nodepath: NodePath # (NodePath) = NodePath()
+@export var cancel_button_nodepath: NodePath # (NodePath) = NodePath()
 
 
 func set_progress_label_text(p_text: String) -> void:

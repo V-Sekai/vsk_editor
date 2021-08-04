@@ -1,5 +1,5 @@
+@tool
 extends Control
-tool
 
 signal session_request_successful()
 
@@ -47,10 +47,10 @@ func _submit_button_pressed() -> void:
 	var password: String = password_lineedit.text
 
 	_session_request_submitted()
-	vsk_editor.sign_in(username_or_email, password)
+	await vsk_editor.sign_in(username_or_email, password)
 		
 	
-func _init(p_vsk_editor: Node) -> void:
+func _init(p_vsk_editor: Node):
 	vsk_editor = p_vsk_editor
 	
 	vbox_container = VBoxContainer.new()
@@ -87,7 +87,7 @@ func _init(p_vsk_editor: Node) -> void:
 
 	submit_button = Button.new()
 	submit_button.set_text("Submit")
-	if submit_button.connect("pressed", self, "_submit_button_pressed") != OK:
+	if submit_button.connect("pressed", Callable(self, "_submit_button_pressed")) != OK:
 		printerr("Could not connected signal 'pressed'")
 
 	vbox_container.add_child(submit_button)
@@ -97,12 +97,12 @@ func _init(p_vsk_editor: Node) -> void:
 	result_label.align = HALIGN_CENTER
 	vbox_container.add_child(result_label)
 
-	vbox_container.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
-	vbox_container.margin_top = 0
-	vbox_container.margin_left = MARGIN_SIZE
-	vbox_container.margin_bottom = -MARGIN_SIZE
-	vbox_container.margin_right = -MARGIN_SIZE
+	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
+	vbox_container.offset_top = 0
+	vbox_container.offset_left = MARGIN_SIZE
+	vbox_container.offset_bottom = -MARGIN_SIZE
+	vbox_container.offset_right = -MARGIN_SIZE
 
 	assert(vsk_editor)
-	if vsk_editor.connect("session_request_complete", self, "_session_request_complete") != OK:
+	if vsk_editor.connect("session_request_complete", Callable(self, "_session_request_complete")) != OK:
 		printerr("Could not connection signal 'session_request_complete'")

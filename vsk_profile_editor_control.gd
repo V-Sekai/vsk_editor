@@ -1,18 +1,18 @@
+@tool
 extends Control
-tool
 
 var vsk_editor: Node = null
 
 const MARGIN_SIZE = 32
 
-export(NodePath) var profile_container: NodePath = NodePath()
+@export var profile_container: NodePath # (NodePath) = NodePath()
 
-export(NodePath) var tab_container: NodePath = NodePath()
-export(NodePath) var profile_tab: NodePath = NodePath()
-export(NodePath) var avatars_tab: NodePath = NodePath()
-export(NodePath) var maps_tab: NodePath = NodePath()
-export(NodePath) var avatars_grid: NodePath = NodePath()
-export(NodePath) var maps_grid: NodePath = NodePath()
+@export var tab_container: NodePath # (NodePath) = NodePath()
+@export var profile_tab: NodePath # (NodePath) = NodePath()
+@export var avatars_tab: NodePath # (NodePath) = NodePath()
+@export var maps_tab: NodePath # (NodePath) = NodePath()
+@export var avatars_grid: NodePath # (NodePath) = NodePath()
+@export var maps_grid: NodePath # (NodePath) = NodePath()
 
 var avatar_dictionary: Dictionary = {}
 var map_dictionary: Dictionary = {}
@@ -42,30 +42,30 @@ func _ready():
 
 	sign_out_button = Button.new()
 	sign_out_button.set_text("Log out")
-	if sign_out_button.connect("pressed", self, "_sign_out_button_pressed") != OK:
+	if sign_out_button.connect("pressed", Callable(self, "_sign_out_button_pressed")) != OK:
 		printerr("Could not connect signal 'pressed'")
 	
 	vbox_container.add_child(info_label)
 	vbox_container.add_child(sign_out_button)
 	
-	vbox_container.set_anchors_and_margins_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
-	vbox_container.margin_top = 0
-	vbox_container.margin_left = MARGIN_SIZE
-	vbox_container.margin_bottom = -MARGIN_SIZE
-	vbox_container.margin_right = -MARGIN_SIZE
+	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
+	vbox_container.offset_top = 0
+	vbox_container.offset_left = MARGIN_SIZE
+	vbox_container.offset_bottom = -MARGIN_SIZE
+	vbox_container.offset_right = -MARGIN_SIZE
 
 	assert(vsk_editor)
-	if vsk_editor.connect("session_deletion_complete", self, "_session_deletion_complete") != OK:
+	if vsk_editor.connect("session_deletion_complete", Callable(self, "_session_deletion_complete")) != OK:
 		printerr("Could not connect signal 'session_deletion_complete'")
 
 	var avatars_grid_node: Control = get_node_or_null(avatars_grid)
 	if avatars_grid_node:
-		if avatars_grid_node.connect("vsk_content_button_pressed", self, "_avatar_selected") != OK:
+		if avatars_grid_node.connect("vsk_content_button_pressed", Callable(self, "_avatar_selected")) != OK:
 			printerr("Could not connect signal 'vsk_content_button_pressed'")
 	
 	var maps_grid_node: Control = get_node_or_null(maps_grid)
 	if maps_grid_node:
-		if maps_grid_node.connect("vsk_content_button_pressed", self, "_map_selected") != OK:
+		if maps_grid_node.connect("vsk_content_button_pressed", Callable(self, "_map_selected")) != OK:
 			printerr("Could not connect signal 'vsk_content_button_pressed'")
 
 
@@ -84,7 +84,7 @@ func _map_selected(p_id: String) -> void:
 func _reload_avatars() -> void:
 	get_node(avatars_grid).clear_all()
 	
-	var async_result = yield(GodotUro.godot_uro_api.dashboard_get_avatars_async(), "completed")
+	var async_result = await GodotUro.godot_uro_api.dashboard_get_avatars_async()
 	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		var avatar_list = async_result["output"]["data"]["avatars"]
 		avatar_dictionary = {}
@@ -108,7 +108,7 @@ func _reload_avatars() -> void:
 func _reload_maps() -> void:
 	get_node(maps_grid).clear_all()
 	
-	var async_result = yield(GodotUro.godot_uro_api.dashboard_get_maps_async(), "completed")
+	var async_result = await GodotUro.godot_uro_api.dashboard_get_maps_async()
 	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		var map_list = async_result["output"]["data"]["maps"]
 		map_dictionary = {}
@@ -134,9 +134,9 @@ func _on_tab_changed(tab):
 	if tab_child == get_node(profile_tab):
 		pass
 	elif tab_child == get_node(avatars_tab):
-		_reload_avatars()
+		await _reload_avatars()
 	elif tab_child == get_node(maps_tab):
-		_reload_maps()
+		await _reload_maps()
 
 func set_vsk_editor(p_vsk_editor: Node) -> void:
 	vsk_editor = p_vsk_editor
