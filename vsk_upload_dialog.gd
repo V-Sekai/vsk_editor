@@ -8,7 +8,8 @@ const LOGIN_REQUIRED_STRING = "Please log in to upload content"
 const TITLE_STRING = "Upload"
 const WINDOW_RESOLUTION = Vector2(1280, 720)
 
-const upload_panel_content_const = preload("vsk_upload_panel_contents.tscn")
+# const upload_panel_content_const = preload("vsk_upload_panel_contents.tscn")
+var upload_panel_content_const = load("res://addons/vsk_editor/vsk_upload_panel_contents.tscn")
 
 var vsk_editor: Node = null
 

@@ -10,7 +10,8 @@ var control: Control = null
 var vsk_login_control_script_const = preload("vsk_login_editor_control.gd")
 var vsk_profile_control_script_const = preload("vsk_profile_editor_control.gd")
 
-var vsk_profile_control_const = preload("vsk_profile_editor_control.tscn")
+# const vsk_profile_control_const = preload("vsk_profile_editor_control.tscn")
+var vsk_profile_control_const = load("res://addons/vsk_editor/vsk_profile_editor_control.tscn")
 
 func _clear_children() -> void:
 	if control:
