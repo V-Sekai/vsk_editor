@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const uro_logo_const = preload("uro_logo.png")
+var uro_logo_png = load("res://addons/vsk_editor/uro_logo.png")
 var editor_interface: EditorInterface = null
 var undo_redo: UndoRedo = null
 var button: Button = null
@@ -56,7 +56,7 @@ func _enter_tree() -> void:
 
 	button = Button.new()
 	button.set_text("Uro")
-	button.set_button_icon(uro_logo_const)
+	button.set_button_icon(uro_logo_png)
 	button.set_tooltip("Access the Uro Menu.")
 	button.set_flat(true)
 	button.set_disabled(false) # true
