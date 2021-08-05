@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://tsk0hn7jvw3j"]
 
-[ext_resource path="res://addons/vsk_editor/VSKSDK_Test.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/vsk_editor/VSKSDK_Test.gd" id="1"]
 
 [node name="VSKSDKTest" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -13,6 +13,7 @@ __meta__ = {
 [node name="Panel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,14 +22,16 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 2.0
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="Panel/ButtonContainer"]
-offset_left = 492.0
-offset_top = 287.0
-offset_right = 534.0
-offset_bottom = 312.0
+offset_left = 780.0
+offset_top = 438.0
+offset_right = 822.0
+offset_bottom = 461.0
 disabled = true
 text = "Uro"
+script = null

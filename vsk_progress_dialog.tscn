@@ -1,17 +1,18 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cjnca8e1nn0i0"]
 
-[ext_resource path="res://addons/vsk_editor/vsk_progress_dialog_body.tscn" type="PackedScene" id="1"]
-[ext_resource path="res://addons/vsk_editor/vsk_progress_dialog.gd" type="Script" id="2"]
+[ext_resource type="PackedScene" path="res://addons/vsk_editor/vsk_progress_dialog_body.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_progress_dialog.gd" id="2"]
 
 [node name="ProgressDialog" type="PopupPanel"]
-size = Vector2i(104, 114)
+size = Vector2i(108, 114)
+visible = true
 script = ExtResource( "2" )
 progress_dialog_body = NodePath("ProgressDialogBody")
 
 [node name="ProgressDialogBody" parent="." instance=ExtResource( "1" )]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -1500.0
+offset_right = -1496.0
 offset_bottom = -790.0
 
 [connection signal="cancel_button_pressed" from="ProgressDialogBody" to="." method="_on_cancel_button_pressed"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://cwwgmr7u4e85f"]
 
-[ext_resource path="res://addons/vsk_editor/vsk_upload_panel_contents.gd" type="Script" id="1"]
-[ext_resource path="res://addons/textureRectUrl/node_textureRectUrl.gd" type="Script" id="2"]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_upload_panel_contents.gd" id="1"]
+[ext_resource type="Script" path="res://addons/textureRectUrl/node_textureRectUrl.gd" id="2"]
 
 [node name="UploadPanelContents" type="Control"]
 anchor_right = 1.0
@@ -20,32 +20,26 @@ submit_button_path = NodePath("MarginContainer/Content/SubmitButton")
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/offset_right = 10
-custom_constants/offset_top = 10
-custom_constants/offset_left = 10
-custom_constants/offset_bottom = 10
 script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Content" type="VBoxContainer" parent="MarginContainer"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 1590.0
-offset_bottom = 890.0
+offset_right = 1600.0
+offset_bottom = 900.0
 script = null
 
 [node name="Editable" type="HBoxContainer" parent="MarginContainer/Content"]
-offset_right = 1580.0
-offset_bottom = 847.0
+offset_right = 1600.0
+offset_bottom = 873.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = null
 
 [node name="TextFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_right = 788.0
-offset_bottom = 847.0
+offset_right = 798.0
+offset_bottom = 873.0
 size_flags_horizontal = 3
 script = null
 __meta__ = {
@@ -53,13 +47,13 @@ __meta__ = {
 }
 
 [node name="NameContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_right = 788.0
-offset_bottom = 63.0
+offset_right = 798.0
+offset_bottom = 51.0
 script = null
 
 [node name="NameLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_right = 788.0
-offset_bottom = 26.0
+offset_right = 798.0
+offset_bottom = 20.0
 text = "Name:"
 structured_text_bidi_override_options = []
 script = null
@@ -68,23 +62,23 @@ __meta__ = {
 }
 
 [node name="NameEditField" type="LineEdit" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_top = 30.0
-offset_right = 788.0
-offset_bottom = 63.0
+offset_top = 24.0
+offset_right = 798.0
+offset_bottom = 51.0
 editable = false
 structured_text_bidi_override_options = []
 script = null
 
 [node name="DescriptionContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_top = 67.0
-offset_right = 788.0
-offset_bottom = 847.0
+offset_top = 55.0
+offset_right = 798.0
+offset_bottom = 873.0
 size_flags_vertical = 3
 script = null
 
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_right = 788.0
-offset_bottom = 26.0
+offset_right = 798.0
+offset_bottom = 20.0
 text = "Description:"
 structured_text_bidi_override_options = []
 script = null
@@ -93,9 +87,9 @@ __meta__ = {
 }
 
 [node name="DescriptionEditField" type="TextEdit" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_top = 30.0
-offset_right = 788.0
-offset_bottom = 780.0
+offset_top = 24.0
+offset_right = 798.0
+offset_bottom = 818.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 readonly = true
@@ -103,9 +97,9 @@ structured_text_bidi_override_options = []
 script = null
 
 [node name="SupplementaryFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_left = 792.0
-offset_right = 1580.0
-offset_bottom = 847.0
+offset_left = 802.0
+offset_right = 1600.0
+offset_bottom = 873.0
 size_flags_horizontal = 3
 script = null
 __meta__ = {
@@ -113,8 +107,8 @@ __meta__ = {
 }
 
 [node name="PreviewPanel" type="Panel" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_right = 788.0
-offset_bottom = 421.0
+offset_right = 798.0
+offset_bottom = 434.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = null
@@ -122,10 +116,6 @@ script = null
 [node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/offset_right = 10
-custom_constants/offset_top = 10
-custom_constants/offset_left = 10
-custom_constants/offset_bottom = 10
 script = null
 __meta__ = {
 "_edit_use_anchors_": false
@@ -133,10 +123,8 @@ __meta__ = {
 
 [node name="NewPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 778.0
-offset_bottom = 411.0
+offset_right = 798.0
+offset_bottom = 434.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
@@ -148,18 +136,16 @@ __meta__ = {
 
 [node name="SavedPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 778.0
-offset_bottom = 411.0
+offset_right = 798.0
+offset_bottom = 434.0
 expand = true
 stretch_mode = 6
 script = ExtResource( "2" )
 
 [node name="FlagsContainer" type="GridContainer" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_top = 425.0
-offset_right = 788.0
-offset_bottom = 847.0
+offset_top = 438.0
+offset_right = 798.0
+offset_bottom = 873.0
 size_flags_vertical = 3
 columns = 2
 script = null
@@ -168,8 +154,8 @@ __meta__ = {
 }
 
 [node name="UpdatePreviewCheckbox" type="CheckBox" parent="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer"]
-offset_right = 394.0
-offset_bottom = 31.0
+offset_right = 399.0
+offset_bottom = 25.0
 size_flags_horizontal = 3
 disabled = true
 pressed = true
@@ -180,9 +166,9 @@ __meta__ = {
 }
 
 [node name="SubmitButton" type="Button" parent="MarginContainer/Content"]
-offset_top = 851.0
-offset_right = 1580.0
-offset_bottom = 880.0
+offset_top = 877.0
+offset_right = 1600.0
+offset_bottom = 900.0
 disabled = true
 text = "Submit"
 script = null

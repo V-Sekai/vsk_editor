@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://duih6nb1kpiiy"]
 
-[ext_resource path="res://addons/vsk_editor/vsk_user_content_grid.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_user_content_grid.gd" id="1"]
 
 [node name="UserContentGrid" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -17,15 +17,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 follow_focus = true
 scroll_horizontal_enabled = false
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
-offset_right = 1024.0
+offset_right = 1600.0
 mouse_filter = 2
 size_flags_horizontal = 3
 columns = 3
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }

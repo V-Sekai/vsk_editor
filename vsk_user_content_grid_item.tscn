@@ -1,18 +1,18 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://3n1tjf78n8uv"]
 
-[ext_resource path="res://addons/textureRectUrl/node_textureRectUrl.gd" type="Script" id=1]
-[ext_resource path="res://addons/vsk_editor/vsk_user_content_grid_item.gd" type="Script" id=2]
-[ext_resource path="res://addons/godot_uro/uro_logo_64.png" type="Texture" id=3]
+[ext_resource type="Script" path="res://addons/textureRectUrl/node_textureRectUrl.gd" id="1"]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_user_content_grid_item.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://cqaruhjo1pgb5" path="res://addons/godot_uro/uro_logo_64.png" id="3"]
 
 [node name="VSKUserContentItem" type="Button"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1012.0
 offset_bottom = -400.0
-rect_min_size = Vector2( 0, 200 )
+rect_min_size = Vector2(0, 200)
 size_flags_horizontal = 3
 clip_text = true
-script = ExtResource( 2 )
+script = ExtResource( "2" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -24,25 +24,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 size_flags_vertical = 3
-custom_constants/separation = 0
+theme_override_constants/separation = 0
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 12.0
-offset_bottom = 17.0
+offset_right = 588.0
+offset_bottom = 15.0
 mouse_filter = 2
 size_flags_horizontal = 3
 alignment = 1
+script = null
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-offset_right = 12.0
-offset_bottom = 17.0
+offset_right = 588.0
+offset_bottom = 15.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 align = 1
 valign = 1
+structured_text_bidi_override_options = []
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -52,17 +56,19 @@ show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Control" type="Control" parent="VBoxContainer"]
-offset_top = 17.0
-offset_right = 12.0
-offset_bottom = 200.0
+offset_top = 15.0
+offset_right = 588.0
+offset_bottom = 500.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = null
 
 [node name="Control2" type="Control" parent="VBoxContainer/Control"]
 anchor_left = 0.01
@@ -72,6 +78,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -82,10 +89,10 @@ anchor_top = 0.01
 anchor_right = 0.99
 anchor_bottom = 0.99
 mouse_filter = 2
-texture = ExtResource( 3 )
+texture = ExtResource( "3" )
 expand = true
 stretch_mode = 6
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
 }

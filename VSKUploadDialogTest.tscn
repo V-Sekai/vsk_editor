@@ -1,11 +1,11 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://b6whr3bh7v2m5"]
 
-[ext_resource path="res://addons/vsk_editor/vsk_upload_dialog_test.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_upload_dialog_test.gd" id="1"]
 
 [node name="VSKButtonDialogTest" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -13,26 +13,30 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-offset_left = 451.0
-offset_top = 273.0
-offset_right = 573.0
-offset_bottom = 327.0
+offset_left = 739.0
+offset_top = 425.0
+offset_right = 861.0
+offset_bottom = 475.0
+script = null
 
 [node name="ShowDialogButton" type="Button" parent="CenterContainer/VBoxContainer"]
 offset_right = 122.0
-offset_bottom = 25.0
+offset_bottom = 23.0
 text = "Show Dialog"
+script = null
 
 [node name="TestUploadButton" type="Button" parent="CenterContainer/VBoxContainer"]
-offset_top = 29.0
+offset_top = 27.0
 offset_right = 122.0
-offset_bottom = 54.0
+offset_bottom = 50.0
 text = "Test Upload"
+script = null
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ShowDialogButton" to="." method="_on_ShowDialogButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/TestUploadButton" to="." method="_on_TestUploadButton_pressed"]

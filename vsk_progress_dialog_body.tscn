@@ -1,14 +1,10 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://fw50jktro3bx"]
 
-[ext_resource path="res://addons/vsk_editor/vsk_progress_dialog_body.gd" type="Script" id="1"]
+[ext_resource type="Script" path="res://addons/vsk_editor/vsk_progress_dialog_body.gd" id="1"]
 
 [node name="ProgressDialogBody" type="MarginContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_constants/offset_right = 10
-custom_constants/offset_top = 10
-custom_constants/offset_left = 10
-custom_constants/offset_bottom = 10
 script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,10 +14,8 @@ progress_bar_nodepath = NodePath("MainVBox/ProgressBar")
 cancel_button_nodepath = NodePath("MainVBox/FooterHBox/FooterVBox/CancelButton")
 
 [node name="MainVBox" type="VBoxContainer" parent="."]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 1590.0
-offset_bottom = 890.0
+offset_right = 1600.0
+offset_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -31,31 +25,31 @@ __meta__ = {
 }
 
 [node name="ProgressLabel" type="Label" parent="MainVBox"]
-offset_right = 1580.0
-offset_bottom = 26.0
+offset_right = 1600.0
+offset_bottom = 20.0
 text = "Progress: "
 structured_text_bidi_override_options = []
 script = null
 
 [node name="ProgressBar" type="ProgressBar" parent="MainVBox"]
-offset_top = 30.0
-offset_right = 1580.0
-offset_bottom = 53.0
+offset_top = 24.0
+offset_right = 1600.0
+offset_bottom = 41.0
 script = null
 
 [node name="FooterHBox" type="HBoxContainer" parent="MainVBox"]
-offset_top = 57.0
-offset_right = 1580.0
-offset_bottom = 880.0
+offset_top = 45.0
+offset_right = 1600.0
+offset_bottom = 900.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 script = null
 
 [node name="FooterVBox" type="VBoxContainer" parent="MainVBox/FooterHBox"]
-offset_left = 759.0
-offset_right = 821.0
-offset_bottom = 823.0
+offset_left = 764.0
+offset_right = 836.0
+offset_bottom = 855.0
 alignment = 1
 script = null
 __meta__ = {
@@ -63,9 +57,9 @@ __meta__ = {
 }
 
 [node name="CancelButton" type="Button" parent="MainVBox/FooterHBox/FooterVBox"]
-offset_top = 397.0
-offset_right = 62.0
-offset_bottom = 426.0
+offset_top = 416.0
+offset_right = 72.0
+offset_bottom = 439.0
 text = "Cancel"
 script = null
 
