@@ -5,18 +5,18 @@ const VIEWPORT_SIZE = Vector2(1280, 720)
 
 signal submit_button_pressed(p_submission_data)
 
-@export var name_line_edit_path: NodePath # (NodePath) = NodePath()
-@export var description_text_edit_path: NodePath # (NodePath) = NodePath()
-@export var saved_preview_texture_rect_path: NodePath # (NodePath) = NodePath()
-@export var new_preview_texture_rect_path: NodePath # (NodePath) = NodePath()
-@export var update_preview_checkbox_path: NodePath # (NodePath) = NodePath()
+@export var name_line_edit_path: NodePath = NodePath()
+@export var description_text_edit_path: NodePath = NodePath()
+@export var saved_preview_texture_rect_path: NodePath = NodePath()
+@export var new_preview_texture_rect_path: NodePath = NodePath()
+@export var update_preview_checkbox_path: NodePath = NodePath()
 
-@export var submit_button_path: NodePath # (NodePath) = NodePath()
+@export var submit_button_path: NodePath = NodePath()
 
 var viewport: SubViewport = null
 var new_preview_texture: Texture2D = null
 
-var export_data_callback: Callable = null
+var export_data_callback: Callable = Callable()
 var user_content_type: int = -1
 var user_content_data: Dictionary = {}
 
@@ -70,7 +70,8 @@ func set_export_data_callback(p_callback: Callable) -> void:
 	new_preview_texture = null
 	
 	if node:
-		if node.get("vskeditor_preview_type")  == "Camera3D":
+		var preview_type: Variant = node.get("vskeditor_preview_type")
+		if (typeof(preview_type) == TYPE_STRING or typeof(preview_type) == TYPE_STRING_NAME) and preview_type == "Camera3D":
 			var camera_preview_path = node.get("vskeditor_preview_camera_path")
 			if camera_preview_path is NodePath:
 				var camera: Camera3D = node.get_node_or_null(camera_preview_path)
@@ -81,7 +82,7 @@ func set_export_data_callback(p_callback: Callable) -> void:
 						get_node(new_preview_texture_rect_path).set_texture(new_preview_texture)
 		else:
 			var vskeditor_preview_texture = node.get("vskeditor_preview_texture")
-			if vskeditor_preview_texture is Texture2D:
+			if vskeditor_preview_texture != null:
 				new_preview_texture = vskeditor_preview_texture
 				if new_preview_texture:
 					get_node(new_preview_texture_rect_path).set_texture(new_preview_texture)
@@ -136,18 +137,18 @@ func _on_NameEditField_text_changed(_new_text):
 
 
 static func _update_viewport_from_project_settings(p_viewport: SubViewport) -> SubViewport:
-	var new_viewport = p_viewport
+	var new_viewport: SubViewport = p_viewport
+	new_viewport.shadow_atlas_size = ProjectSettings.get_setting("rendering/shadows/directional_shadow/size")
+	new_viewport.shadow_atlas_quad_0 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_0_subdiv")
+	new_viewport.shadow_atlas_quad_1 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_1_subdiv")
+	new_viewport.shadow_atlas_quad_2 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_2_subdiv")
+	new_viewport.shadow_atlas_quad_3 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_3_subdiv")
 	
-	new_viewport.shadow_atlas_size = ProjectSettings.get_setting("rendering/quality/shadow_atlas/size")
-	new_viewport.shadow_atlas_quad_0 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_0_subdiv")
-	new_viewport.shadow_atlas_quad_1 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_1_subdiv")
-	new_viewport.shadow_atlas_quad_2 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_2_subdiv")
-	new_viewport.shadow_atlas_quad_3 = ProjectSettings.get_setting("rendering/quality/shadow_atlas/quadrant_3_subdiv")
-	
-	new_viewport.msaa = ProjectSettings.get_setting("rendering/quality/filters/msaa")
-	new_viewport.fxaa = ProjectSettings.get_setting("rendering/quality/filters/use_fxaa")
-	new_viewport.debanding = ProjectSettings.get_setting("rendering/quality/filters/use_debanding")
-	new_viewport.hdr = ProjectSettings.get_setting("rendering/quality/depth/hdr")
+	new_viewport.msaa = ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa")
+	new_viewport.screen_space_aa = ProjectSettings.get_setting("rendering/anti_aliasing/quality/screen_space_aa")
+	# new_viewport.fxaa = ProjectSettings.get_setting("rendering/quality/filters/use_fxaa")
+	new_viewport.use_debanding = ProjectSettings.get_setting("rendering/anti_aliasing/quality/use_debanding")
+	# new_viewport.hdr = ProjectSettings.get_setting("rendering/quality/depth/hdr")
 	
 	return new_viewport
 
@@ -159,4 +160,4 @@ func _ready() -> void:
 func _init():
 	viewport = SubViewport.new()
 	viewport.set_size(VIEWPORT_SIZE)
-	viewport.set_vflip(true)
+	# viewport.set_vflip(true)

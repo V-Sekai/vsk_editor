@@ -1,5 +1,5 @@
 @tool
-extends Popup
+extends AcceptDialog
 
 signal submit_button_pressed(p_submission_data)
 signal requesting_user_content(user_content_type, p_database_id, p_callback)
@@ -112,6 +112,8 @@ func _state_changed() -> void:
 	_instance_child_control()
 
 func _ready() -> void:
+	borderless = false
+	transient = false
 	if connect("about_to_popup", self._about_to_popup) != OK:
 		printerr("Could not connect to about_to_popup")
 

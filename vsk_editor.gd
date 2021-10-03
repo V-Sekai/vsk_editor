@@ -44,7 +44,10 @@ signal session_deletion_complete(p_code, p_message)
 const vsk_pipeline_uro_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
 
 static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_node: Node, p_id: String, p_update_id: bool) -> String:
-	for pipeline_path in p_node.get("vskeditor_pipeline_paths"):
+	var pipeline_paths: Variant = p_node.get("vskeditor_pipeline_paths")
+	if typeof(pipeline_paths) == TYPE_NIL:
+		pipeline_paths = []
+	for pipeline_path in pipeline_paths:
 		var pipeline = p_node.get_node_or_null(pipeline_path)
 		if pipeline is vsk_pipeline_uro_const:
 			if p_update_id and pipeline.database_id != p_id:
