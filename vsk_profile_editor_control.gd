@@ -71,13 +71,13 @@ func _ready():
 
 func _avatar_selected(p_id: String) -> void:
 	if avatar_dictionary.has(p_id):
-		OS.set_clipboard(p_id)
+		DisplayServer.clipboard_set(p_id)
 	else:
 		printerr("Could not select avatar %s" % p_id)
 	
 func _map_selected(p_id: String) -> void:
 	if map_dictionary.has(p_id):
-		OS.set_clipboard(p_id)
+		DisplayServer.clipboard_set(p_id)
 	else:
 		printerr("Could not select map %s" % p_id)
 

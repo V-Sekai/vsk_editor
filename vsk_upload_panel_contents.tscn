@@ -20,7 +20,6 @@ submit_button_path = NodePath("MarginContainer/Content/SubmitButton")
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -28,150 +27,129 @@ __meta__ = {
 [node name="Content" type="VBoxContainer" parent="MarginContainer"]
 offset_right = 1600.0
 offset_bottom = 900.0
-script = null
 
 [node name="Editable" type="HBoxContainer" parent="MarginContainer/Content"]
 offset_right = 1600.0
-offset_bottom = 873.0
+offset_bottom = 863.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = null
 
 [node name="TextFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_right = 798.0
-offset_bottom = 873.0
+offset_right = 796.0
+offset_bottom = 863.0
 size_flags_horizontal = 3
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NameContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_right = 798.0
-offset_bottom = 51.0
-script = null
+offset_right = 796.0
+offset_bottom = 68.0
 
 [node name="NameLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_right = 798.0
-offset_bottom = 20.0
+offset_right = 796.0
+offset_bottom = 23.0
 text = "Name:"
-structured_text_bidi_override_options = []
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NameEditField" type="LineEdit" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_top = 24.0
-offset_right = 798.0
-offset_bottom = 51.0
-editable = false
-structured_text_bidi_override_options = []
-script = null
+offset_top = 31.0
+offset_right = 796.0
+offset_bottom = 68.0
+theme_override_font_sizes/font_size = 16
 
 [node name="DescriptionContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_top = 55.0
-offset_right = 798.0
-offset_bottom = 873.0
+offset_top = 76.0
+offset_right = 796.0
+offset_bottom = 863.0
 size_flags_vertical = 3
-script = null
 
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_right = 798.0
-offset_bottom = 20.0
+offset_right = 796.0
+offset_bottom = 23.0
 text = "Description:"
-structured_text_bidi_override_options = []
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="DescriptionEditField" type="TextEdit" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_top = 24.0
-offset_right = 798.0
-offset_bottom = 818.0
+offset_top = 31.0
+offset_right = 796.0
+offset_bottom = 787.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-readonly = true
-structured_text_bidi_override_options = []
-script = null
 
 [node name="SupplementaryFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_left = 802.0
+offset_left = 804.0
 offset_right = 1600.0
-offset_bottom = 873.0
+offset_bottom = 863.0
 size_flags_horizontal = 3
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PreviewPanel" type="Panel" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_right = 798.0
-offset_bottom = 434.0
+offset_right = 796.0
+offset_bottom = 427.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = null
 
 [node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NewPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_right = 798.0
-offset_bottom = 434.0
+offset_right = 796.0
+offset_bottom = 427.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 expand = true
 stretch_mode = 6
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SavedPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_right = 798.0
-offset_bottom = 434.0
+offset_right = 796.0
+offset_bottom = 427.0
 expand = true
 stretch_mode = 6
 script = ExtResource( "2" )
 
 [node name="FlagsContainer" type="GridContainer" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_top = 438.0
-offset_right = 798.0
-offset_bottom = 873.0
+offset_top = 435.0
+offset_right = 796.0
+offset_bottom = 863.0
 size_flags_vertical = 3
 columns = 2
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="UpdatePreviewCheckbox" type="CheckBox" parent="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer"]
-offset_right = 399.0
-offset_bottom = 25.0
+offset_right = 398.0
+offset_bottom = 48.0
 size_flags_horizontal = 3
 disabled = true
 pressed = true
 text = "Update Preview"
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SubmitButton" type="Button" parent="MarginContainer/Content"]
-offset_top = 877.0
+offset_top = 871.0
 offset_right = 1600.0
 offset_bottom = 900.0
 disabled = true
 text = "Submit"
-script = null
 
 [connection signal="text_changed" from="MarginContainer/Content/Editable/TextFields/NameContainer/NameEditField" to="." method="_on_NameEditField_text_changed"]
 [connection signal="toggled" from="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer/UpdatePreviewCheckbox" to="." method="_on_UpdatePreviewCheckbox_toggled"]

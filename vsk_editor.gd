@@ -82,8 +82,9 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 	print("user_content_new_uro_id: %s" % id)
 	
-	var inspector: EditorInspector = editor_interface.get_inspector()
-	inspector.refresh()
+	# TODO: Figure out if we need to force refresh this in the inspector
+	# var inspector: EditorInspector = editor_interface.get_inspector()
+	# inspector.refresh()
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
@@ -92,8 +93,9 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	
 	print("user_content_get_uro_id: %s" % id)
 	
-	var inspector: EditorInspector = editor_interface.get_inspector()
-	inspector.refresh()
+	# TODO: Figure out if we need to force refresh this in the inspector
+	# var inspector: EditorInspector = editor_interface.get_inspector()
+	# inspector.refresh()
 	
 	return id
 	
@@ -107,7 +109,7 @@ static func get_upload_data_for_packed_scene(p_vsk_exporter: Node, p_packed_scen
 			if p_vsk_exporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
 				var file: File = File.new()
 				if file.open("user://temp/autogen.scn", File.READ) == OK:
-					var buffer = file.get_buffer(file.get_len())
+					var buffer = file.get_buffer(file.get_length())
 					file.close()
 					
 					return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
@@ -353,8 +355,8 @@ func _packed_scene_created_callback() -> void:
 	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
 
 
-func _packed_scene_creation_failed_created_callback(p_error_message: String) -> void:
-	printerr("VSKEditor::_packed_scene_creation_failed_created_callback: " + p_error_message)
+func _packed_scene_creation_failed_callback(p_error_message: String) -> void:
+	printerr("VSKEditor::_packed_scene_creation_failed_callback: " + p_error_message)
 	
 	vsk_upload_dialog.hide()
 	vsk_progress_dialog.hide()
