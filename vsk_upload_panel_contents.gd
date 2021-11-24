@@ -55,7 +55,7 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 		get_node(update_preview_checkbox_path).disabled = true
 		
 	get_node(name_line_edit_path).editable = true
-	get_node(description_text_edit_path).readonly = false
+	get_node(description_text_edit_path).editable = true
 		
 	_update_submit_button()
 	_update_preview(get_node(update_preview_checkbox_path).pressed)

@@ -57,11 +57,13 @@ func _instance_upload_panel_child_control() -> void:
 			var export_data: Dictionary = export_data_callback.call()
 			user_content_node = export_data.get("node")
 			
+			current_database_id = ""
 			if user_content_node:
-				current_database_id = vsk_editor.user_content_get_uro_id(user_content_node)
-			else:
-				current_database_id = ""
-				
+				var t: Variant = vsk_editor.user_content_get_uro_id(user_content_node)
+				if typeof(t) == TYPE_STRING:
+					current_database_id = t
+				else:
+					push_error("Invalid type for content_database_id: " + str(t))
 			
 			_request_user_content(user_content_type, current_database_id)
 

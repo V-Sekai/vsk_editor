@@ -82,9 +82,8 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 	print("user_content_new_uro_id: %s" % id)
 	
-	# TODO: Figure out if we need to force refresh this in the inspector
-	# var inspector: EditorInspector = editor_interface.get_inspector()
-	# inspector.refresh()
+	var inspector: EditorInspector = editor_interface.get_inspector()
+	inspector.refresh()
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
@@ -93,9 +92,8 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	
 	print("user_content_get_uro_id: %s" % id)
 	
-	# TODO: Figure out if we need to force refresh this in the inspector
-	# var inspector: EditorInspector = editor_interface.get_inspector()
-	# inspector.refresh()
+	var inspector: EditorInspector = editor_interface.get_inspector()
+	#inspector.refresh()
 	
 	return id
 	
@@ -181,7 +179,7 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 		
 		var packed_scene_created_callback: Callable = self._packed_scene_created_callback
 		
-		var packed_scene_creation_failed_callback: Callable = self._packed_scene_creation_failed_callback
+		var packed_scene_creation_failed_callback: Callable = self._packed_scene_creation_failed_created_callback
 		
 		var packed_scene_pre_uploading_callback: Callable = self._packed_scene_pre_uploading_callback
 		
@@ -355,8 +353,8 @@ func _packed_scene_created_callback() -> void:
 	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
 
 
-func _packed_scene_creation_failed_callback(p_error_message: String) -> void:
-	printerr("VSKEditor::_packed_scene_creation_failed_callback: " + p_error_message)
+func _packed_scene_creation_failed_created_callback(p_error_message: String) -> void:
+	printerr("VSKEditor::_packed_scene_creation_failed_created_callback: " + p_error_message)
 	
 	vsk_upload_dialog.hide()
 	vsk_progress_dialog.hide()
