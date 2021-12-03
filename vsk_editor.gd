@@ -82,8 +82,8 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 	print("user_content_new_uro_id: %s" % id)
 	
-	var inspector: EditorInspector = editor_interface.get_inspector()
-	inspector.refresh()
+	#var inspector: EditorInspector = editor_interface.get_inspector()
+	# FIXME: no longer exists #inspector.refresh()
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
