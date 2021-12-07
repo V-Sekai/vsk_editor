@@ -46,7 +46,7 @@ func evaluate_gdscript_hack(input, param_dict={}):
 
 func setup_vskeditor(viewport, button, editor_interface, undo_redo):
 	print(get_node("/root/VSKEditor").get_path())
-	$"/root/VSKEditor".setup_editor(editor_interface.get_viewport(), button, editor_interface, undo_redo)
+	$"/root/VSKEditor".setup_editor(editor_interface.get_viewport(), button, editor_interface)
 
 func _enter_tree() -> void:
 	editor_interface = get_editor_interface()

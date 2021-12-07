@@ -17,7 +17,7 @@ func _on_ShowDialogButton_pressed():
 func _ready():
 	var vsk_editor: Node = get_node_or_null("/root/VSKEditor")
 	if vsk_editor:
-		vsk_editor.setup_editor(self, null, null, null)
+		vsk_editor.setup_editor(self, null, null)
 	else:
 		printerr("Could not load VSKEditor")
 	

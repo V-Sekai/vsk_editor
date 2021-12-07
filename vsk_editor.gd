@@ -20,7 +20,6 @@ const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd
 var vsk_account_manager: Node = null
 var vsk_exporter: Node = null
 
-var undo_redo: UndoRedo = null
 var editor_interface: EditorInterface = null
 
 var session_request_pending: bool = true
@@ -43,7 +42,7 @@ signal session_deletion_complete(p_code, p_message)
 
 const vsk_pipeline_uro_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
 
-static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_node: Node, p_id: String, p_update_id: bool) -> String:
+static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: String, p_update_id: bool) -> String:
 	var pipeline_paths: Variant = p_node.get("vskeditor_pipeline_paths")
 	if typeof(pipeline_paths) == TYPE_NIL:
 		pipeline_paths = []
@@ -51,10 +50,7 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_
 		var pipeline = p_node.get_node_or_null(pipeline_path)
 		if pipeline is vsk_pipeline_uro_const:
 			if p_update_id and pipeline.database_id != p_id:
-				p_undo_redo.create_action("Add database id")
-				p_undo_redo.add_do_property(pipeline, "database_id", p_id)
-				p_undo_redo.add_undo_property(pipeline, "database_id", pipeline.database_id)
-				p_undo_redo.commit_action()
+				pipeline.database_id(p_id)
 				
 				return p_id
 			else:
@@ -62,23 +58,19 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_undo_redo: UndoRedo, p_
 				
 	var uro_pipeline = vsk_pipeline_uro_const.new(p_id)
 	uro_pipeline.set_name("UroPipeline")
-				
-	p_undo_redo.create_action("Create Uro Pipeline")
-	p_undo_redo.add_do_method(p_node, "add_child", uro_pipeline)
-	p_undo_redo.add_do_method(uro_pipeline, "set_owner", p_edited_scene);
-	p_undo_redo.add_do_method(p_node, "add_pipeline", uro_pipeline)
 	
-	p_undo_redo.add_undo_method(p_node, "remove_pipeline", uro_pipeline)
-	p_undo_redo.add_undo_method(p_node, "remove_child", uro_pipeline)
-	
-	p_undo_redo.commit_action()
+	p_node.add_child(uro_pipeline)
+	uro_pipeline.set_owner(p_edited_scene)
+	if p_node.has_method("add_pipeline"):
+		p_node.add_pipeline(uro_pipeline)
+	else:
+		return ""
 	
 	return p_id
 
 func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	var id: String = ""
-	if undo_redo:
-		id = _update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_id, true)
+	_update_uro_pipeline(editor_interface.get_edited_scene_root(), p_node, p_id, true)
 	
 	print("user_content_new_uro_id: %s" % id)
 	
@@ -87,8 +79,7 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
-	if undo_redo:
-		id = _update_uro_pipeline(editor_interface.get_edited_scene_root(), undo_redo, p_node, p_node.database_id, false)
+	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, p_node.database_id, false)
 	
 	print("user_content_get_uro_id: %s" % id)
 	
@@ -283,7 +274,7 @@ func _setup_profile_panel(p_root: Viewport) -> void:
 	p_root.call_deferred("add_child", vsk_profile_dialog)
 
 
-func setup_editor(p_root: Viewport, p_uro_button: Button, p_editor_interface: EditorInterface, p_undo_redo: UndoRedo) -> void:
+func setup_editor(p_root: Viewport, p_uro_button: Button, p_editor_interface: EditorInterface) -> void:
 	print("VSKEditor::setup_editor")
 	
 	if p_uro_button:
@@ -297,7 +288,6 @@ func setup_editor(p_root: Viewport, p_uro_button: Button, p_editor_interface: Ed
 	_setup_info_panel(p_root)
 	
 	editor_interface = p_editor_interface
-	undo_redo = p_undo_redo
 
 ## 
 ## Teardown user interfaces
