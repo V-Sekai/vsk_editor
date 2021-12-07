@@ -210,7 +210,7 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 	
 	match p_user_content_type:
 		vsk_types_const.UserContentType.Avatar:
-			if p_database_id != "":
+			if not p_database_id.is_empty():
 				var result = await GodotUro.godot_uro_api.dashboard_get_avatar_async(p_database_id)
 				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]
@@ -221,7 +221,7 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					_user_content_get_failed(result)
 					return
 		vsk_types_const.UserContentType.Map:
-			if p_database_id != "":
+			if not p_database_id.is_empty():
 				var result = await GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id)
 				if GodotUro.godot_uro_helper_const.requester_result_is_ok(result):
 					var output: Dictionary = result["output"]

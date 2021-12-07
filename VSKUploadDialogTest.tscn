@@ -13,30 +13,26 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-offset_left = 739.0
-offset_top = 425.0
-offset_right = 861.0
-offset_bottom = 475.0
-script = null
+offset_left = 736.0
+offset_top = 415.0
+offset_right = 864.0
+offset_bottom = 485.0
 
 [node name="ShowDialogButton" type="Button" parent="CenterContainer/VBoxContainer"]
-offset_right = 122.0
-offset_bottom = 23.0
+offset_right = 128.0
+offset_bottom = 32.0
 text = "Show Dialog"
-script = null
 
 [node name="TestUploadButton" type="Button" parent="CenterContainer/VBoxContainer"]
-offset_top = 27.0
-offset_right = 122.0
-offset_bottom = 50.0
+offset_top = 38.0
+offset_right = 128.0
+offset_bottom = 70.0
 text = "Test Upload"
-script = null
 
 [connection signal="pressed" from="CenterContainer/VBoxContainer/ShowDialogButton" to="." method="_on_ShowDialogButton_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/TestUploadButton" to="." method="_on_TestUploadButton_pressed"]
