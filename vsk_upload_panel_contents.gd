@@ -71,7 +71,7 @@ func set_export_data_callback(p_callback: Callable) -> void:
 	
 	if node:
 		var preview_type: Variant = node.get("vskeditor_preview_type")
-		if (typeof(preview_type) == TYPE_STRING or typeof(preview_type) == TYPE_STRING_NAME) and preview_type == "Camera3D":
+		if preview_type == 0:  
 			var camera_preview_path = node.get("vskeditor_preview_camera_path")
 			if camera_preview_path is NodePath:
 				var camera: Camera3D = node.get_node_or_null(camera_preview_path)
@@ -109,7 +109,7 @@ func _get_submission_data() -> Dictionary:
 		}
 		
 		if update_preview_checkbox.pressed and new_preview_texture:
-			submission_data["preview_image"] = new_preview_texture.get_data()
+			submission_data["preview_image"] = new_preview_texture.get_image()
 			
 		return submission_data
 	else:
