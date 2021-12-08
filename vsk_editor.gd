@@ -50,8 +50,7 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: Strin
 		var pipeline = p_node.get_node_or_null(pipeline_path)
 		if pipeline is vsk_pipeline_uro_const:
 			if p_update_id and pipeline.database_id != p_id:
-				pipeline.database_id(p_id)
-				
+				pipeline.database_id = p_id
 				return p_id
 			else:
 				return pipeline.database_id
