@@ -17,7 +17,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 follow_focus = true
 scroll_horizontal_enabled = false
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -27,7 +26,6 @@ offset_right = 1600.0
 mouse_filter = 2
 size_flags_horizontal = 3
 columns = 3
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
