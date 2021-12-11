@@ -79,8 +79,8 @@ func _instance_login_required_child_control() -> void:
 	if !control:
 		var info_label: Label = Label.new()
 		info_label.set_text(LOGIN_REQUIRED_STRING)
-		info_label.set_align(Label.ALIGN_CENTER)
-		info_label.set_valign(Label.VALIGN_CENTER)
+		info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		info_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		
 		control = info_label
 		add_child(info_label)

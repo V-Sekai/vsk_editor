@@ -54,17 +54,17 @@ func _init(p_vsk_editor: Node):
 	vsk_editor = p_vsk_editor
 	
 	vbox_container = VBoxContainer.new()
-	vbox_container.alignment = VBoxContainer.ALIGN_BEGIN
+	vbox_container.alignment = VBoxContainer.ALIGNMENT_BEGIN
 
 	add_child(vbox_container)
 
 	sign_in_label = Label.new()
 	sign_in_label.set_text("")
-	sign_in_label.align = Label.ALIGN_CENTER
+	sign_in_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox_container.add_child(sign_in_label)
 
 	sign_in_vbox_container = VBoxContainer.new()
-	sign_in_vbox_container.alignment = VBoxContainer.ALIGN_CENTER
+	sign_in_vbox_container.alignment = BoxContainer.ALIGNMENT_CENTER
 	sign_in_vbox_container.size_flags_vertical = SIZE_EXPAND_FILL
 
 	username_or_email_label = Label.new()
