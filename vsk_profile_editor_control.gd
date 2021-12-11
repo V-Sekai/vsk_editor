@@ -38,7 +38,7 @@ func _ready():
 
 	info_label = Label.new()
 	info_label.set_text("Signed in as: {display_name}".format({"display_name":VSKAccountManager.account_display_name}))
-	info_label.align = Label.ALIGN_CENTER
+	info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	sign_out_button = Button.new()
 	sign_out_button.set_text("Log out")
