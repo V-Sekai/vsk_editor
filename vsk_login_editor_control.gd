@@ -94,7 +94,7 @@ func _init(p_vsk_editor: Node):
 
 	result_label = Label.new()
 	result_label.set_text("")
-	result_label.align = HALIGN_CENTER
+	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox_container.add_child(result_label)
 
 	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
