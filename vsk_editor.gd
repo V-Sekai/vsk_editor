@@ -153,7 +153,9 @@ func sign_out() -> void:
 
 func sign_in(username_or_email: String, password: String) -> void:
 	print("VSKEditor::sign_in")
-	assert(vsk_account_manager)
+	if not vsk_account_manager:
+		emit_signal("session_request_complete", FAILED, "VSK Account manager is not loaded.")
+		return
 	
 	await vsk_account_manager.sign_in(username_or_email, password)
 	emit_signal("sign_in_submission_complete", OK)
@@ -537,10 +539,10 @@ func _node_removed(p_node: Node) -> void:
 ## Tree functions
 ## 
 
-func _ready():
+func _enter_tree():
 	if Engine.is_editor_hint():
-		assert(get_tree().connect("node_added", self._node_added) == OK)
-		assert(get_tree().connect("node_removed", self._node_removed) == OK)
-		
-		_link_vsk_account_manager(get_node_or_null("/root/VSKAccountManager"))
-		_link_vsk_exporter(get_node_or_null("/root/VSKExporter"))
+		assert(get_tree().connect("node_added", Callable(self, "_node_added")) == OK)
+		assert(get_tree().connect("node_removed", Callable(self, "_node_removed")) == OK)
+	
+	_link_vsk_account_manager(VSKAccountManager)
+	_link_vsk_exporter(VSKExporter)
