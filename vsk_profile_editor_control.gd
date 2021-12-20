@@ -5,14 +5,14 @@ var vsk_editor: Node = null
 
 const MARGIN_SIZE = 32
 
-@export var profile_container: NodePath # (NodePath) = NodePath()
+@export var profile_container: NodePath = NodePath()
 
-@export var tab_container: NodePath # (NodePath) = NodePath()
-@export var profile_tab: NodePath # (NodePath) = NodePath()
-@export var avatars_tab: NodePath # (NodePath) = NodePath()
-@export var maps_tab: NodePath # (NodePath) = NodePath()
-@export var avatars_grid: NodePath # (NodePath) = NodePath()
-@export var maps_grid: NodePath # (NodePath) = NodePath()
+@export var tab_container: NodePath = NodePath()
+@export var profile_tab: NodePath = NodePath()
+@export var avatars_tab: NodePath = NodePath()
+@export var maps_tab: NodePath = NodePath()
+@export var avatars_grid: NodePath = NodePath()
+@export var maps_grid: NodePath = NodePath()
 
 var avatar_dictionary: Dictionary = {}
 var map_dictionary: Dictionary = {}

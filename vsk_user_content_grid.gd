@@ -3,7 +3,7 @@ extends Control
 
 signal vsk_content_button_pressed(id)
 
-@export var grid_container_path: NodePath # (NodePath) = NodePath()
+@export var grid_container_path: NodePath = NodePath()
 
 # const vsk_user_content_item_const = preload("vsk_user_content_grid_item.tscn")
 var vsk_user_content_item_const = load("res://addons/vsk_editor/vsk_user_content_grid_item.tscn")
