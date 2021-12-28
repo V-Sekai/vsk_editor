@@ -120,11 +120,11 @@ static func get_raw_png_from_image(p_image: Image) -> Dictionary:
 
 func show_profile_panel() -> void:
 	if vsk_profile_dialog:
-		vsk_profile_dialog.set("visible", true)
+		vsk_profile_dialog.show()
 		print("popping up " + str(vsk_profile_dialog))
 		vsk_profile_dialog.popup_centered_ratio()
 		print("did pop up " + str(vsk_profile_dialog))
-		var p: Popup = vsk_profile_dialog
+		var p: Window = vsk_profile_dialog
 		p.visible = true
 	else:
 		push_error("Profile dialog is null!")
@@ -240,27 +240,33 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 ## Setup user interfaces
 ## 
 
-func _setup_progress_panel(p_root: Viewport) -> void:
+func _setup_progress_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_progress_panel")
 	
 	vsk_progress_dialog = vsk_progress_dialog_const.instantiate() as Window
-	p_root.call_deferred("add_child", vsk_progress_dialog)
+	vsk_progress_dialog.visible = false
+	
+	p_root.add_child(vsk_progress_dialog)
 	
 	if vsk_progress_dialog.connect("cancel_button_pressed", self._cancel_button_pressed) != OK:
 		printerr("Could not connect signal 'cancel_button_pressed'")
 
 
-func _setup_info_panel(p_root: Viewport) -> void:
+func _setup_info_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_info_panel")
 	
 	vsk_info_dialog = vsk_info_dialog_const.instantiate() as AcceptDialog
-	p_root.call_deferred("add_child", vsk_info_dialog)
+	vsk_info_dialog.visible = false
+	
+	p_root.add_child(vsk_info_dialog)
 
-func _setup_upload_panel(p_root: Viewport) -> void:
+func _setup_upload_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_upload_panel")
 	
 	vsk_upload_dialog = vsk_upload_dialog_const.new(self)
-	p_root.call_deferred("add_child", vsk_upload_dialog)
+	vsk_upload_dialog.visible = false
+	
+	p_root.add_child(vsk_upload_dialog)
 	
 	if vsk_upload_dialog.connect("submit_button_pressed", self._submit_button_pressed) != OK:
 		printerr("Could not connect signal 'submit_button_pressed'")
@@ -268,14 +274,16 @@ func _setup_upload_panel(p_root: Viewport) -> void:
 		printerr("Could not connect signal 'requesting_user_content'")
 
 
-func _setup_profile_panel(p_root: Viewport) -> void:
+func _setup_profile_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_profile_panel")
 	
 	vsk_profile_dialog = vsk_profile_dialog_const.new(self)
-	p_root.call_deferred("add_child", vsk_profile_dialog)
+	vsk_profile_dialog.visible = false
+	
+	p_root.add_child(vsk_profile_dialog)
 
 
-func setup_editor(p_root: Viewport, p_uro_button: Button, p_editor_interface: EditorInterface) -> void:
+func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: EditorInterface) -> void:
 	print("VSKEditor::setup_editor")
 	
 	if p_uro_button:

@@ -1,5 +1,5 @@
 @tool
-extends Popup # WindowDialog
+extends Window
 
 var vsk_editor: Node = null
 
