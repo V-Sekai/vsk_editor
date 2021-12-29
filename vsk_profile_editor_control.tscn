@@ -1,13 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://creco860xag6j"]
+[gd_scene load_steps=3 format=3 uid="uid://creco860xag6j"]
 
 [ext_resource type="Script" path="res://addons/vsk_editor/vsk_profile_editor_control.gd" id="1"]
-[ext_resource type="Theme" uid="uid://rrfc5vex36cp" path="res://addons/emote_theme/emote_theme.tres" id="1_8ixj3"]
 [ext_resource type="PackedScene" uid="uid://duih6nb1kpiiy" path="res://addons/vsk_editor/vsk_user_content_grid.tscn" id="2"]
 
 [node name="ProfileEditorControl" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( "1_8ixj3" )
 script = ExtResource( "1" )
 __meta__ = {
 "_edit_use_anchors_": false
