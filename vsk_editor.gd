@@ -393,13 +393,17 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 	var database_id: String = user_content_get_uro_id(node)
 	
 	if GodotUro.godot_uro_api:
-		var name: String = p_upload_data.get("name", "")
-		var description: String = p_upload_data.get("description", "")
-		var preview_image: Image = p_upload_data.get("preview_image", null)
+		var upload_data_name: String = p_upload_data.get("name", "")
+		var upload_data_description: String = p_upload_data.get("description", "")
+		var upload_data_preview_image: Image = p_upload_data.get("preview_image", null)
 		
 		var result: Dictionary = {}
 		var type: int = p_upload_data["user_content_type"]
-		var upload_dictionary: Dictionary = _create_upload_dictionary(name, description, p_packed_scene, preview_image)
+		var upload_dictionary: Dictionary = _create_upload_dictionary(
+			upload_data_name,
+			upload_data_description,
+			p_packed_scene,
+			upload_data_preview_image)
 		
 		if !upload_dictionary.is_empty():
 			if database_id == "":
