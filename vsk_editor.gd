@@ -470,7 +470,7 @@ func _session_renew_started() -> void:
 	print("VSKEditor::_session_renew_started")
 	set_session_request_pending(true)
 
-func _session_request_complete(p_code: int, p_message: String) -> void:
+func _session_request_complete(p_code: GodotUro.godot_uro_helper_const.RequesterCode, p_message: String) -> void:
 	print("VSKEditor::_session_request_complete")
 	
 	if vsk_account_manager and p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
@@ -484,7 +484,7 @@ func _session_request_complete(p_code: int, p_message: String) -> void:
 	emit_signal("session_request_complete", p_code, p_message)
 
 
-func _session_deletion_complete(p_code: int, p_message: String) -> void:
+func _session_deletion_complete(p_code: GodotUro.godot_uro_helper_const.RequesterCode, p_message: String) -> void:
 	print("VSKEditor::_session_deletion_complete")
 	
 	display_name = ""
