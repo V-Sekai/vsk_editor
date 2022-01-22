@@ -56,12 +56,12 @@ func _init(p_vsk_editor: Node):
 	vbox_container = VBoxContainer.new()
 	vbox_container.alignment = VBoxContainer.ALIGNMENT_BEGIN
 
-	add_child(vbox_container)
+	add_child(vbox_container, true)
 
 	sign_in_label = Label.new()
 	sign_in_label.set_text("")
 	sign_in_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox_container.add_child(sign_in_label)
+	vbox_container.add_child(sign_in_label, true)
 
 	sign_in_vbox_container = VBoxContainer.new()
 	sign_in_vbox_container.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -78,24 +78,24 @@ func _init(p_vsk_editor: Node):
 	password_lineedit = LineEdit.new()
 	password_lineedit.secret = true
 
-	sign_in_vbox_container.add_child(username_or_email_label)
-	sign_in_vbox_container.add_child(username_or_email_lineedit)
-	sign_in_vbox_container.add_child(password_label)
-	sign_in_vbox_container.add_child(password_lineedit)
+	sign_in_vbox_container.add_child(username_or_email_label, true)
+	sign_in_vbox_container.add_child(username_or_email_lineedit, true)
+	sign_in_vbox_container.add_child(password_label, true)
+	sign_in_vbox_container.add_child(password_lineedit, true)
 
-	vbox_container.add_child(sign_in_vbox_container)
+	vbox_container.add_child(sign_in_vbox_container, true)
 
 	submit_button = Button.new()
 	submit_button.set_text("Submit")
 	if submit_button.connect("pressed", Callable(self, "_submit_button_pressed")) != OK:
 		printerr("Could not connected signal 'pressed'")
 
-	vbox_container.add_child(submit_button)
+	vbox_container.add_child(submit_button, true)
 
 	result_label = Label.new()
 	result_label.set_text("")
 	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox_container.add_child(result_label)
+	vbox_container.add_child(result_label, true)
 
 	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
 	vbox_container.offset_top = 0

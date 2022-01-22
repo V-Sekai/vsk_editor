@@ -50,7 +50,7 @@ func _instance_upload_panel_child_control() -> void:
 		control = upload_panel_content_const.instantiate()
 		control.set_export_data_callback(export_data_callback)
 		control.set_user_content_type(user_content_type)
-		add_child(control)
+		add_child(control, true)
 		
 		if control.connect("submit_button_pressed", Callable(self, "_submit_pressed")) == OK:
 			var user_content_node: Node = null
@@ -83,7 +83,7 @@ func _instance_login_required_child_control() -> void:
 		info_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		
 		control = info_label
-		add_child(info_label)
+		add_child(info_label, true)
 		
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 

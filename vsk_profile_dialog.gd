@@ -32,7 +32,7 @@ func _instance_login_child_control() -> void:
 		
 		
 		
-		add_child(control)
+		add_child(control, true)
 
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 		
@@ -48,7 +48,7 @@ func _instance_profile_child_control() -> void:
 		if control.connect("session_deletion_successful", Callable(self, "_state_changed")) != OK:
 			printerr("Could not connect 'session_deletion_successful'")
 		
-		add_child(control)
+		add_child(control, true)
 
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 

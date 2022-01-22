@@ -58,7 +58,7 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: Strin
 	var uro_pipeline = vsk_pipeline_uro_const.new(p_id)
 	uro_pipeline.set_name("UroPipeline")
 	
-	p_node.add_child(uro_pipeline)
+	p_node.add_child(uro_pipeline, true)
 	uro_pipeline.set_owner(p_edited_scene)
 	if p_node.has_method("add_pipeline"):
 		p_node.add_pipeline(uro_pipeline)
@@ -246,7 +246,7 @@ func _setup_progress_panel(p_root: Control) -> void:
 	vsk_progress_dialog = vsk_progress_dialog_const.instantiate() as Window
 	vsk_progress_dialog.visible = false
 	
-	p_root.add_child(vsk_progress_dialog)
+	p_root.add_child(vsk_progress_dialog, true)
 	
 	if vsk_progress_dialog.connect("cancel_button_pressed", self._cancel_button_pressed) != OK:
 		printerr("Could not connect signal 'cancel_button_pressed'")
@@ -258,7 +258,7 @@ func _setup_info_panel(p_root: Control) -> void:
 	vsk_info_dialog = vsk_info_dialog_const.instantiate() as AcceptDialog
 	vsk_info_dialog.visible = false
 	
-	p_root.add_child(vsk_info_dialog)
+	p_root.add_child(vsk_info_dialog, true)
 
 func _setup_upload_panel(p_root: Control) -> void:
 	print("VSKEditor::_setup_upload_panel")
@@ -266,7 +266,7 @@ func _setup_upload_panel(p_root: Control) -> void:
 	vsk_upload_dialog = vsk_upload_dialog_const.new(self)
 	vsk_upload_dialog.visible = false
 	
-	p_root.add_child(vsk_upload_dialog)
+	p_root.add_child(vsk_upload_dialog, true)
 	
 	if vsk_upload_dialog.connect("submit_button_pressed", self._submit_button_pressed) != OK:
 		printerr("Could not connect signal 'submit_button_pressed'")
@@ -280,7 +280,7 @@ func _setup_profile_panel(p_root: Control) -> void:
 	vsk_profile_dialog = vsk_profile_dialog_const.new(self)
 	vsk_profile_dialog.visible = false
 	
-	p_root.add_child(vsk_profile_dialog)
+	p_root.add_child(vsk_profile_dialog, true)
 
 
 func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: EditorInterface) -> void:

@@ -153,7 +153,7 @@ static func _update_viewport_from_project_settings(p_viewport: SubViewport) -> S
 	return new_viewport
 
 func _ready() -> void:
-	add_child(viewport)
+	add_child(viewport, true)
 	viewport = _update_viewport_from_project_settings(viewport)
 	
 	

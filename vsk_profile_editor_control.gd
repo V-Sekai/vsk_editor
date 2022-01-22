@@ -45,8 +45,8 @@ func _ready():
 	if sign_out_button.connect("pressed", Callable(self, "_sign_out_button_pressed")) != OK:
 		printerr("Could not connect signal 'pressed'")
 	
-	vbox_container.add_child(info_label)
-	vbox_container.add_child(sign_out_button)
+	vbox_container.add_child(info_label, true)
+	vbox_container.add_child(sign_out_button, true)
 	
 	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
 	vbox_container.offset_top = 0
