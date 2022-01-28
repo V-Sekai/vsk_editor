@@ -30,7 +30,7 @@ func _update_preview(p_preview_toggled: bool) -> void:
 		get_node(new_preview_texture_rect_path).hide()
 		get_node(saved_preview_texture_rect_path).show()
 		
-func _on_UpdatePreviewCheckbox_toggled(button_pressed):
+func _on_UpdatePreviewCheckbox_toggled(button_pressed: bool):
 	_update_preview(button_pressed)
 
 func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool) -> void:
@@ -43,7 +43,7 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 		
 		get_node(saved_preview_texture_rect_path).textureUrl = GodotUro.get_base_url() + user_content_data.get("user_content_preview", "")
 		
-		get_node(update_preview_checkbox_path).pressed = false
+		get_node(update_preview_checkbox_path).button_pressed = false
 		get_node(update_preview_checkbox_path).disabled = false
 	else:
 		get_node(name_line_edit_path).text = ""
@@ -51,14 +51,14 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 		
 		get_node(saved_preview_texture_rect_path).textureUrl = ""
 		
-		get_node(update_preview_checkbox_path).pressed = true
+		get_node(update_preview_checkbox_path).button_pressed = true
 		get_node(update_preview_checkbox_path).disabled = true
 		
 	get_node(name_line_edit_path).editable = true
 	get_node(description_text_edit_path).editable = true
 		
 	_update_submit_button()
-	_update_preview(get_node(update_preview_checkbox_path).pressed)
+	_update_preview(get_node(update_preview_checkbox_path).button_pressed)
 
 
 func set_export_data_callback(p_callback: Callable) -> void:
@@ -103,12 +103,12 @@ func _get_submission_data() -> Dictionary:
 		var submission_data: Dictionary = {
 			"name":name_line_edit.text,\
 			"description":description_text_edit.text,\
-			"update_preview":update_preview_checkbox.pressed,\
+			"update_preview":update_preview_checkbox.button_pressed,\
 			"export_data_callback":export_data_callback,\
 			"user_content_type":user_content_type
 		}
 		
-		if update_preview_checkbox.pressed and new_preview_texture:
+		if update_preview_checkbox.button_pressed and new_preview_texture != null:
 			submission_data["preview_image"] = new_preview_texture.get_image()
 			
 		return submission_data
