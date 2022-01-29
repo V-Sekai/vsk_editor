@@ -556,5 +556,5 @@ func _enter_tree():
 		assert(get_tree().connect("node_added", Callable(self, "_node_added")) == OK)
 		assert(get_tree().connect("node_removed", Callable(self, "_node_removed")) == OK)
 	
-	_link_vsk_account_manager(VSKAccountManager)
-	_link_vsk_exporter(VSKExporter)
+	_link_vsk_account_manager($"/root/VSKAccountManager")
+	_link_vsk_exporter($"/root/VSKExporter")

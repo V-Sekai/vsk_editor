@@ -14,8 +14,9 @@ func _vsk_content_button_pressed(p_id: String) -> void:
 func add_item(p_id: String, p_name: String, p_url: String) -> void:
 	var vsk_user_content_item: Control = vsk_user_content_item_const.instantiate()
 	
+	vsk_user_content_item.name = "UserContent_" + p_id.replace("/", "")
 	vsk_user_content_item.set_id(p_id)
-	vsk_user_content_item.set_name(p_name)
+	vsk_user_content_item.set_content_name(p_name)
 	vsk_user_content_item.set_url(p_url)
 	
 	if vsk_user_content_item.connect("vsk_content_button_pressed", Callable(self, "_vsk_content_button_pressed")) != OK:

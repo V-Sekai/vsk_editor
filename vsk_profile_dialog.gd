@@ -64,9 +64,14 @@ func _about_to_popup() -> void:
 func _state_changed() -> void:
 	_instance_child_control()
 
+func _about_to_close() -> void:
+	self.hide()
+
 func _ready() -> void:
 	if connect("about_to_popup", self._about_to_popup) != OK:
 		printerr("Could not connect to about_to_popup")
+	connect("close_requested", self._about_to_close)
+	connect("focus_exited", self._about_to_close)
 
 
 func _init(p_vsk_editor: Node):

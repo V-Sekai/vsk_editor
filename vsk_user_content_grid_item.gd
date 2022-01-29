@@ -9,11 +9,12 @@ signal vsk_content_button_pressed(id)
 var id: String = ""
 var vsk_name: String = ""
 var vsk_url: String = ""
+var is_ready: bool = false
 
 func set_id(p_id: String) -> void:
 	id = p_id
 
-func set_name(p_name: String) -> void:
+func set_content_name(p_name: String) -> void:
 	vsk_name = p_name
 	var label: Label = get_node_or_null(name_label_path)
 	if label:
@@ -22,11 +23,12 @@ func set_name(p_name: String) -> void:
 func set_url(p_url: String) -> void:
 	vsk_url = p_url
 	var texture_rect: TextureRect = get_node_or_null(texture_rect_url_path)
-	if texture_rect:
+	if texture_rect and self.is_ready:
 		texture_rect.textureUrl = p_url
 
 func _ready():
-	set_name(vsk_name)
+	is_ready = true
+	set_content_name(vsk_name)
 	set_url(vsk_url)
 
 
