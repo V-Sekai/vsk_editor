@@ -1,5 +1,5 @@
 @tool
-extends Popup
+extends Window
 
 
 signal cancel_button_pressed()
