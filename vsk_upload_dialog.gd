@@ -35,7 +35,6 @@ func set_user_content_type(p_user_content_type: int) -> void:
 
 
 func _clear_children() -> void:
-	print(control)
 	if control:
 		control.queue_free()
 		control.get_parent().remove_child(control)
@@ -59,11 +58,7 @@ func _instance_upload_panel_child_control() -> void:
 			
 			current_database_id = ""
 			if user_content_node:
-				var t: Variant = vsk_editor.user_content_get_uro_id(user_content_node)
-				if typeof(t) == TYPE_STRING:
-					current_database_id = t
-				else:
-					push_error("Invalid type for content_database_id: " + str(t))
+				var t: String = vsk_editor.user_content_get_uro_id(user_content_node)
 			
 			_request_user_content(user_content_type, current_database_id)
 
