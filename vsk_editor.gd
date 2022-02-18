@@ -330,15 +330,17 @@ func _teardown_profile_panel() -> void:
 		vsk_profile_dialog.queue_free()
 
 
-func teardown_editor_user_interfaces():
-	print("VSKEditor::teardown_editor_user_interfaces")
+func teardown_editor():
+	print("VSKEditor::teardown_editor")
 	
 	_teardown_profile_panel()
 	_teardown_upload_panel()
 	_teardown_progress_panel()
 	_teardown_info_panel()
-	uro_button.get_parent().remove_child(uro_button)
-	uro_button.queue_free()
+	
+	if uro_button:
+		if uro_button.is_connected("pressed", self.show_profile_panel):
+			uro_button.disconnect("pressed", self.show_profile_panel)
 
 ## 
 ## Submission callbacks
@@ -558,3 +560,6 @@ func _enter_tree():
 	
 	_link_vsk_account_manager(VSKAccountManager)
 	_link_vsk_exporter(VSKExporter)
+	
+func _exit_tree():
+	teardown_editor()
