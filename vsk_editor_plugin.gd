@@ -26,7 +26,10 @@ func setup_vskeditor(
 	editor_interface: EditorInterface,
 	undo_redo: UndoRedo) -> void:
 		
-	VSKEditor.setup_editor(editor_interface.get_editor_main_control(), button, editor_interface)
+	var vsk_editor: Node = get_node_or_null("/root/VSKEditor")
+	assert(vsk_editor)
+
+	vsk_editor.setup_editor(editor_interface.get_editor_main_control(), button, editor_interface)
 
 func _enter_tree() -> void:
 	editor_interface = get_editor_interface()
