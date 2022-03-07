@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bpks5ce40uy5y"
-path="res://.godot/imported/uro_logo.png-7d6208aab5418a44c1bd3f0cd5bb377b.stex"
+path="res://.godot/imported/uro_logo.png-7d6208aab5418a44c1bd3f0cd5bb377b.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,7 +11,7 @@ metadata={
 [deps]
 
 source_file="res://addons/vsk_editor/uro_logo.png"
-dest_files=["res://.godot/imported/uro_logo.png-7d6208aab5418a44c1bd3f0cd5bb377b.stex"]
+dest_files=["res://.godot/imported/uro_logo.png-7d6208aab5418a44c1bd3f0cd5bb377b.ctex"]
 
 [params]
 
