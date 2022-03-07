@@ -1,7 +1,7 @@
 [remap]
 
 importer="texture"
-type="StreamTexture2D"
+type="CompressedTexture2D"
 uid="uid://dq4td4rmwmgqx"
 path="res://.godot/imported/uro_logo_64.png-0c7f40e56de406200c47df06177d3e7d.stex"
 metadata={
