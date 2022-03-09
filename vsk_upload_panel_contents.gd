@@ -74,12 +74,21 @@ func set_export_data_callback(p_callback: Callable) -> void:
 		if preview_type == 0:  
 			var camera_preview_path = node.get("vskeditor_preview_camera_path")
 			if camera_preview_path is NodePath:
-				var camera: Camera3D = node.get_node_or_null(camera_preview_path)
+				var camera: Camera3D = node.get_node_or_null(camera_preview_path) as Camera3D
 				if camera:
-					RenderingServer.viewport_attach_camera(viewport.get_viewport_rid(), camera.get_camera_rid())
 					new_preview_texture = viewport.get_texture()
 					if new_preview_texture:
-						get_node(new_preview_texture_rect_path).set_texture(new_preview_texture)
+						var tr: TextureRect = get_node(new_preview_texture_rect_path)
+						tr.set_texture(new_preview_texture)
+						tr.ignore_texture_size = true
+						RenderingServer.viewport_set_update_mode(viewport.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_ALWAYS)
+						RenderingServer.viewport_attach_camera(viewport.get_viewport_rid(), camera.get_camera_rid())
+						#RenderingServer.texture_proxy_update(proxy_tex.get_rid(), new_viewport_texture_rid)
+						var preview_tex_rect = get_node(new_preview_texture_rect_path)
+						RenderingServer.request_frame_drawn_callback(func():
+							RenderingServer.viewport_set_update_mode(viewport.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_DISABLED)
+							)
+
 		else:
 			var vskeditor_preview_texture = node.get("vskeditor_preview_texture")
 			if vskeditor_preview_texture != null:
