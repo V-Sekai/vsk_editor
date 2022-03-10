@@ -154,11 +154,11 @@ func sign_out() -> void:
 func sign_in(username_or_email: String, password: String) -> void:
 	print("VSKEditor::sign_in")
 	if not vsk_account_manager:
-		emit_signal("session_request_complete", FAILED, "VSK Account manager is not loaded.")
+		session_request_complete.emit(FAILED, "VSK Account manager is not loaded.")
 		return
 	
 	await vsk_account_manager.sign_in(username_or_email, password)
-	emit_signal("sign_in_submission_complete", OK)
+	sign_in_submission_complete.emit(OK)
 
 
 func _submit_button_pressed(p_upload_data: Dictionary) -> void:
@@ -179,7 +179,7 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 
 		var packed_scene_upload_failed_callback: Callable = self._packed_scene_upload_failed_callback
 
-		emit_signal("user_content_submission_requested", p_upload_data, 
+		user_content_submission_requested.emit(p_upload_data, 
 		{
 			"packed_scene_created":packed_scene_created_callback,
 			"packed_scene_creation_failed":packed_scene_creation_failed_callback,
@@ -192,7 +192,7 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 
 
 func _cancel_button_pressed() -> void:
-	emit_signal("user_content_submission_cancelled")
+	user_content_submission_cancelled.emit()
 	
 	
 func _user_content_get_failed(p_result: Dictionary) -> void:
@@ -248,7 +248,7 @@ func _setup_progress_panel(p_root: Control) -> void:
 	
 	p_root.add_child(vsk_progress_dialog, true)
 	
-	if vsk_progress_dialog.connect("cancel_button_pressed", self._cancel_button_pressed) != OK:
+	if vsk_progress_dialog.cancel_button_pressed.connect(self._cancel_button_pressed) != OK:
 		printerr("Could not connect signal 'cancel_button_pressed'")
 
 
@@ -268,9 +268,9 @@ func _setup_upload_panel(p_root: Control) -> void:
 	
 	p_root.add_child(vsk_upload_dialog, true)
 	
-	if vsk_upload_dialog.connect("submit_button_pressed", self._submit_button_pressed) != OK:
+	if vsk_upload_dialog.submit_button_pressed.connect(self._submit_button_pressed) != OK:
 		printerr("Could not connect signal 'submit_button_pressed'")
-	if vsk_upload_dialog.connect("requesting_user_content", self._requesting_user_content) != OK:
+	if vsk_upload_dialog.requesting_user_content.connect(self._requesting_user_content) != OK:
 		printerr("Could not connect signal 'requesting_user_content'")
 
 
@@ -289,7 +289,7 @@ func setup_editor(p_root: Control, p_uro_button: Button, p_editor_interface: Edi
 	if p_uro_button:
 		uro_button = p_uro_button
 		uro_button.set_disabled(false) # session_request_pending)
-		uro_button.connect("pressed", self.show_profile_panel)
+		uro_button.pressed.connect(self.show_profile_panel)
 
 	_setup_profile_panel(p_root)
 	_setup_upload_panel(p_root)
@@ -339,8 +339,8 @@ func teardown_editor():
 	_teardown_info_panel()
 	
 	if uro_button:
-		if uro_button.is_connected("pressed", self.show_profile_panel):
-			uro_button.disconnect("pressed", self.show_profile_panel)
+		if uro_button.pressed.is_connected(self.show_profile_panel):
+			uro_button.pressed.disconnect(self.show_profile_panel)
 
 ## 
 ## Submission callbacks
@@ -483,7 +483,7 @@ func _session_request_complete(p_code: GodotUro.godot_uro_helper_const.Requester
 		print("Could not log into V-Sekai(%s)..." % p_message)
 	
 	set_session_request_pending(false)
-	emit_signal("session_request_complete", p_code, p_message)
+	session_request_complete.emit(p_code, p_message)
 
 
 func _session_deletion_complete(p_code: GodotUro.godot_uro_helper_const.RequesterCode, p_message: String) -> void:
@@ -491,7 +491,7 @@ func _session_deletion_complete(p_code: GodotUro.godot_uro_helper_const.Requeste
 	
 	display_name = ""
 	
-	emit_signal("session_deletion_complete", p_code, p_message)
+	session_deletion_complete.emit(p_code, p_message)
 	
 ## 
 ## Linking
@@ -502,11 +502,11 @@ func _link_vsk_account_manager(p_node: Node) -> void:
 	vsk_account_manager = p_node
 	
 	if vsk_account_manager:
-		if vsk_account_manager.connect("session_renew_started", Callable(self, "_session_renew_started")) != OK:
+		if vsk_account_manager.session_renew_started.connect(self._session_renew_started) != OK:
 			printerr("Could not connect signal 'session_renew_started'")
-		if vsk_account_manager.connect("session_request_complete", Callable(self, "_session_request_complete")) != OK:
+		if vsk_account_manager.session_request_complete.connect(self._session_request_complete) != OK:
 			printerr("Could not connect signal 'session_request_complete'")
-		if vsk_account_manager.connect("session_deletion_complete", Callable(self, "_session_deletion_complete")) != OK:
+		if vsk_account_manager.session_deletion_complete.connect(self._session_deletion_complete) != OK:
 			printerr("Could not connect signal 'session_deletion_complete'")
 			
 		vsk_account_manager.call_deferred("start_session")
@@ -514,9 +514,9 @@ func _link_vsk_account_manager(p_node: Node) -> void:
 func _unlink_vsk_account_manager() -> void:
 	print("_unlink_vsk_account_manager")
 	
-	vsk_account_manager.disconnect("session_renew_started", Callable(self, "_session_renew_started"))
-	vsk_account_manager.disconnect("session_request_complete", Callable(self, "_session_request_complete"))
-	vsk_account_manager.disconnect("session_deletion_complete", Callable(self, "_session_deletion_complete"))
+	vsk_account_manager.session_renew_started.disconnect(self._session_renew_started)
+	vsk_account_manager.session_request_complete.disconnect(self._session_request_complete)
+	vsk_account_manager.session_deletion_complete.disconnect(self._session_deletion_complete)
 		
 	vsk_account_manager = null
 	
@@ -555,8 +555,8 @@ func _node_removed(p_node: Node) -> void:
 
 func _enter_tree():
 	if Engine.is_editor_hint():
-		assert(get_tree().connect("node_added", Callable(self, "_node_added")) == OK)
-		assert(get_tree().connect("node_removed", Callable(self, "_node_removed")) == OK)
+		assert(get_tree().node_added.connect(self._node_added) == OK)
+		assert(get_tree().node_removed.connect(self._node_removed) == OK)
 	
 	_link_vsk_account_manager(VSKAccountManager)
 	_link_vsk_exporter(VSKExporter)

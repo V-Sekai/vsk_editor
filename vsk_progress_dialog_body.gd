@@ -17,4 +17,4 @@ func set_progress_bar_value(p_value: float) -> void:
 
 
 func _on_CancelButton_pressed() -> void:
-	emit_signal("cancel_button_pressed")
+	cancel_button_pressed.emit()

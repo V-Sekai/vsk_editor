@@ -138,7 +138,7 @@ func _update_submit_button() -> void:
 
 
 func _on_SubmitButton_pressed():
-	emit_signal("submit_button_pressed", _get_submission_data())
+	submit_button_pressed.emit(_get_submission_data())
 
 
 func _on_NameEditField_text_changed(_new_text):

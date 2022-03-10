@@ -37,7 +37,7 @@ func _session_request_complete(p_result: int, p_message: String) -> void:
 	result_label.set_text(p_message)
 
 	if p_result == GodotUro.godot_uro_helper_const.RequesterCode.OK:
-		emit_signal("session_request_successful")
+		session_request_successful.emit()
 	else:
 		password_lineedit.text = ""
 	
@@ -87,7 +87,7 @@ func _init(p_vsk_editor: Node):
 
 	submit_button = Button.new()
 	submit_button.set_text("Submit")
-	if submit_button.connect("pressed", Callable(self, "_submit_button_pressed")) != OK:
+	if submit_button.pressed.connect(self._submit_button_pressed) != OK:
 		printerr("Could not connected signal 'pressed'")
 
 	vbox_container.add_child(submit_button, true)
@@ -104,5 +104,5 @@ func _init(p_vsk_editor: Node):
 	vbox_container.offset_right = -MARGIN_SIZE
 
 	assert(vsk_editor)
-	if vsk_editor.connect("session_request_complete", Callable(self, "_session_request_complete")) != OK:
+	if vsk_editor.session_request_complete.connect(self._session_request_complete) != OK:
 		printerr("Could not connection signal 'session_request_complete'")

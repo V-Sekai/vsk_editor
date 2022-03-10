@@ -23,7 +23,7 @@ var upload_data: Dictionary = {}
 
 func _submit_pressed(p_submission_data: Dictionary) -> void:
 	print("Submitting " + str(p_submission_data))
-	emit_signal("submit_button_pressed", p_submission_data)
+	submit_button_pressed.emit(p_submission_data)
 
 
 func set_export_data_callback(p_callback: Callable) -> void:
@@ -51,14 +51,14 @@ func _instance_upload_panel_child_control() -> void:
 		control.set_user_content_type(user_content_type)
 		add_child(control, true)
 		
-		if control.connect("submit_button_pressed", Callable(self, "_submit_pressed")) == OK:
+		if control.submit_button_pressed.connect(self._submit_pressed) == OK:
 			var user_content_node: Node = null
 			var export_data: Dictionary = export_data_callback.call()
 			user_content_node = export_data.get("node")
 			
 			current_database_id = ""
 			if user_content_node:
-				var t: String = vsk_editor.user_content_get_uro_id(user_content_node)
+				current_database_id = vsk_editor.user_content_get_uro_id(user_content_node)
 			
 			_request_user_content(user_content_type, current_database_id)
 
@@ -83,18 +83,14 @@ func _instance_login_required_child_control() -> void:
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 
 func _received_user_content_data(p_database_id: String, p_user_content_data: Dictionary) -> void:
+	print("Update content data " + str(p_database_id) + " and " + str(current_database_id))
 	if p_database_id == current_database_id:
 		control.update_user_content_data(p_user_content_data, p_database_id != "")
 
 func _request_user_content(p_user_content_type: int, p_database_id: String) -> void:
 	var callback: Callable = self._received_user_content_data
 	
-	emit_signal(
-		"requesting_user_content",\
-		p_user_content_type,\
-		p_database_id,\
-		callback\
-	)
+	requesting_user_content.emit(p_user_content_type, p_database_id, callback)
 
 func _instance_child_control() -> void:
 	if VSKAccountManager.signed_in:
@@ -111,7 +107,7 @@ func _state_changed() -> void:
 func _ready() -> void:
 	borderless = false
 	transient = false
-	if connect("about_to_popup", self._about_to_popup) != OK:
+	if about_to_popup.connect(self._about_to_popup) != OK:
 		printerr("Could not connect to about_to_popup")
 
 
@@ -123,13 +119,13 @@ func _init(p_vsk_editor: Node):
 	
 func _enter_tree():
 	pass
-	#VSKAccountManager.connect("session_renew_started", self, "_session_renew_started")
-	#VSKAccountManager.connect("session_request_complete", self, "_session_request_complete")
-	#VSKAccountManager.connect("session_deletion_complete", self, "_session_deletion_complete")
+	#VSKAccountManager.session_renew_started.connect(self, "_session_renew_started")
+	#VSKAccountManager.session_request_complete.connect(self, "_session_request_complete")
+	#VSKAccountManager.session_deletion_complete.connect(self, "_session_deletion_complete")
 
 
 func _exit_tree():
 	pass
-	#VSKAccountManager.disconnect("session_renew_started", self, "_session_renew_started")
-	#VSKAccountManager.disconnect("session_request_complete", self, "_session_request_complete")
-	#VSKAccountManager.disconnect("session_deletion_complete", self, "_session_deletion_complete")
+	#VSKAccountManager.session_renew_started.disconnect(self, "_session_renew_started")
+	#VSKAccountManager.session_request_complete.disconnect(self, "_session_request_complete")
+	#VSKAccountManager.session_deletion_complete.disconnect(self, "_session_deletion_complete")

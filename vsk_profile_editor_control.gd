@@ -25,7 +25,7 @@ var sign_out_button: Button = null
 
 func _session_deletion_complete(p_code: int, _message: String) -> void:
 	if p_code == GodotUro.godot_uro_helper_const.RequesterCode.OK:
-		emit_signal("session_deletion_successful")
+		session_deletion_successful.emit()
 		
 	sign_out_button.disabled = false
 
@@ -42,7 +42,7 @@ func _ready():
 
 	sign_out_button = Button.new()
 	sign_out_button.set_text("Log out")
-	if sign_out_button.connect("pressed", Callable(self, "_sign_out_button_pressed")) != OK:
+	if sign_out_button.pressed.connect(self._sign_out_button_pressed) != OK:
 		printerr("Could not connect signal 'pressed'")
 	
 	vbox_container.add_child(info_label, true)
@@ -55,17 +55,17 @@ func _ready():
 	vbox_container.offset_right = -MARGIN_SIZE
 
 	assert(vsk_editor)
-	if vsk_editor.connect("session_deletion_complete", Callable(self, "_session_deletion_complete")) != OK:
+	if vsk_editor.session_deletion_complete.connect(self._session_deletion_complete) != OK:
 		printerr("Could not connect signal 'session_deletion_complete'")
 
 	var avatars_grid_node: Control = get_node_or_null(avatars_grid)
 	if avatars_grid_node:
-		if avatars_grid_node.connect("vsk_content_button_pressed", Callable(self, "_avatar_selected")) != OK:
+		if avatars_grid_node.vsk_content_button_pressed.connect(self._avatar_selected) != OK:
 			printerr("Could not connect signal 'vsk_content_button_pressed'")
 	
 	var maps_grid_node: Control = get_node_or_null(maps_grid)
 	if maps_grid_node:
-		if maps_grid_node.connect("vsk_content_button_pressed", Callable(self, "_map_selected")) != OK:
+		if maps_grid_node.vsk_content_button_pressed.connect(self._map_selected) != OK:
 			printerr("Could not connect signal 'vsk_content_button_pressed'")
 
 

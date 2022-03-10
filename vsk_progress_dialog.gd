@@ -15,4 +15,4 @@ func set_progress_label_text(p_text: String) -> void:
 
 
 func _on_cancel_button_pressed() -> void:
-	emit_signal("cancel_button_pressed")
+	cancel_button_pressed.emit()

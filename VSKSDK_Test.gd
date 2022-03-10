@@ -9,7 +9,7 @@ func _show_uro_menu() -> void:
 
 func _ready():
 	var button = $Panel/ButtonContainer/Button
-	button.connect("pressed", Callable(self, "_show_uro_menu"))
+	button.pressed.connect(self._show_uro_menu)
 
 	var vsk_editor: Node = get_node_or_null("/root/VSKEditor")
 	if vsk_editor:

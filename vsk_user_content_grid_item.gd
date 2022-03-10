@@ -33,4 +33,4 @@ func _ready():
 
 
 func _on_pressed():
-	emit_signal("vsk_content_button_pressed", id)
+	vsk_content_button_pressed.emit(id)

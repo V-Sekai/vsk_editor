@@ -9,7 +9,7 @@ signal vsk_content_button_pressed(id)
 var vsk_user_content_item_const = load("res://addons/vsk_editor/vsk_user_content_grid_item.tscn")
 
 func _vsk_content_button_pressed(p_id: String) -> void:
-	emit_signal("vsk_content_button_pressed", p_id)
+	vsk_content_button_pressed.emit(p_id)
 
 func add_item(p_id: String, p_name: String, p_url: String) -> void:
 	var vsk_user_content_item: Control = vsk_user_content_item_const.instantiate()
@@ -19,7 +19,7 @@ func add_item(p_id: String, p_name: String, p_url: String) -> void:
 	vsk_user_content_item.set_content_name(p_name)
 	vsk_user_content_item.set_url(p_url)
 	
-	if vsk_user_content_item.connect("vsk_content_button_pressed", Callable(self, "_vsk_content_button_pressed")) != OK:
+	if vsk_user_content_item.vsk_content_button_pressed.connect(self._vsk_content_button_pressed) != OK:
 		printerr("Could not connect 'vsk_content_button_pressed'")
 	
 	get_node(grid_container_path).add_child(vsk_user_content_item, true)
