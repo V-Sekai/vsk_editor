@@ -81,10 +81,6 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, p_node.database_id, false)
 	
 	print("user_content_get_uro_id: %s" % id)
-	
-	var inspector: EditorInspector = editor_interface.get_inspector()
-	#inspector.refresh()
-	
 	return id
 	
 ## 
