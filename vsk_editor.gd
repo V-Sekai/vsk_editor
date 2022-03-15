@@ -476,7 +476,7 @@ func _session_request_complete(p_code: GodotUro.godot_uro_helper_const.Requester
 		print("Logged into V-Sekai as %s" % display_name)
 	else:
 		display_name = ""
-		print("Could not log into V-Sekai(%s)..." % p_message)
+		print("Could not log into V-Sekai (%s)..." % p_message)
 	
 	set_session_request_pending(false)
 	session_request_complete.emit(p_code, p_message)
