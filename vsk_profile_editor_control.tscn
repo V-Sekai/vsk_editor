@@ -7,9 +7,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( "1" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 profile_container = NodePath("TabContainer/Profile/VBoxContainer")
 tab_container = NodePath("TabContainer")
 profile_tab = NodePath("TabContainer/Profile")
@@ -21,9 +18,6 @@ maps_grid = NodePath("TabContainer/Maps/MapGrid")
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Profile" type="Control" parent="TabContainer"]
 anchor_right = 1.0
@@ -44,9 +38,6 @@ offset_bottom = -32.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Avatars" type="Control" parent="TabContainer"]
 visible = false
