@@ -49,8 +49,9 @@ offset_right = -6.0
 offset_bottom = -6.0
 
 [node name="AvatarGrid" parent="TabContainer/Avatars" instance=ExtResource( "2" )]
-offset_right = -1012.0
-offset_bottom = -553.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
 
 [node name="Maps" type="Control" parent="TabContainer"]
 visible = false
@@ -62,7 +63,8 @@ offset_right = -6.0
 offset_bottom = -6.0
 
 [node name="MapGrid" parent="TabContainer/Maps" instance=ExtResource( "2" )]
-offset_right = -1012.0
-offset_bottom = -553.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_layout_mode = 1
 
 [connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_changed"]
