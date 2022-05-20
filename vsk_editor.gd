@@ -78,7 +78,10 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
-	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, p_node.database_id, false)
+	var uro_pipeline_node = p_node.get_node_or_null("UroPipeline")
+	if not uro_pipeline_node:
+		return id
+	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, uro_pipeline_node.database_id, false)
 	
 	print("user_content_get_uro_id: %s" % id)
 	return id
