@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cqaruhjo1pgb5" path="res://addons/godot_uro/uro_logo_64.png" id="3"]
 
 [node name="VSKUserContentItem" type="Button"]
-minimum_size = Vector2(640, 400)
+minimum_size = Vector2(1024, 1024)
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1012.0
@@ -13,7 +13,7 @@ offset_bottom = -400.0
 theme_override_font_sizes/font_size = 16
 clip_text = true
 script = ExtResource( "2" )
-name_label_path = NodePath("Label")
+name_label_path = NodePath("TextureRectUrl/Label")
 texture_rect_url_path = NodePath("TextureRectUrl")
 
 [node name="TextureRectUrl" type="TextureRect" parent="."]
@@ -28,7 +28,7 @@ everCache = true
 metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="TextureRectUrl"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
