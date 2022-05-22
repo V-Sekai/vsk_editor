@@ -8,8 +8,7 @@
 minimum_size = Vector2(1024, 1024)
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1012.0
-offset_bottom = -400.0
+scale = Vector2(0.8, 0.8)
 theme_override_font_sizes/font_size = 16
 clip_text = true
 script = ExtResource( "2" )
