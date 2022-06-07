@@ -349,8 +349,8 @@ func _packed_scene_created_callback() -> void:
 	print("VSKEditor::_packed_scene_created_callback")
 	
 	vsk_progress_dialog.title = "Scene packaging complete!"
-	vsk_progress_dialog.call_deferred("set_progress_label_text", "Scene packaging complete!")
-	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
+	vsk_progress_dialog.set_progress_label_text("Scene packaging complete!")
+	vsk_progress_dialog.set_progress_bar_value(100.0)
 
 
 func _packed_scene_creation_failed_created_callback(p_error_message: String) -> void:
@@ -382,8 +382,8 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 	print("VSKEditor::_packed_scene_pre_uploading_callback")
 	
 	vsk_progress_dialog.title = "Scene uploading..."
-	vsk_progress_dialog.call_deferred("set_progress_label_text", "Scene uploading...")
-	vsk_progress_dialog.call_deferred("set_progress_bar_value", 50.0)
+	vsk_progress_dialog.set_progress_label_text("Scene uploading...")
+	vsk_progress_dialog.set_progress_bar_value(100.0)
 	
 	###
 	var export_data_callback = p_upload_data["export_data_callback"]
