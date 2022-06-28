@@ -10,6 +10,7 @@ signal submit_button_pressed(p_submission_data)
 @export var saved_preview_texture_rect_path: NodePath = NodePath()
 @export var new_preview_texture_rect_path: NodePath = NodePath()
 @export var update_preview_checkbox_path: NodePath = NodePath()
+@export var is_public_checkbox_path: NodePath = NodePath()
 
 @export var submit_button_path: NodePath = NodePath()
 
@@ -30,9 +31,9 @@ func _update_preview(p_preview_toggled: bool) -> void:
 		get_node(new_preview_texture_rect_path).hide()
 		get_node(saved_preview_texture_rect_path).show()
 		
-func _on_UpdatePreviewCheckbox_toggled(button_pressed: bool):
+func _on_update_preview_checkbox_toggled(button_pressed: bool) -> void:
 	_update_preview(button_pressed)
-
+	
 func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool) -> void:
 	updating_content = p_updating_content
 	user_content_data = p_dictionary
@@ -45,6 +46,8 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 		
 		get_node(update_preview_checkbox_path).button_pressed = false
 		get_node(update_preview_checkbox_path).disabled = false
+		
+		get_node(is_public_checkbox_path).button_pressed = user_content_data.get("is_public", false)
 	else:
 		get_node(name_line_edit_path).text = ""
 		get_node(description_text_edit_path).text = ""
@@ -53,6 +56,8 @@ func update_user_content_data(p_dictionary: Dictionary, p_updating_content: bool
 		
 		get_node(update_preview_checkbox_path).button_pressed = true
 		get_node(update_preview_checkbox_path).disabled = true
+		
+		get_node(is_public_checkbox_path).button_pressed = false
 		
 	get_node(name_line_edit_path).editable = true
 	get_node(description_text_edit_path).editable = true
@@ -105,6 +110,7 @@ func _get_submission_data() -> Dictionary:
 	var name_line_edit: LineEdit = get_node(name_line_edit_path)
 	var description_text_edit: TextEdit = get_node(description_text_edit_path)
 	var update_preview_checkbox: CheckBox = get_node(update_preview_checkbox_path)
+	var is_public_checkbox: CheckBox = get_node(is_public_checkbox_path)
 	
 	if name_line_edit\
 	and description_text_edit\
@@ -114,7 +120,8 @@ func _get_submission_data() -> Dictionary:
 			"description":description_text_edit.text,\
 			"update_preview":update_preview_checkbox.button_pressed,\
 			"export_data_callback":export_data_callback,\
-			"user_content_type":user_content_type
+			"user_content_type":user_content_type,
+			"is_public":is_public_checkbox.button_pressed
 		}
 		
 		if update_preview_checkbox.button_pressed and new_preview_texture != null:

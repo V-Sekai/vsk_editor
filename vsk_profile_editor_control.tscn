@@ -6,7 +6,7 @@
 [node name="ProfileEditorControl" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( "1" )
+script = ExtResource("1")
 profile_container = NodePath("TabContainer/Profile/VBoxContainer")
 tab_container = NodePath("TabContainer")
 profile_tab = NodePath("TabContainer/Profile")
@@ -22,10 +22,7 @@ anchor_bottom = 1.0
 [node name="Profile" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 41.0
-offset_right = -6.0
-offset_bottom = -6.0
+offset_top = 25.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -48,7 +45,7 @@ offset_top = 41.0
 offset_right = -6.0
 offset_bottom = -6.0
 
-[node name="AvatarGrid" parent="TabContainer/Avatars" instance=ExtResource( "2" )]
+[node name="AvatarGrid" parent="TabContainer/Avatars" instance=ExtResource("2")]
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_layout_mode = 1
@@ -62,7 +59,7 @@ offset_top = 41.0
 offset_right = -6.0
 offset_bottom = -6.0
 
-[node name="MapGrid" parent="TabContainer/Maps" instance=ExtResource( "2" )]
+[node name="MapGrid" parent="TabContainer/Maps" instance=ExtResource("2")]
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_layout_mode = 1
