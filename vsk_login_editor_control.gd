@@ -71,12 +71,14 @@ func _init(p_vsk_editor: Node):
 	username_or_email_label.set_text("Email/Username")
 
 	username_or_email_lineedit = LineEdit.new()
+	username_or_email_lineedit.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	password_label = Label.new()
 	password_label.set_text("Password")
 
 	password_lineedit = LineEdit.new()
 	password_lineedit.secret = true
+	password_lineedit.alignment = HORIZONTAL_ALIGNMENT_CENTER
 
 	sign_in_vbox_container.add_child(username_or_email_label, true)
 	sign_in_vbox_container.add_child(username_or_email_lineedit, true)
