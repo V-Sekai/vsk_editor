@@ -1,6 +1,8 @@
 @tool
 extends Node
 
+const vsk_uro_pipeline_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
+
 const vsk_upload_dialog_const = preload("vsk_upload_dialog.gd")
 var vsk_upload_dialog: Node = null
 
@@ -78,11 +80,13 @@ func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	
 func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
-	var uro_pipeline_node = p_node.get_node_or_null("UroPipeline")
-	if not uro_pipeline_node:
-		return id
-	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, str(uro_pipeline_node.database_id), false)
-	
+	var pipeline_paths: Array = p_node.get("vskeditor_pipeline_paths")
+	for path in pipeline_paths:
+		var uro_pipeline_node: Node = p_node.get_node_or_null(path)
+		if uro_pipeline_node.get_script() == vsk_uro_pipeline_const:
+			id = uro_pipeline_node.database_id
+			break
+			
 	print("user_content_get_uro_id: %s" % id)
 	return id
 	
