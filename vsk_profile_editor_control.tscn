@@ -18,11 +18,15 @@ maps_grid = NodePath("TabContainer/Maps/MapGrid")
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+tab_alignment = 1
 
 [node name="Profile" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 25.0
+offset_left = 6.0
+offset_top = 41.0
+offset_right = -6.0
+offset_bottom = -6.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
