@@ -363,7 +363,7 @@ func _packed_scene_creation_failed_created_callback(p_error_message: String) -> 
 	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
 	
 func _create_upload_dictionary(p_name: String, p_description: String,\
-	p_packed_scene: PackedScene, p_image: Image) -> Dictionary:
+	p_packed_scene: PackedScene, p_image: Image, p_is_public: bool) -> Dictionary:
 	
 	var dictionary: Dictionary = {"name":p_name, "description":p_description}
 	if p_packed_scene:
@@ -375,6 +375,8 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 			
 	if p_image:
 		dictionary["user_content_preview"] = get_raw_png_from_image(p_image)
+		
+	dictionary["is_public"] = p_is_public
 	
 	return dictionary
 
@@ -397,6 +399,7 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 		var upload_data_name: String = p_upload_data.get("name", "")
 		var upload_data_description: String = p_upload_data.get("description", "")
 		var upload_data_preview_image: Image = p_upload_data.get("preview_image", null)
+		var upload_data_is_public: bool = p_upload_data.get("is_public", false)
 		
 		var result: Dictionary = {}
 		var type: int = p_upload_data["user_content_type"]
@@ -404,7 +407,8 @@ func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_
 			upload_data_name,
 			upload_data_description,
 			p_packed_scene,
-			upload_data_preview_image)
+			upload_data_preview_image,
+			upload_data_is_public)
 		
 		if !upload_dictionary.is_empty():
 			if database_id == "":
