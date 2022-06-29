@@ -49,13 +49,14 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: Strin
 	if typeof(pipeline_paths) == TYPE_NIL:
 		pipeline_paths = []
 	for pipeline_path in pipeline_paths:
-		var pipeline = p_node.get_node_or_null(pipeline_path)
-		if pipeline is vsk_pipeline_uro_const:
-			if p_update_id and pipeline.database_id != p_id:
-				pipeline.database_id = p_id
-				return p_id
-			else:
-				return pipeline.database_id
+		if pipeline_path and typeof(pipeline_path) == TYPE_NODE_PATH:
+			var pipeline = p_node.get_node_or_null(pipeline_path)
+			if pipeline is vsk_pipeline_uro_const:
+				if p_update_id and pipeline.database_id != p_id:
+					pipeline.database_id = p_id
+					return p_id
+				else:
+					return pipeline.database_id
 				
 	var uro_pipeline = vsk_pipeline_uro_const.new(p_id)
 	uro_pipeline.set_name("UroPipeline")
@@ -84,10 +85,11 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	var id: String = ""
 	var pipeline_paths: Array = p_node.get("vskeditor_pipeline_paths")
 	for path in pipeline_paths:
-		var uro_pipeline_node: Node = p_node.get_node_or_null(path)
-		if uro_pipeline_node.get_script() == vsk_uro_pipeline_const:
-			id = uro_pipeline_node.database_id
-			break
+		if path and typeof(path) == TYPE_NODE_PATH:
+			var uro_pipeline_node: Node = p_node.get_node_or_null(path)
+			if uro_pipeline_node.get_script() == vsk_uro_pipeline_const:
+				id = uro_pipeline_node.database_id
+				break
 			
 	print("user_content_get_uro_id: %s" % id)
 	return id
