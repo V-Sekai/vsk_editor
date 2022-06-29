@@ -95,7 +95,6 @@ func set_export_data_callback(p_callback: Callable) -> void:
 						RenderingServer.request_frame_drawn_callback(func():
 							RenderingServer.viewport_set_update_mode(viewport.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_DISABLED)
 							)
-
 		else:
 			var vskeditor_preview_texture = node.get("vskeditor_preview_texture")
 			if vskeditor_preview_texture != null:

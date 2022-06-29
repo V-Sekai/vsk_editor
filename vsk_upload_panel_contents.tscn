@@ -97,7 +97,7 @@ visible = false
 offset_right = 509.0
 offset_bottom = 278.0
 ignore_texture_size = true
-stretch_mode = 6
+stretch_mode = 5
 script = ExtResource("2")
 
 [node name="FlagsContainer" type="GridContainer" parent="MarginContainer/Content/Editable/SupplementaryFields"]
