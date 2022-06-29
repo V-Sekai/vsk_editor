@@ -1,6 +1,8 @@
 @tool
 extends Control
 
+const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
+
 const VIEWPORT_SIZE = Vector2(1280, 720)
 
 signal submit_button_pressed(p_submission_data)
@@ -18,7 +20,7 @@ var viewport: SubViewport = null
 var new_preview_texture: Texture2D = null
 
 var export_data_callback: Callable = Callable()
-var user_content_type: int = -1
+var user_content_type: int = vsk_types_const.UserContentType.Unknown
 var user_content_data: Dictionary = {}
 
 var updating_content: bool = false

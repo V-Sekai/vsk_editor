@@ -1,10 +1,14 @@
 @tool
 extends AcceptDialog
 
+const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
+
 signal submit_button_pressed(p_submission_data)
 signal requesting_user_content(user_content_type, p_database_id, p_callback)
 
 const LOGIN_REQUIRED_STRING = "Please log in to upload content"
+const INVALID_PERMISSIONS = "Your account does not currently have permission to upload this type of content"
+
 const TITLE_STRING = "Upload"
 const WINDOW_RESOLUTION = Vector2(1280, 720)
 
@@ -66,14 +70,14 @@ func _instance_upload_panel_child_control() -> void:
 		else:
 			printerr("Could ")
 
-func _instance_login_required_child_control() -> void:
+func _instance_info_child_control(p_string: String) -> void:
 	set_title(TITLE_STRING)
 	
 	_clear_children()
 	
 	if !control:
 		var info_label: Label = Label.new()
-		info_label.set_text(LOGIN_REQUIRED_STRING)
+		info_label.set_text(p_string)
 		info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		info_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		
@@ -92,11 +96,25 @@ func _request_user_content(p_user_content_type: int, p_database_id: String) -> v
 	
 	requesting_user_content.emit(p_user_content_type, p_database_id, callback)
 
+func _user_content_can_be_uploaded_by_current_account() -> bool:
+	match user_content_type:
+		vsk_types_const.UserContentType.Avatar:
+			if VSKAccountManager.can_upload_avatars:
+				return true
+		vsk_types_const.UserContentType.Map:
+			if VSKAccountManager.can_upload_avatars:
+				return true
+				
+	return false
+
 func _instance_child_control() -> void:
 	if VSKAccountManager.signed_in:
-		_instance_upload_panel_child_control()
+		if _user_content_can_be_uploaded_by_current_account():
+			_instance_upload_panel_child_control()
+		else:
+			_instance_info_child_control(INVALID_PERMISSIONS)
 	else:
-		_instance_login_required_child_control()
+		_instance_info_child_control(LOGIN_REQUIRED_STRING)
 
 func _about_to_popup() -> void:
 	_state_changed()
