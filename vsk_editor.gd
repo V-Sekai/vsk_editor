@@ -66,6 +66,8 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: Strin
 		p_node.add_pipeline(uro_pipeline)
 	else:
 		return ""
+		
+	p_node.notify_property_list_changed()
 	
 	return p_id
 
