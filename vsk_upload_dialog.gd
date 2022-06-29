@@ -124,6 +124,10 @@ func _state_changed() -> void:
 func _ready() -> void:
 	borderless = false
 	transient = false
+	var ok_button: Button = get_ok_button()
+	if ok_button:
+		ok_button.hide()
+	
 	if about_to_popup.connect(self._about_to_popup) != OK:
 		printerr("Could not connect to about_to_popup")
 

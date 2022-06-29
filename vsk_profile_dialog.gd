@@ -1,5 +1,5 @@
 @tool
-extends Window
+extends AcceptDialog
 
 var vsk_editor: Node = null
 
@@ -72,7 +72,10 @@ func _ready() -> void:
 		printerr("Could not connect to about_to_popup")
 	close_requested.connect(self._about_to_close)
 	focus_exited.connect(self._about_to_close)
-
+	
+	var ok_button: Button = get_ok_button()
+	if ok_button:
+		ok_button.hide()
 
 func _init(p_vsk_editor: Node):
 	vsk_editor = p_vsk_editor
