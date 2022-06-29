@@ -118,7 +118,6 @@ offset_left = 257.0
 offset_right = 509.0
 offset_bottom = 44.0
 size_flags_horizontal = 3
-disabled = true
 text = "Is Public"
 
 [node name="SubmitButton" type="Button" parent="MarginContainer/Content"]
