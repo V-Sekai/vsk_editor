@@ -87,9 +87,8 @@ func _instance_info_child_control(p_string: String) -> void:
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 
 func _received_user_content_data(p_database_id: String, p_user_content_data: Dictionary) -> void:
-	print("Update content data " + str(p_database_id) + " and " + str(current_database_id))
-	if p_database_id == current_database_id:
-		control.update_user_content_data(p_user_content_data, p_database_id != "")
+	print("_received user content for: '%s'. current_database_id: '%s'" % [str(p_database_id), str(current_database_id)])
+	control.update_user_content_data(p_user_content_data, p_database_id != "")
 
 func _request_user_content(p_user_content_type: int, p_database_id: String) -> void:
 	var callback: Callable = self._received_user_content_data

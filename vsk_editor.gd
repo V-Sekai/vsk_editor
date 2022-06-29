@@ -81,7 +81,7 @@ func user_content_get_uro_id(p_node: Node) -> String:
 	var uro_pipeline_node = p_node.get_node_or_null("UroPipeline")
 	if not uro_pipeline_node:
 		return id
-	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, uro_pipeline_node.database_id, false)
+	id = _update_uro_pipeline(editor_interface.get_edited_scene_root(),  p_node, str(uro_pipeline_node.database_id), false)
 	
 	print("user_content_get_uro_id: %s" % id)
 	return id
@@ -207,6 +207,7 @@ func _user_content_get_failed(p_result: Dictionary) -> void:
 	
 func _requesting_user_content(p_user_content_type: int, p_database_id: String, p_callback: Callable) -> void:
 	var user_content: Dictionary = {}
+	var database_id: String = ""
 	
 	match p_user_content_type:
 		vsk_types_const.UserContentType.Avatar:
@@ -217,9 +218,10 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					var data: Dictionary = output["data"]
 					if data.has("avatar"):
 						user_content = data["avatar"]
+						database_id = p_database_id
 				else:
 					_user_content_get_failed(result)
-					return
+					
 		vsk_types_const.UserContentType.Map:
 			if not p_database_id.is_empty():
 				var result = await GodotUro.godot_uro_api.dashboard_get_map_async(p_database_id)
@@ -228,11 +230,11 @@ func _requesting_user_content(p_user_content_type: int, p_database_id: String, p
 					var data: Dictionary = output["data"]
 					if data.has("map"):
 						user_content = data["map"]
+						database_id = p_database_id
 				else:
 					_user_content_get_failed(result)
-					return
 				
-	p_callback.call(p_database_id, user_content)
+	p_callback.call(database_id, user_content)
 
 
 ## 
@@ -365,7 +367,11 @@ func _packed_scene_creation_failed_created_callback(p_error_message: String) -> 
 func _create_upload_dictionary(p_name: String, p_description: String,\
 	p_packed_scene: PackedScene, p_image: Image, p_is_public: bool) -> Dictionary:
 	
-	var dictionary: Dictionary = {"name":p_name, "description":p_description}
+	var dictionary: Dictionary = {
+		"name":p_name,
+		"description":p_description,
+		"is_public": p_is_public
+		}
 	if p_packed_scene:
 		var user_content_data: Dictionary = get_upload_data_for_packed_scene(vsk_exporter, p_packed_scene)
 		if !user_content_data.is_empty():
@@ -375,9 +381,7 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 			
 	if p_image:
 		dictionary["user_content_preview"] = get_raw_png_from_image(p_image)
-		
-	dictionary["is_public"] = p_is_public
-	
+
 	return dictionary
 
 func _packed_scene_pre_uploading_callback(p_packed_scene: PackedScene, p_upload_data: Dictionary, p_callbacks: Dictionary) -> void:
