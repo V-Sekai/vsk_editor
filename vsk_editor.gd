@@ -168,7 +168,7 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 	print("VSKEditor::_submit_button_pressed")
 	
 	if vsk_progress_dialog:
-		vsk_progress_dialog.popup_centered_ratio()
+		vsk_progress_dialog.popup_centered()
 		vsk_progress_dialog.set_progress_label_text("")
 		vsk_progress_dialog.set_progress_bar_value(0.0)
 		
@@ -463,7 +463,7 @@ func _packed_scene_uploaded_callback(p_database_id: String) -> void:
 	vsk_upload_dialog.hide()
 	
 	vsk_info_dialog.set_info_text("Uploaded successfully!")
-	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
+	vsk_info_dialog.popup_centered()
 
 
 func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
@@ -473,7 +473,7 @@ func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
 	vsk_upload_dialog.hide()
 	
 	vsk_info_dialog.set_info_text(p_error_message)
-	vsk_info_dialog.popup_centered_ratio() # Was without ratio but now broken
+	vsk_info_dialog.popup_centered()
 		
 ## 
 ## Session callbacks
