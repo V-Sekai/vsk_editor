@@ -107,7 +107,7 @@ func _user_content_can_be_uploaded_by_current_account() -> bool:
 	return false
 
 func _instance_child_control() -> void:
-	if VSKAccountManager.signed_in:
+	if VSKAccountManager.is_signed_in():
 		if _user_content_can_be_uploaded_by_current_account():
 			_instance_upload_panel_child_control()
 		else:

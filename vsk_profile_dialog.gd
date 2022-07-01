@@ -53,7 +53,7 @@ func _instance_profile_child_control() -> void:
 		control.set_anchors_and_offsets_preset(Control.PRESET_WIDE, Control.PRESET_MODE_MINSIZE)
 
 func _instance_child_control() -> void:
-	if VSKAccountManager.signed_in:
+	if VSKAccountManager.is_signed_in():
 		_instance_profile_child_control()
 	else:
 		_instance_login_child_control()
