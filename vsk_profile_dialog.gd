@@ -71,13 +71,16 @@ func _ready() -> void:
 	if about_to_popup.connect(self._about_to_popup) != OK:
 		printerr("Could not connect to about_to_popup")
 	close_requested.connect(self._about_to_close)
-	focus_exited.connect(self._about_to_close)
+	
+	popup_window = false
 	
 	var ok_button: Button = get_ok_button()
 	if ok_button:
 		ok_button.hide()
 
 func _init(p_vsk_editor: Node):
+	popup_window = false
+	
 	vsk_editor = p_vsk_editor
 	
 	set_title("Sign in")

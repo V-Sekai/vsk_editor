@@ -127,12 +127,8 @@ static func get_raw_png_from_image(p_image: Image) -> Dictionary:
 
 func show_profile_panel() -> void:
 	if vsk_profile_dialog:
-		vsk_profile_dialog.show()
-		print("popping up " + str(vsk_profile_dialog))
 		vsk_profile_dialog.popup_centered_ratio()
-		print("did pop up " + str(vsk_profile_dialog))
-		var p: Window = vsk_profile_dialog
-		p.visible = true
+		vsk_profile_dialog.popup_window = false
 	else:
 		push_error("Profile dialog is null!")
 
