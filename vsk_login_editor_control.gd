@@ -99,7 +99,7 @@ func _init(p_vsk_editor: Node):
 	result_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	vbox_container.add_child(result_label, true)
 
-	vbox_container.set_anchors_and_offsets_preset(PRESET_WIDE, PRESET_MODE_MINSIZE, 0)
+	vbox_container.set_anchors_and_offsets_preset(PRESET_FULL_RECT, PRESET_MODE_MINSIZE, 0)
 	vbox_container.offset_top = 0
 	vbox_container.offset_left = MARGIN_SIZE
 	vbox_container.offset_bottom = -MARGIN_SIZE
