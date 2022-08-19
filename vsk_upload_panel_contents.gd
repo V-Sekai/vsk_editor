@@ -155,11 +155,11 @@ func _on_NameEditField_text_changed(_new_text):
 
 static func _update_viewport_from_project_settings(p_viewport: SubViewport) -> SubViewport:
 	var new_viewport: SubViewport = p_viewport
-	new_viewport.shadow_atlas_size = ProjectSettings.get_setting("rendering/shadows/directional_shadow/size")
-	new_viewport.shadow_atlas_quad_0 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_0_subdiv")
-	new_viewport.shadow_atlas_quad_1 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_1_subdiv")
-	new_viewport.shadow_atlas_quad_2 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_2_subdiv")
-	new_viewport.shadow_atlas_quad_3 = ProjectSettings.get_setting("rendering/shadows/shadow_atlas/quadrant_3_subdiv")
+	new_viewport.positional_shadow_atlas_size = ProjectSettings.get_setting("rendering/shadows/positional_shadow/atlas_size")
+	new_viewport.positional_shadow_atlas_quad_0 = ProjectSettings.get_setting("rendering/shadows/positional_shadow/atlas_quadrant_0_subdiv")
+	new_viewport.positional_shadow_atlas_quad_1 = ProjectSettings.get_setting("rendering/shadows/positional_shadow/atlas_quadrant_1_subdiv")
+	new_viewport.positional_shadow_atlas_quad_2 = ProjectSettings.get_setting("rendering/shadows/positional_shadow/atlas_quadrant_2_subdiv")
+	new_viewport.positional_shadow_atlas_quad_3 = ProjectSettings.get_setting("rendering/shadows/positional_shadow/atlas_quadrant_3_subdiv")
 	
 	new_viewport.msaa = ProjectSettings.get_setting("rendering/anti_aliasing/quality/msaa")
 	new_viewport.screen_space_aa = ProjectSettings.get_setting("rendering/anti_aliasing/quality/screen_space_aa")
