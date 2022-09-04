@@ -3,7 +3,7 @@ extends EditorPlugin
 
 var uro_logo_png = load("res://addons/vsk_editor/uro_logo.png")
 var editor_interface: EditorInterface = null
-var undo_redo: UndoRedo = null
+var undo_redo: EditorUndoRedoManager = null
 var uro_button: Button = null
 
 
@@ -40,7 +40,7 @@ func _enter_tree() -> void:
 	uro_button = Button.new()
 	uro_button.set_text("Uro")
 	uro_button.set_button_icon(uro_logo_png)
-	uro_button.set_tooltip("Access the Uro Menu.")
+	uro_button.set_item_tooltip("Access the Uro Menu.")
 	uro_button.set_flat(true)
 	uro_button.set_disabled(false) # true
 
