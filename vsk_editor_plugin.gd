@@ -40,7 +40,7 @@ func _enter_tree() -> void:
 	uro_button = Button.new()
 	uro_button.set_text("Uro")
 	uro_button.set_button_icon(uro_logo_png)
-	uro_button.set_item_tooltip("Access the Uro Menu.")
+	uro_button.set_tooltip_text("Access the Uro Menu.")
 	uro_button.set_flat(true)
 	uro_button.set_disabled(false) # true
 
