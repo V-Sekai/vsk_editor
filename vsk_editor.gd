@@ -103,7 +103,7 @@ static func get_upload_data_for_packed_scene(p_vsk_exporter: Node, p_packed_scen
 		if p_vsk_exporter.create_temp_folder() == OK:
 			if p_vsk_exporter.save_user_content_resource("user://temp/autogen.scn", p_packed_scene) == OK:
 				var file : FileAccess = FileAccess.open("user://temp/autogen.scn", FileAccess.READ)
-				if file.is_valid():
+				if file:
 					var buffer = file.get_buffer(file.get_length())					
 					return {"filename":"autogen.scn", "content_type":"application/octet-stream", "data":buffer}
 			
