@@ -1,6 +1,8 @@
 @tool
 extends Node
 
+const vsk_editor_const = preload("res://addons/vsk_editor/vsk_editor.gd")
+
 const vsk_uro_pipeline_const = preload("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
 
 const vsk_upload_dialog_const = preload("vsk_upload_dialog.gd")
@@ -74,7 +76,7 @@ static func _update_uro_pipeline(p_edited_scene: Node, p_node: Node, p_id: Strin
 
 func user_content_new_uro_id(p_node: Node, p_id: String) -> void:
 	var id: String = ""
-	_update_uro_pipeline(editor_interface.get_edited_scene_root(), p_node, p_id, true)
+	vsk_editor_const._update_uro_pipeline(editor_interface.get_edited_scene_root(), p_node, p_id, true)
 	
 	print("user_content_new_uro_id: %s" % id)
 	
@@ -375,14 +377,14 @@ func _create_upload_dictionary(p_name: String, p_description: String,\
 		"is_public": p_is_public
 		}
 	if p_packed_scene:
-		var user_content_data: Dictionary = get_upload_data_for_packed_scene(vsk_exporter, p_packed_scene)
+		var user_content_data: Dictionary = vsk_editor_const.get_upload_data_for_packed_scene(vsk_exporter, p_packed_scene)
 		if !user_content_data.is_empty():
 			dictionary["user_content_data"] = user_content_data
 		else:
 			return {}
 			
 	if p_image:
-		dictionary["user_content_preview"] = get_raw_png_from_image(p_image)
+		dictionary["user_content_preview"] = vsk_editor_const.get_raw_png_from_image(p_image)
 
 	return dictionary
 
