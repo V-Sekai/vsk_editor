@@ -1,7 +1,9 @@
 extends Control
 
+
 func export_data() -> Dictionary:
 	return {}
+
 
 func _ready():
 	var vsk_editor: Node = get_node_or_null("/root/VSKEditor")

@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-signal cancel_button_pressed()
+signal cancel_button_pressed
 
 @export var progress_label_nodepath: NodePath = NodePath()
 @export var progress_bar_nodepath: NodePath = NodePath()

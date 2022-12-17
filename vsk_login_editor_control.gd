@@ -1,7 +1,7 @@
 @tool
 extends Control
 
-signal session_request_successful()
+signal session_request_successful
 
 var vsk_editor: Node = null
 
@@ -40,7 +40,7 @@ func _session_request_complete(p_result: int, p_message: String) -> void:
 		session_request_successful.emit()
 	else:
 		password_lineedit.text = ""
-	
+
 
 func _submit_button_pressed() -> void:
 	var username_or_email: String = username_or_email_lineedit.text
@@ -48,11 +48,11 @@ func _submit_button_pressed() -> void:
 
 	_session_request_submitted()
 	await vsk_editor.sign_in(username_or_email, password)
-		
-	
+
+
 func _init(p_vsk_editor: Node):
 	vsk_editor = p_vsk_editor
-	
+
 	vbox_container = VBoxContainer.new()
 	vbox_container.alignment = VBoxContainer.ALIGNMENT_BEGIN
 
