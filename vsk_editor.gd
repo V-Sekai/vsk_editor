@@ -174,7 +174,7 @@ func _submit_button_pressed(p_upload_data: Dictionary) -> void:
 	print("VSKEditor::_submit_button_pressed")
 
 	if vsk_progress_dialog:
-		vsk_progress_dialog.popup_centered()
+		vsk_progress_dialog.popup_centered_ratio()
 		vsk_progress_dialog.set_progress_label_text("")
 		vsk_progress_dialog.set_progress_bar_value(0.0)
 
@@ -214,7 +214,7 @@ func _user_content_get_failed(p_result: Dictionary) -> void:
 	vsk_progress_dialog.hide()
 
 	vsk_info_dialog.set_info_text("Failed with error: %s" % GodotUro.godot_uro_helper_const.get_full_requester_error_string(p_result))
-	vsk_info_dialog.popup_centered_ratio()  # Was without ratio but now broken
+	vsk_info_dialog.popup_centered_ratio()
 
 
 func _requesting_user_content(p_user_content_type: int, p_database_id: String, p_callback: Callable) -> void:
@@ -380,7 +380,7 @@ func _packed_scene_creation_failed_created_callback(p_error_message: String) -> 
 	vsk_progress_dialog.hide()
 
 	vsk_info_dialog.set_info_text(p_error_message)
-	vsk_info_dialog.popup_centered_ratio()  # Was without ratio but now broken
+	vsk_info_dialog.popup_centered_ratio()
 
 
 func _create_upload_dictionary(p_name: String, p_description: String, p_packed_scene: PackedScene, p_image: Image, p_is_public: bool) -> Dictionary:
@@ -460,7 +460,7 @@ func _packed_scene_uploaded_callback(p_database_id: String) -> void:
 	vsk_upload_dialog.hide()
 
 	vsk_info_dialog.set_info_text("Uploaded successfully!")
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio()
 
 
 func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
@@ -470,7 +470,7 @@ func _packed_scene_upload_failed_callback(p_error_message: String) -> void:
 	vsk_upload_dialog.hide()
 
 	vsk_info_dialog.set_info_text(p_error_message)
-	vsk_info_dialog.popup_centered()
+	vsk_info_dialog.popup_centered_ratio()
 
 
 ##
