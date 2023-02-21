@@ -40,7 +40,7 @@ func _instance_login_child_control() -> void:
 func _instance_profile_child_control() -> void:
 	set_title("Profile")
 
-	if control and not control.get_script() is vsk_profile_control_script_const:
+	if control and not control.get_script() == vsk_profile_control_script_const:
 		_clear_children()
 
 	if !control:
