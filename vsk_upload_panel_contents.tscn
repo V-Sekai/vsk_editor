@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://addons/textureRectUrl/node_textureRectUrl.gd" id="2"]
 
 [node name="UploadPanelContents" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
@@ -16,115 +18,93 @@ is_public_checkbox_path = NodePath("MarginContainer/Content/Editable/Supplementa
 submit_button_path = NodePath("MarginContainer/Content/SubmitButton")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Content" type="VBoxContainer" parent="MarginContainer"]
-offset_right = 1024.0
-offset_bottom = 600.0
+layout_mode = 2
 
 [node name="Editable" type="HBoxContainer" parent="MarginContainer/Content"]
-offset_right = 1024.0
-offset_bottom = 562.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TextFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_right = 509.0
-offset_bottom = 562.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="NameContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_right = 509.0
-offset_bottom = 69.0
+layout_mode = 2
 
 [node name="NameLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_right = 509.0
-offset_bottom = 33.0
+layout_mode = 2
 text = "Name:"
 
 [node name="NameEditField" type="LineEdit" parent="MarginContainer/Content/Editable/TextFields/NameContainer"]
-offset_top = 39.0
-offset_right = 509.0
-offset_bottom = 69.0
+layout_mode = 2
 theme_override_font_sizes/font_size = 16
 
 [node name="DescriptionContainer" type="VBoxContainer" parent="MarginContainer/Content/Editable/TextFields"]
-offset_top = 75.0
-offset_right = 509.0
-offset_bottom = 562.0
+layout_mode = 2
 size_flags_vertical = 3
 
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_right = 509.0
-offset_bottom = 33.0
+layout_mode = 2
 text = "Description:"
 
 [node name="DescriptionEditField" type="TextEdit" parent="MarginContainer/Content/Editable/TextFields/DescriptionContainer"]
-offset_top = 39.0
-offset_right = 509.0
-offset_bottom = 487.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="SupplementaryFields" type="VBoxContainer" parent="MarginContainer/Content/Editable"]
-offset_left = 515.0
-offset_right = 1024.0
-offset_bottom = 562.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="PreviewPanel" type="Panel" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_right = 509.0
-offset_bottom = 278.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel"]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="NewPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_right = 509.0
-offset_bottom = 278.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-ignore_texture_size = true
+expand_mode = 1
 stretch_mode = 5
 
 [node name="SavedPreviewTextureRect" type="TextureRect" parent="MarginContainer/Content/Editable/SupplementaryFields/PreviewPanel/PreviewMargin"]
 visible = false
-offset_right = 509.0
-offset_bottom = 278.0
-ignore_texture_size = true
+layout_mode = 2
+expand_mode = 1
 stretch_mode = 5
 script = ExtResource("2")
 
 [node name="FlagsContainer" type="GridContainer" parent="MarginContainer/Content/Editable/SupplementaryFields"]
-offset_top = 284.0
-offset_right = 509.0
-offset_bottom = 562.0
+layout_mode = 2
 size_flags_vertical = 3
 columns = 2
 
 [node name="UpdatePreviewCheckbox" type="CheckBox" parent="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer"]
-offset_right = 253.0
-offset_bottom = 44.0
+layout_mode = 2
 size_flags_horizontal = 3
 disabled = true
 text = "Update Preview"
 
 [node name="IsPublicCheckbox" type="CheckBox" parent="MarginContainer/Content/Editable/SupplementaryFields/FlagsContainer"]
-offset_left = 257.0
-offset_right = 509.0
-offset_bottom = 44.0
+layout_mode = 2
 size_flags_horizontal = 3
 text = "Is Public"
 
 [node name="SubmitButton" type="Button" parent="MarginContainer/Content"]
-offset_top = 568.0
-offset_right = 1024.0
-offset_bottom = 600.0
+layout_mode = 2
 disabled = true
 text = "Submit"
 
